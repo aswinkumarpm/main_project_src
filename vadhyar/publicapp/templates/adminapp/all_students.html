@@ -1,0 +1,147 @@
+{% extends 'adminapp/admin_layout.html' %}
+{% block content %}
+
+<div class="breadcome-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcome-list single-page-breadcome">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="breadcome-heading">
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <ul class="breadcome-menu">
+                                <li><a href="#">Home</a> <span class="bread-slash">/</span>
+                                </li>
+                                <li><span class="bread-blod">Students</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="product-status mg-b-15">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="product-status-wrap drp-lst">
+                <h4>Students List</h4>
+                <div class="add-product">
+                    <a href="add-department.html"></a>
+                </div>
+                <div class="asset-inner">
+                    <table>
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile No</th>
+                            
+                            <th>Standard</th>
+                            <!-- <th>Action</th> -->
+                            
+                        </tr>
+
+                        {% for i in teachers %}
+                        <tr>
+                            <td>
+                                {{ i.student_id}}
+                            </td>
+
+                          <td>
+                              {{ i.name}}
+                          </td>
+
+                          <td>
+                              {{ i.email}}
+                          </td>
+
+                          <td>
+                              {{ i.mobile_num}}
+                          </td>
+                          
+                          <td>
+                              {% if i.standard == '0' %}
+                                   1-4
+
+                                   {% elif i.standard == '1' %}
+                                   5-7
+
+                                   {% elif i.standard == '2' %}
+                                   8-10  
+                                  
+                                   {% elif i.standard == '3' %}
+                            
+                                   +1 Science
+                                  
+                                   {% elif i.standard == '4' %}
+                        
+                                    +2 Science
+
+                                 {% elif i.standard == '5' %}
+                                +1 Commerce
+
+                                {% elif i.standard == '6' %}
+                                 +2 Commerce
+
+                                 {% elif i.standard == '7' %}
+                                 B.com/M.com
+
+                                 {% elif i.standard == '8' %}
+                                  Civil Engineering
+
+                                  {% elif i.standard == '9' %}
+                                 Mechanical Engineering
+
+                                 {% elif i.standard == '10' %}
+                                 Electrical&Electronics Engineering
+                           
+                              {% elif i.standard == '11' %}
+
+                                Computer Science Engineering
+                            
+                          
+
+                                
+                              {% endif %}
+
+                          </td>
+
+                          <td>{{ i.subjects }}</td>
+
+                          {% if i.teacherimag %}
+
+                          <td>
+                             <img src='{{ i.teacherimag.url }}' class='img-responsive'/>
+                          </td>
+                          {% endif %}
+
+                        </tr>
+                      {% endfor %}
+
+                        
+                    </table>
+                </div>
+                <div class="custom-pagination">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%  endblock  %}

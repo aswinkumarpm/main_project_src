@@ -1,0 +1,313 @@
+from __future__ import unicode_literals
+from django.db import models
+from datetime import datetime
+
+
+FEES_CHOICES=(
+    ("june-september","june-september"),
+    ("october-december","october-december"),
+    ("january-march","january-march")
+)
+
+MONTH_CHOICES=(
+    ("january","january"),
+    ("february","february"),
+    ("march","march"),
+    ("april","april"),
+    ("may","may"),
+    ("june","june"),
+    ("july","july"),
+    ("august","august"),
+    ("september","september"),
+    ("october","october"),
+    ("november","november"),
+    ("december","december")
+)
+
+
+class student(models.Model):
+    student_id=models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    email= models.EmailField(max_length=50)
+    mobile_num= models.IntegerField()
+    dob=models.DateField()
+    fathername= models.CharField(max_length=30, blank=True, null=True)
+    mothername=models.CharField(max_length=30, blank=True, null=True)
+    housename=models.CharField(max_length=50, blank=True, null=True)
+    place=models.CharField(max_length=50, blank=True, null=True)
+    pincode=models.IntegerField(blank=True, null=True)
+    guardnumber= models.IntegerField(blank=True, null=True)
+    standard=models.CharField(max_length=20)
+    board=models.CharField(max_length=20, blank=True, null=True)
+    studtype=models.CharField(max_length=10, blank=True, null=True)
+    schoolname=models.CharField(max_length=50, blank=True, null=True)
+    splace=models.CharField(max_length=50, blank=True, null=True)
+    spincode=models.IntegerField(blank=True, null=True)
+    studentimag=models.FileField(upload_to="Student")
+    password=models.CharField(max_length=50)
+
+
+class login(models.Model):
+    admin_id=models.AutoField(primary_key=True)
+    username=models.EmailField(max_length=50)
+    password=models.CharField(max_length=50)
+
+class teacherreg(models.Model):
+    #teacher_id=models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    email= models.EmailField(max_length=50)
+    mobile_num= models.IntegerField()
+    dob=models.DateField()
+    qualification=models.CharField(max_length=20)
+    total_experience=models.CharField(max_length=5)
+    subjects = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True)
+    department=models.CharField(max_length=20)
+    available_time = models.CharField(max_length=50)
+    teacherimag=models.FileField(upload_to="teacher")
+    housename=models.CharField(max_length=50,  blank=True, null=True)
+    place=models.CharField(max_length=50,  blank=True, null=True)
+    pincode=models.IntegerField( blank=True, null=True)
+    password=models.CharField(max_length=20,  blank=True, null=True)
+    def __str__(self):
+        return self.name
+
+
+
+
+class trainee(models.Model) :
+    trainee_id=models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    email= models.EmailField(max_length=50)
+    mobile_num= models.IntegerField()
+    dob=models.DateField()
+    traineeimag=models.FileField(upload_to="trainee")
+    fathername= models.CharField(max_length=30,  blank=True, null=True)
+    mothername=models.CharField(max_length=30, blank=True, null=True)
+    housename=models.CharField(max_length=50, blank=True, null=True)
+    place=models.CharField(max_length=50,  blank=True, null=True)
+    pincode=models.IntegerField( blank=True, null=True)
+    guardnumber= models.IntegerField( blank=True, null=True)
+    course=models.CharField(max_length=20,  blank=True, null=True)
+    password=models.CharField(max_length=20,  blank=True, null=True)
+
+
+class trainerreg(models.Model):
+    trainer_id=models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    email= models.EmailField(max_length=50)
+    mobile_num= models.IntegerField()
+    dob=models.DateField()
+    qualification=models.CharField(max_length=20)
+    total_experience=models.CharField(max_length=5)
+    subjects=models.CharField(max_length=20)
+    available_time = models.CharField(max_length=50)
+    occupation=models.CharField(max_length=20)
+    trainerimag=models.FileField()
+    housename=models.CharField(max_length=50)
+    place=models.CharField(max_length=50)
+    pincode=models.IntegerField()
+
+class fees(models.Model):
+    fees_id=models.AutoField(primary_key=True)
+    feetype= models.CharField(max_length=35,choices=FEES_CHOICES)
+    feeamount=models.IntegerField()
+    paymentstatus=models.CharField(max_length=50)
+    due=models.CharField(max_length=50)
+    trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+
+
+
+
+class salary(models.Model):
+    salary_id=models.AutoField(primary_key=True)
+    month=models.CharField(max_length=35,choices=MONTH_CHOICES)
+    salaryamount=models.IntegerField()
+    paymentstatus=models.CharField(max_length=50)
+    pendingsalary=models.IntegerField()
+    hod_id=models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+    #trainer_id=models.IntegerField()
+    teacher_id=models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+
+class interplacement(models.Model):
+    interplacement_id=models.AutoField(primary_key=True)
+    companyname=models.CharField(max_length=10)
+    date = models.DateField()
+    time = models.TimeField(max_length=10)
+    course_id=models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True)
+    job_description=models.CharField(max_length=100)
+    hod_id=models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+    #trainer_id=models.IntegerField()
+    trainee_id=models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+
+class attendance(models.Model):
+    attendance_id = models.AutoField(primary_key=True)
+    subject_id = models.IntegerField()
+    attendance_date = models.DateField()
+    status = models.BooleanField(default=False)
+    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+    teacher_id= models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    # trainer_id=models.IntegerField()
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+    trainee_id= models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+
+
+class attendancereport(models.Model):
+    # Individual Student Attendance
+    attendancereport_id = models.AutoField(primary_key=True)
+    student_id = models.IntegerField(blank=True, null=True)
+    date= models.DateField(blank=True, null=True)
+    attendance_id = models.ForeignKey("publicapp.attendance", on_delete=models.CASCADE, blank=True, null=True)
+    status = models.BooleanField(default=False)
+
+class courses(models.Model):
+    courses_id = models.AutoField(primary_key=True)
+    course_name = models.CharField(max_length=50)
+    course_pic= models.FileField(upload_to='uploads')
+    course_duration=models.CharField(max_length=20)
+    course_department=models.CharField(max_length=15)
+    course_trainer=models.CharField(max_length=15)
+    course_fee=models.IntegerField()
+    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+    trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+
+
+
+class subjects(models.Model):
+    subjects_id =models.AutoField(primary_key=True)
+    subject_name = models.CharField(max_length=50)
+    department = models.CharField(max_length=15)
+    teacher= models.CharField(max_length=20, null=True, blank=True)
+    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True, related_name="subject_hod")
+    teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True, related_name="subject_teacher")
+    def __str__(self):
+        return self.subject_name
+
+
+
+class feedbackstudent(models.Model):
+    feedback_id = models.AutoField(primary_key=True)
+    name= models.CharField(max_length=20)
+    email= models.CharField(max_length=20)
+    date = models.DateField()
+    feedback= models.TextField()
+    teacheremail=models.CharField(max_length=20)
+    teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+    # trainer_id= models.ForeignKey("publicapp.trainerreg", on_delete=models.CASCADE, blank=True, null=True)
+
+class examination(models.Model):
+    examination_id = models.AutoField(primary_key=True)
+    teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+    trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+    examdetails = models.TextField(max_length=20)
+    date = models.DateField()
+    time = models.TimeField( max_length=10)
+
+class studentresult(models.Model):
+    studentresult_id = models.AutoField(primary_key=True)
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+    subject_id = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True)
+    trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+    teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    subject_exam_marks = models.FloatField(default=0)
+    grade=models.CharField(max_length=5)
+    status = models.CharField(max_length=20)
+    date = models.DateField()
+
+class hod(models.Model):
+    hod_id=models.AutoField(primary_key=True)
+    # admi_id = models.IntegerField(blank=True, null=True)
+    name = models.CharField(max_length=30)
+    email= models.EmailField(max_length=50)
+    mobile_num= models.IntegerField()
+    # gender= models.IntegerField()
+    dob=models.DateField()
+    qualification=models.CharField(max_length=20)
+    total_experience=models.IntegerField()
+    # subjects=models.CharField(max_length=20)
+    hodimag=models.FileField()
+    housename=models.CharField(max_length=50, blank=True, null=True)
+    place=models.CharField(max_length=50, blank=True, null=True)
+    pincode=models.IntegerField(blank=True, null=True)
+    password=models.CharField(max_length=20)
+    department=models.IntegerField()
+    
+
+class leavereport(models.Model):
+    leavereport_id = models.AutoField(primary_key=True)
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+    teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+
+
+    from_date = models.DateField(blank=True, null=True)
+    to_date = models.DateField(blank=True, null=True)
+    teacheremail=models.CharField(max_length=20)
+    leave_message = models.TextField()
+    leave_status = models.IntegerField(default=0)
+
+class complaints(models.Model):
+    complaints_id = models.AutoField(primary_key=True)
+    name= models.CharField(max_length=20)
+    email= models.CharField(max_length=20)
+    admin_hod=models.IntegerField()
+    complaints_description = models.TextField()
+    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+    teacher_id= models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    # trainer_id=models.IntegerField()
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+    trainee_id= models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+
+class recordedvideos(models.Model):
+    recordedvideos_id=models.AutoField(primary_key=True)
+    date = models.DateField()
+    time= models.TimeField()
+    subjects_id=models.IntegerField()
+    teacher_id= models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    #trainer_id=models.IntegerField()
+    video=models.FileField(upload_to="publicapp")
+    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+    hod=models.CharField(max_length=35)
+    subject=models.CharField(max_length=35, blank=True, null=True)
+    
+
+class applyforexam(models.Model):
+    applyforexam_id=models.AutoField(primary_key=True)
+    courses_id=models.IntegerField()
+    certificate=models.CharField(max_length=50)
+
+# class courestimetable(models.Model):
+#      courestimetable_id=models.AutoField(primary_key=True)
+#      course_id=models.IntegerField()
+#      day=models.CharField(max_length=15)
+#      time=models.TimeField()
+#      trainer_id=models.IntegerField()
+
+
+class commontimetable(models.Model):
+    commontimetable_id = models.AutoField(primary_key=True)
+    #classes=models.CharField(max_length=10)
+    subjects_id = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True)
+    day = models.CharField(max_length=15)
+    time = models.TimeField()
+    teacher_id= models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    available_time = models.CharField(max_length=50)
+    standard=models.CharField(max_length=20)
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+
+
+class notes(models.Model):
+    notes_id=models.AutoField(primary_key=True)
+    teacher_id= models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    # trainer_id=models.IntegerField()
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+    trainee_id= models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+    subject=models.CharField(max_length=35, blank=True, null=True)
+    date=models.DateField()
+    time=models.TimeField()
+    notes_pdf=models.FileField(upload_to="Notes")
+    

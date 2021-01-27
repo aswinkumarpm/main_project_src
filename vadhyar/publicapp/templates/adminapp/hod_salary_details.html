@@ -1,0 +1,91 @@
+{% extends 'adminapp/admin_layout.html' %}
+{% block content %}
+                            
+            <!-- Mobile Menu end -->
+            <div class="breadcome-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="breadcome-list single-page-breadcome">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="breadcome-heading">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <ul class="breadcome-menu">
+                                            <li><a href="#">Home</a> <span class="bread-slash">/</span>
+                                            </li>
+                                            <li><span class="bread-blod">Add </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Single pro tab review Start-->
+        <div class="single-pro-review-area mt-t-30 mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="product-payment-inner-st">
+                            <ul id="myTabedu1" class="tab-review-design">
+                               
+                                
+                                <li><a href="#INFORMATION">Salary Details</a></li>
+                        
+                                
+                            </ul>
+                                                
+                                
+                                <div class="product-tab-list tab-pane fade" id="INFORMATION">    
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <form action="/test_salary"  class="acount-infor" method="POST">
+                                                            {% csrf_token %}
+                                                            <div class="devit-card-custom">
+                                                                <div class="form-group">
+                                                                    <input type="month" class="form-control" name="month" placeholder="Month">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="salaryamount" type="number" class="form-control" placeholder="Salary Amount">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="paymentstatus" type="text" class="form-control" placeholder="Payment Status">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input name="pendingsalary" type="number" class="form-control" placeholder="Pending Salary">
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary waves-effect waves-light" >Submit</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+
+       
+    
+ {%  endblock  %}
