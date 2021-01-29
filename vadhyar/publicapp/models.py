@@ -1,10 +1,8 @@
 from __future__ import unicode_literals
-from django.db import models
-from datetime import datetime
+
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
-from datetime import datetime
 
 FEES_CHOICES = (
     ("june-september", "june-september"),
@@ -29,6 +27,8 @@ MONTH_CHOICES = (
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
                              "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+
+
 class student(models.Model):
     student_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
@@ -330,47 +330,47 @@ class CustomUser(AbstractUser):
 
 
 class Hods(models.Model):
-    hod = models.OneToOneField(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
+    hod = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     dob = models.DateField(blank=True, null=True)
-    qualification = models.CharField(max_length=20,blank=True, null=True)
+    qualification = models.CharField(max_length=20, blank=True, null=True)
     total_experience = models.IntegerField(blank=True, null=True)
-    mobile_number = models.CharField(validators=[phone_regex],max_length=20,blank=True, null=True)
+    mobile_number = models.CharField(validators=[phone_regex], max_length=20, blank=True, null=True)
     hodimage = models.FileField(blank=True, null=True)
     housename = models.CharField(max_length=50, blank=True, null=True)
     place = models.CharField(max_length=50, blank=True, null=True)
     pincode = models.IntegerField(blank=True, null=True)
-    department = models.CharField(max_length=120,blank=True, null=True)
+    department = models.CharField(max_length=120, blank=True, null=True)
 
 
 class Teacher(models.Model):
-    teacher = models.OneToOneField(CustomUser, on_delete=models.CASCADE,blank=True, null=True,related_name="teachers_for_students")
+    teacher = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True,
+                                   related_name="teachers_for_students")
     address = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    mobile_num = models.CharField(validators=[phone_regex],max_length=20,blank=True, null=True)
+    mobile_num = models.CharField(validators=[phone_regex], max_length=20, blank=True, null=True)
     dob = models.DateField(blank=True, null=True)
-    qualification = models.CharField(max_length=20,blank=True, null=True)
-    total_experience = models.CharField(max_length=5,blank=True, null=True)
-    subjects = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True,related_name="subject_for_student")
-    department = models.CharField(max_length=20,blank=True, null=True)
-    available_time = models.CharField(max_length=50,blank=True, null=True)
-    teacherimage = models.FileField(upload_to="teacher",blank=True, null=True)
+    qualification = models.CharField(max_length=20, blank=True, null=True)
+    total_experience = models.CharField(max_length=5, blank=True, null=True)
+    subjects = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True,
+                                 related_name="subject_for_student")
+    department = models.CharField(max_length=20, blank=True, null=True)
+    available_time = models.CharField(max_length=50, blank=True, null=True)
+    teacherimage = models.FileField(upload_to="teacher", blank=True, null=True)
     housename = models.CharField(max_length=50, blank=True, null=True)
     place = models.CharField(max_length=50, blank=True, null=True)
     pincode = models.IntegerField(blank=True, null=True)
-
-
 
 
 class Students(models.Model):
-    student_name = models.OneToOneField(CustomUser, on_delete = models.CASCADE,blank=True, null=True)
-    gender = models.CharField(max_length=50,blank=True, null=True)
+    student_name = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    gender = models.CharField(max_length=50, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True,blank=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True,blank=True, null=True)
-    mobile_num =models.CharField(validators=[phone_regex],max_length=20,blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    mobile_num = models.CharField(validators=[phone_regex], max_length=20, blank=True, null=True)
     dob = models.DateField(blank=True, null=True)
     fathername = models.CharField(max_length=30, blank=True, null=True)
     mothername = models.CharField(max_length=30, blank=True, null=True)
@@ -378,48 +378,48 @@ class Students(models.Model):
     place = models.CharField(max_length=50, blank=True, null=True)
     pincode = models.IntegerField(blank=True, null=True)
     guardnumber = models.IntegerField(blank=True, null=True)
-    standard = models.CharField(max_length=20,blank=True, null=True)
+    standard = models.CharField(max_length=20, blank=True, null=True)
     board = models.CharField(max_length=20, blank=True, null=True)
     studtype = models.CharField(max_length=10, blank=True, null=True)
     schoolname = models.CharField(max_length=50, blank=True, null=True)
-    studentimage = models.FileField(upload_to="Student",blank=True,null=True)
+    studentimage = models.FileField(upload_to="Student", blank=True, null=True)
+
 
 class Trainers(models.Model):
-    trainer_name = models.OneToOneField(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
+    trainer_name = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    mobile_num = models.CharField(validators=[phone_regex],max_length=20, blank=True, null=True)
+    mobile_num = models.CharField(validators=[phone_regex], max_length=20, blank=True, null=True)
     dob = models.DateField(blank=True, null=True)
-    qualification = models.CharField(max_length=20,blank=True, null=True)
-    total_experience = models.CharField(max_length=5,blank=True, null=True)
-    subjects = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True,related_name="students_name")
-    department = models.CharField(max_length=20,blank=True, null=True)
-    available_time = models.CharField(max_length=50,blank=True, null=True)
-    trainerimage = models.FileField(upload_to="trainer",blank=True, null=True)
+    qualification = models.CharField(max_length=20, blank=True, null=True)
+    total_experience = models.CharField(max_length=5, blank=True, null=True)
+    subjects = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True,
+                                 related_name="students_name")
+    department = models.CharField(max_length=20, blank=True, null=True)
+    available_time = models.CharField(max_length=50, blank=True, null=True)
+    trainerimage = models.FileField(upload_to="trainer", blank=True, null=True)
     housename = models.CharField(max_length=50, blank=True, null=True)
     place = models.CharField(max_length=50, blank=True, null=True)
     pincode = models.IntegerField(blank=True, null=True)
 
 
-
-
 class Trainees(models.Model):
-    trainee = models.OneToOneField(CustomUser, on_delete = models.CASCADE,blank=True, null=True)
-    gender = models.CharField(max_length=50,blank=True, null=True)
+    trainee = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    gender = models.CharField(max_length=50, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    mobile_num =models.CharField(validators=[phone_regex],max_length=20, blank=True, null=True)
-    dob = models.DateField(blank=True,null=True)
+    mobile_num = models.CharField(validators=[phone_regex], max_length=20, blank=True, null=True)
+    dob = models.DateField(blank=True, null=True)
     fathername = models.CharField(max_length=30, blank=True, null=True)
     mothername = models.CharField(max_length=30, blank=True, null=True)
     housename = models.CharField(max_length=50, blank=True, null=True)
     place = models.CharField(max_length=50, blank=True, null=True)
     pincode = models.IntegerField(blank=True, null=True)
     guardnumber = models.IntegerField(blank=True, null=True)
-    course = models.ForeignKey(courses,on_delete=models.CASCADE,blank=True, null=True)
+    course = models.ForeignKey(courses, on_delete=models.CASCADE, blank=True, null=True)
     board = models.CharField(max_length=20, blank=True, null=True)
     traineetype = models.CharField(max_length=10, blank=True, null=True)
     schoolname = models.CharField(max_length=50, blank=True, null=True)
-    traineetimage = models.FileField(upload_to="Trainee",blank=True,null=True)
+    traineetimage = models.FileField(upload_to="Trainee", blank=True, null=True)
