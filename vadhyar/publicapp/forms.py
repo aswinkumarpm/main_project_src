@@ -24,6 +24,12 @@ from publicapp.models import applyforexam
 from publicapp.models import commontimetable
 from publicapp.models import notes
 
+
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(max_length = 120,widget=forms.PasswordInput())
+
+
 class loginForm(forms.ModelForm):
     username = forms.CharField(label="username", max_length=50)
     password = forms.EmailField(label="password", max_length=50)

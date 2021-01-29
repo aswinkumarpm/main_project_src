@@ -191,6 +191,7 @@ if settings.DEBUG:
         url(r'^test_teacher$', test_teacher, name='test_teacher'),
         url(r'^timetableadd$', timetableadd, name='timetableadd'),
         url(r'^hod_test_salary/(?P<id>\d+)/$', hod_test_salary, name='hod_test_salary'),
+        url(r'^email_login$', email_logins, name='email_login'),
     ]
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

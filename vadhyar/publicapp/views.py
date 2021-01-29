@@ -1,9 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm
+
+from .EmailBackend import EmailBackEnd
+from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm
 from .models import hod, salary, teacherreg, student
 
 
@@ -834,3 +837,50 @@ def trainerstudent(request):
 
 def hod_salary_details(request):
     return render(request, "adminapp/hod_salary_details.html")
+
+
+def email_logins(request):
+
+    print("inside email login")
+    if request.method != "POST":
+        form = LoginForm()
+        print("no post")
+        return render(request, 'publicapp/login.html', {"form": form})
+    else:
+        print("post")
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            print("email,pass",email,password)
+            user = EmailBackEnd.authenticate(request, username=request.POST.get('email'),
+                                             password=request.POST.get('password'))
+            print("user",user)
+            if user != None:
+                login(request, user)
+                user_type = user.user_type
+                print(user_type)
+                if user_type == '1':
+                    return redirect('admindex')
+
+                elif user_type == '2':
+                    return redirect('teacher_home')
+
+                elif user_type == '3':
+                    return redirect('studindex')
+                elif user_type == '4':
+                    return redirect('trainer_home')
+                elif user_type == '5':
+                    return redirect('trainee_home')
+                else:
+                    messages.error(request, "Invalid Login!")
+                    return redirect('login')
+            else:
+                messages.error(request, "Invalid Login Credentials!")
+                print("invalid credentials")
+                return redirect('email_login')
+        else:
+            print("not valid")
+            messages.error(request, "Invalid Login Credentials!")
+
+    return render(request,'publicapp/login.html',{"form":form})
