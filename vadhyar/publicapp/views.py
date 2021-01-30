@@ -143,13 +143,7 @@ def index(request):
         print(standard)
         print(uname)
 
-        import string
-        from random import choice, randint
-        characters = string.ascii_letters + string.punctuation + string.digits
-        password = "".join(choice(characters) for x in range(randint(8, 16)))
-        print(password)
-
-        stu = CustomUser.objects.create_user(username=uname, password=password, email=user_email, user_type=3)
+        stu = CustomUser.objects.create_user(username=uname, password='q1w2e3r4', email=user_email, user_type=3)
 
         stu.save()
         student = Students.objects.get(student_name__username=uname)
@@ -162,7 +156,7 @@ def index(request):
         print("inside approve")
 
         subject = 'welcome to Vadhyar APP world'
-        message = 'Hi thank you for registering in Vadhyar. Your password is  ' + str(password)
+        message = 'Hi thank you for registering in Vadhyar. Your password is q1w2e3r4 .You Can Change Your Password in Profile Page'
         from django.conf import settings
 
         email_from = settings.EMAIL_HOST_USER
@@ -193,11 +187,6 @@ def traineesave(request):
         print(course)
         print(uname)
 
-        import string
-        from random import choice, randint
-        characters = string.ascii_letters + string.punctuation + string.digits
-        password = "".join(choice(characters) for x in range(randint(8, 16)))
-        print(password)
 
         stu = CustomUser.objects.create_user(username=uname, password='q1w2e3r4', email=user_email, user_type=5)
 
@@ -213,7 +202,7 @@ def traineesave(request):
         print("inside approve")
 
         subject = 'welcome to Vadhyar APP world'
-        message = 'Hi thank you for registering in Vadhyar. Your password is  ' + str(password)
+        message = 'Hi thank you for registering in Vadhyar. Your password is q1w2e3r4 .You Can Change Your Password in Profile Page'
         from django.conf import settings
 
         email_from = settings.EMAIL_HOST_USER
