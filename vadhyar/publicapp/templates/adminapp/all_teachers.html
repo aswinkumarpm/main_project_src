@@ -52,41 +52,24 @@
                         {% for i in teachers %}
                           <tr>
                             <td>
-                                {{ i.name}}
+                                {{ i.teacher.username}}
                             </td>
 
                             <td>
-                                {{ i.email}}
+                                {{ i.teacher.email}}
                             </td>
 
                             <td>
                                 {{ i.mobile_num}}
                             </td>
-                            
-                            <td>
-                                {% if i.department == '0' %}
-                                     Tuition
 
-                               {% elif i.department == '1' %}
+                            <td>{{ i.department }}</td>
+                            <td>{{ i.subjects.subject_name }}</td>
 
-                                Civil Engineering
-                              {% elif i.department == '2' %}
-                              Mech
-                            {% elif i.department == '3' %}
-                                 ECE
-
-                                   {% elif i.department == '4' %}
-                                 CSE
-                                {% endif %}
-
-                            </td>
-
-                            <td>{{ i.subjects }}</td>
-
-                            {% if i.teacherimag %}
+                            {% if i.teacherimage %}
 
                             <td>
-                               <img src='{{ i.teacherimag.url }}' class='img-responsive'/>
+                               <img src='{{ i.teacherimage.url }}' class='img-responsive'/>
                             </td>
                             {% endif %}
 
