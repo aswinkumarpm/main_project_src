@@ -199,7 +199,7 @@ def traineesave(request):
         password = "".join(choice(characters) for x in range(randint(8, 16)))
         print(password)
 
-        stu = CustomUser.objects.create_user(username=uname, password=password, email=user_email, user_type=5)
+        stu = CustomUser.objects.create_user(username=uname, password='q1w2e3r4', email=user_email, user_type=5)
 
         stu.save()
         student = Trainees.objects.get(trainee__username=uname)
