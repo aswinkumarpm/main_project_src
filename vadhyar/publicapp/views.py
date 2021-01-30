@@ -128,8 +128,10 @@ def view_students(request):
         print(i.standard)
     return render(request, 'adminapp/all_students.html', {'teachers': all_teachers})
 
-
 def index(request):
+    return render(request, "publicapp/index.html", {})
+
+def studentsave(request):
     if request.method == 'POST':
         uname = request.POST['user_name']
         print(uname)

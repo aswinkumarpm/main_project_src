@@ -22,6 +22,7 @@ if settings.DEBUG:
         url(r'^mech$', mech, name='mech'),
         url(r'^ec$', ec, name='ec'),
         url(r'^studreg$', studreg, name='studreg'),
+        url(r'^studentsave$', studentsave, name='studentsave'),
         url(r'^teacherregister$', teacherregister, name='teacherregister'),
         url(r'^us$', us, name='us'),
         url(r'^logintr$', logintr, name='logintr'),
