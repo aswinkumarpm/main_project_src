@@ -439,6 +439,10 @@ def create_user_profile(sender, instance, created, **kwargs):
             Teacher.objects.create(teacher=instance)
         if instance.user_type == 3:
             Students.objects.create(student_name=instance)
+        if instance.user_type == 4:
+            Trainers.objects.create(trainer_name=instance)
+        if instance.user_type == 5:
+            Trainees.objects.create(trainee=instance)
 
 
 @receiver(post_save, sender=CustomUser)
@@ -449,4 +453,8 @@ def save_user_profile(sender, instance, **kwargs):
         instance.teacher.save()
     if instance.user_type == 3:
         instance.students.save()
+    if instance.user_type == 4:
+        instance.trainers.save()
+    if instance.user_type == 5:
+        instance.trainees.save()
 

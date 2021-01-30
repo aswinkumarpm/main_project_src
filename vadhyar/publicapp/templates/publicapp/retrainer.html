@@ -14,8 +14,9 @@
       <br>
         <div id="form-container">
     
-  <form   method="post"  action="{% url 'index' %}">
-  
+  <form method="post"  action="{% url 'traineesave' %}">
+      {% csrf_token %}
+
     <h1><b>REGISTRATION FORM</b></h1>
     
     <fieldset>

@@ -8,7 +8,8 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm
-from .models import hod, salary, teacherreg, student, CustomUser, Students
+from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees
+
 
 # Create your views here.
 
@@ -173,6 +174,57 @@ def index(request):
 
         send_mail(subject, message, email_from, [user_email, ])
     return render(request, "publicapp/index.html", {})
+
+
+
+def traineesave(request):
+    if request.method == 'POST':
+        uname = request.POST['user_name']
+        print(uname)
+        user_email = request.POST['user_email']
+        print(user_email)
+        user_mobile_number = request.POST['user_mobile_number']
+        print(user_mobile_number)
+        user_dob = request.POST['user_dob']
+        print(user_dob)
+        user_gender = request.POST['user_gender']
+        print(user_gender)
+        course = request.POST['user_course']
+        print(course)
+        print(uname)
+
+        import string
+        from random import choice, randint
+        characters = string.ascii_letters + string.punctuation + string.digits
+        password = "".join(choice(characters) for x in range(randint(8, 16)))
+        print(password)
+
+        stu = CustomUser.objects.create_user(username=uname, password=password, email=user_email, user_type=5)
+
+        stu.save()
+        student = Trainees.objects.get(trainee__username=uname)
+        student.standard = course
+        student.mobile_num = user_mobile_number
+        student.dob = user_dob
+        student.gender = user_gender
+        student.save()
+
+
+        print("inside approve")
+
+        subject = 'welcome to Vadhyar APP world'
+        message = 'Hi thank you for registering in Vadhyar. Your password is  ' + str(password)
+        from django.conf import settings
+
+        email_from = settings.EMAIL_HOST_USER
+        context = {
+            "d": "d",
+        }
+        from django.core.mail import send_mail
+
+        send_mail(subject, message, email_from, [user_email, ])
+    return render(request, "publicapp/index.html", {})
+
 
 
 
