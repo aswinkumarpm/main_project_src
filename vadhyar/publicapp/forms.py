@@ -319,7 +319,7 @@ class TraineeRegForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(TraineeRegForm, self).__init__(*args, **kwargs)
         self.fields['course_name'] = forms.ChoiceField(
-            choices=[(o.courses_id, str(o)) for o in courses.objects.all()]
+            choices=[(o.course_name, str(o.course_name)) for o in courses.objects.all()]
         )
 
     course_name = forms.ChoiceField(label="Please Enter Course Name")

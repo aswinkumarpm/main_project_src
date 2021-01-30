@@ -213,7 +213,7 @@ def traineesave(request):
         }
         from django.core.mail import send_mail
 
-        send_mail(subject, message, email_from, [user_email, ])
+        # send_mail(subject, message, email_from, [user_email, ])
     return render(request, "publicapp/index.html", {})
 
 
