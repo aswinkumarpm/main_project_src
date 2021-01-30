@@ -3,7 +3,26 @@ from django.db import models
 
 from publicapp.models import phone_regex
 
+FEES_CHOICES = (
+    ("june-september", "june-september"),
+    ("october-december", "october-december"),
+    ("january-march", "january-march")
+)
 
+MONTH_CHOICES = (
+    ("january", "january"),
+    ("february", "february"),
+    ("march", "march"),
+    ("april", "april"),
+    ("may", "may"),
+    ("june", "june"),
+    ("july", "july"),
+    ("august", "august"),
+    ("september", "september"),
+    ("october", "october"),
+    ("november", "november"),
+    ("december", "december")
+)
 class User(AbstractUser):
     USER_TYPE = ((1, "HOD"), (2, "Teacher"), (3, "Student"), (4, "Trainer"), (5, "Trainee"))
     user_type = models.IntegerField(choices=USER_TYPE)
@@ -125,6 +144,36 @@ class Complaint(models.Model):
         return f'complaint from {self.user}'
 
 
+class fees(models.Model):
+    # student, trainee
+    feetype = models.CharField(max_length=35, choices=FEES_CHOICES)
+    feeamount = models.IntegerField()
+    paymentstatus = models.CharField(max_length=50)
+    due = models.CharField(max_length=50)
+
+
+
+class salary(models.Model):
+    #hod, teacher, trainer
+    month = models.CharField(max_length=35, choices=MONTH_CHOICES)
+    salaryamount = models.IntegerField()
+    paymentstatus = models.CharField(max_length=50)
+    pendingsalary = models.IntegerField()
+
+
+class interplacement(models.Model):
+    #hod, trainer, trainee
+    interplacement_id = models.AutoField(primary_key=True)
+    companyname = models.CharField(max_length=10)
+    date = models.DateField()
+    time = models.TimeField(max_length=10)
+    course_id = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True)
+    job_description = models.CharField(max_length=100)
+
+
+
+
+
 class StudyMaterial(models.Model):
     material_type = models.CharField(choices=(('video', 'Video'), ('note', 'Note')), max_length=12)
     course = models.ForeignKey(to=Course, on_delete=models.CASCADE, blank=True, null=True)
@@ -165,6 +214,29 @@ class TimeTable(models.Model):
 
 
 class Attendance(models.Model):
+    #subject wise
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='teacher')
     date = models.DateField()
+    #subject = models.ForeignKey(to=Subject, on_delete=models.CASCADE, blank=True, null=True)
     status = models.CharField(max_length=6)
+
+#
+# class attendance(models.Model):
+#     attendance_id = models.AutoField(primary_key=True)
+#     subject_id = models.IntegerField()
+#     attendance_date = models.DateField()
+#     status = models.BooleanField(default=False)
+#     hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+#     teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+#     # trainer_id=models.IntegerField()
+#     student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+#     trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+#
+#
+# class attendancereport(models.Model):
+#     # Individual Student Attendance
+#     attendancereport_id = models.AutoField(primary_key=True)
+#     student_id = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+#     date = models.DateField(blank=True, null=True)
+#     attendance_id = models.ForeignKey("publicapp.Attendance", on_delete=models.CASCADE, blank=True, null=True)
+#     status = models.BooleanField(default=False)
