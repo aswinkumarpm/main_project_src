@@ -1,9 +1,10 @@
 from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm
@@ -597,7 +598,19 @@ def studvideo(request):
 
 
 def studprofile(request):
-    return render(request, "studentapp/studprofile.html")
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            print("values updated")
+            return redirect('studentindex')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "studentapp/studprofile.html", {"form": form})
 
 
 def studexam(request):
@@ -906,3 +919,21 @@ def email_logins(request):
             messages.error(request, "Invalid Login Credentials!")
 
     return render(request,'publicapp/login.html',{"form":form})
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            print("values updated")
+            return redirect('studentindex')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password.html', {
+        'form': form
+    })

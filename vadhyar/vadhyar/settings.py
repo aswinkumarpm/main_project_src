@@ -156,4 +156,6 @@ EMAIL_HOST_PASSWORD = ''
 
 AUTH_USER_MODEL = 'publicapp.CustomUser'
 
+LOGOUT_REDIRECT_URL = '/'
+
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']

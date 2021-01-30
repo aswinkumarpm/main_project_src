@@ -5,6 +5,8 @@ from django.contrib import admin
 from django.urls import path
 
 from publicapp.views import *
+from django.contrib.auth import views as auth_views
+
 
 if settings.DEBUG:
     urlpatterns = [
@@ -175,6 +177,8 @@ if settings.DEBUG:
         url(r'^timetableadd$', timetableadd, name='timetableadd'),
         url(r'^hod_test_salary/(?P<id>\d+)/$', hod_test_salary, name='hod_test_salary'),
         url(r'^email_login$', email_logins, name='email_login'),
+        url(r'^password/$', change_password, name='change_password'),
+        path('logout/', auth_views.LogoutView.as_view()),
     ]
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
