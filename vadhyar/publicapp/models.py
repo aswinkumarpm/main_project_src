@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 FEES_CHOICES = (
     ("june-september", "june-september"),
@@ -423,3 +425,28 @@ class Trainees(models.Model):
     traineetype = models.CharField(max_length=10, blank=True, null=True)
     schoolname = models.CharField(max_length=50, blank=True, null=True)
     traineetimage = models.FileField(upload_to="Trainee", blank=True, null=True)
+
+
+@receiver(post_save, sender=CustomUser)
+# Now Creating a Function which will automatically insert data in HOD, Staff or Student
+def create_user_profile(sender, instance, created, **kwargs):
+    # if Created is true (Means Data Inserted)
+    if created:
+        # Check the user_type and insert the data in respective tables
+        if instance.user_type == 1:
+            Hods.objects.create(hod=instance)
+        if instance.user_type == 2:
+            Teacher.objects.create(teacher=instance)
+        if instance.user_type == 3:
+            Students.objects.create(student_name=instance)
+
+
+@receiver(post_save, sender=CustomUser)
+def save_user_profile(sender, instance, **kwargs):
+    if instance.user_type == 1:
+        instance.hods.save()
+    if instance.user_type == 2:
+        instance.teacher.save()
+    if instance.user_type == 3:
+        instance.students.save()
+

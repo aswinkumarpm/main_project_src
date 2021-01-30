@@ -7,10 +7,11 @@ from django.contrib.auth import authenticate, login, logout
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm
-from .models import hod, salary, teacherreg, student
-
+from .models import hod, salary, teacherreg, student, CustomUser, Students
 
 # Create your views here.
+
+
 def test_test(request):
     name = request.POST.get('name', False)
     email = request.POST["email"]
@@ -129,20 +130,37 @@ def view_students(request):
 def index(request):
     if request.method == 'POST':
         uname = request.POST['user_name']
+        print(uname)
         user_email = request.POST['user_email']
+        print(user_email)
         user_mobile_number = request.POST['user_mobile_number']
+        print(user_mobile_number)
         user_dob = request.POST['user_dob']
+        print(user_dob)
         standard = request.POST['standard']
+        print(standard)
         print(uname)
 
-        stu = student(name=uname, email=user_email, mobile_num=user_mobile_number, dob=user_dob, standard=standard)
+        import string
+        from random import choice, randint
+        characters = string.ascii_letters + string.punctuation + string.digits
+        password = "".join(choice(characters) for x in range(randint(8, 16)))
+        print(password)
+
+        stu = CustomUser.objects.create_user(username=uname, password=password, email=user_email, user_type=3)
 
         stu.save()
+        student = Students.objects.get(student_name__username=uname)
+        student.standard = standard
+        student.mobile_num = user_mobile_number
+        student.dob = user_dob
+        student.save()
+
 
         print("inside approve")
 
         subject = 'welcome to Vadhyar APP world'
-        message = 'Hi thank you for registering in Vadhyar. Your password is q1w2e3r4'
+        message = 'Hi thank you for registering in Vadhyar. Your password is  ' + str(password)
         from django.conf import settings
 
         email_from = settings.EMAIL_HOST_USER
@@ -154,6 +172,9 @@ def index(request):
 
         send_mail(subject, message, email_from, [user_email, ])
     return render(request, "publicapp/index.html", {})
+
+
+
 
 
 def courses(request):
@@ -860,14 +881,15 @@ def email_logins(request):
                 login(request, user)
                 user_type = user.user_type
                 print(user_type)
-                if user_type == '1':
+                if request.user.is_superuser:
                     return redirect('admindex')
-
+                if user_type == '1':
+                    return redirect('hodindex')
                 elif user_type == '2':
                     return redirect('teacher_home')
 
                 elif user_type == '3':
-                    return redirect('studindex')
+                    return redirect('studentindex')
                 elif user_type == '4':
                     return redirect('trainer_home')
                 elif user_type == '5':

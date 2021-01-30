@@ -8,6 +8,10 @@ from publicapp.models import subjects
 from publicapp.models import hod
 from publicapp.models import recordedvideos
 from publicapp.models import teacherreg
+from publicapp.models import Hods
+from publicapp.models import Teacher
+from publicapp.models import Students
+from publicapp.models import CustomUser
 
 
 # Register your models here.
@@ -20,4 +24,8 @@ admin.site.register(subjects)
 admin.site.register(hod)
 admin.site.register(recordedvideos)
 admin.site.register(teacherreg)
+admin.site.register(Hods)
+admin.site.register(Teacher)
+admin.site.register(Students)
+admin.site.register(CustomUser)
 
