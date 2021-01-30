@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 from .EmailBackend import EmailBackEnd
-from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm
+from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm
 from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees
 
 
@@ -175,17 +175,17 @@ def studentsave(request):
 
 def traineesave(request):
     if request.method == 'POST':
-        uname = request.POST['user_name']
+        uname = request.POST['name']
         print(uname)
-        user_email = request.POST['user_email']
+        user_email = request.POST['email']
         print(user_email)
-        user_mobile_number = request.POST['user_mobile_number']
+        user_mobile_number = request.POST['mobile_num']
         print(user_mobile_number)
-        user_dob = request.POST['user_dob']
+        user_dob = request.POST['dob']
         print(user_dob)
-        user_gender = request.POST['user_gender']
+        user_gender = request.POST['gender']
         print(user_gender)
-        course = request.POST['user_course']
+        course = request.POST['course_name']
         print(course)
         print(uname)
 
@@ -566,7 +566,9 @@ def hodindex(request):
 
 
 def retrainer(request):
-    return render(request, "publicapp/retrainer.html")
+    form = TraineeRegForm()
+
+    return render(request, "publicapp/retrainer.html", {'form': form})
 
 
 def hodteacher(request):

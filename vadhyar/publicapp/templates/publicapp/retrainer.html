@@ -19,33 +19,9 @@
 
     <h1><b>REGISTRATION FORM</b></h1>
     
-    <fieldset>
-     <div class="container">
-       
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="user_name">
-      
-      <label for="mail">Email:</label>
-      <input type="email" id="mail" name="user_email">
-      
-      <label for="mobile_number">Mobile Number:</label>
-      <input type="tel" id="mobile_number" name="user_mobile_number">
+                                                    {{ form.as_p }}
 
-      
-      <label for=>Gender:</label>
-      <input type="radio"  id="male" value="male" name="user_gender" >Male
-        <input type="radio" id="female" value="female" name="user_gender">Female 
-        <br>
-        <br>
-        <br>
-
-    <label for="dob">Date Of Birth:</label>
-    <input type="date" id="dob" name="user_dob"> 
-
-    <label for="course">Please Enter Course Name:</label>
-    <input type="text" id="course" name="user_course"> 
-    </fieldset>
-    <button onclick="window.location.href='/index'">Sign Up</button>
+    <button>Sign Up</button>
   </form>
  </div>
  </div>

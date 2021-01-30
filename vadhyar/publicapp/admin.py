@@ -11,6 +11,7 @@ from publicapp.models import teacherreg
 from publicapp.models import Hods
 from publicapp.models import Teacher
 from publicapp.models import Students
+from publicapp.models import Trainees
 from publicapp.models import CustomUser
 
 
@@ -26,6 +27,7 @@ admin.site.register(recordedvideos)
 admin.site.register(teacherreg)
 admin.site.register(Hods)
 admin.site.register(Teacher)
+admin.site.register(Trainees)
 admin.site.register(Students)
 admin.site.register(CustomUser)
 

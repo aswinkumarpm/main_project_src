@@ -179,6 +179,9 @@ class courses(models.Model):
     hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
     trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
 
+    def _str_(self):
+        return self.course_name
+
 
 class subjects(models.Model):
     subjects_id = models.AutoField(primary_key=True)
