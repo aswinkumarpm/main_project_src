@@ -453,7 +453,7 @@ def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == 1:
         instance.hods.save()
     if instance.user_type == 2:
-        instance.teacher.save()
+        instance.teachers_for_students.save()
     if instance.user_type == 3:
         instance.students.save()
     if instance.user_type == 4:

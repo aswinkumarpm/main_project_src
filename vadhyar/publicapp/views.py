@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm
-from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees
+from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher
 
 
 # Create your views here.
@@ -30,10 +30,37 @@ def test_test(request):
     post = request.POST["post"]
     password = request.POST["password"]
 
-    all = hod(name=name, email=email, mobile_num=mobilenum, dob=dob, qualification=qualification,
-              total_experience=total, hodimag=hodimag, department=dep, housename=house, place=place, pincode=post,
-              password=password)
-    all.save()
+    stu = CustomUser.objects.create_user(username=name, password=password, email=email, user_type=1)
+
+    stu.save()
+
+    student = Hods.objects.get(hod__username=name)
+    student.total_experience = total
+    student.qualification = qualification
+    student.mobile_number = mobilenum
+    student.hodimage = hodimag
+    student.department = dep
+    student.housename = house
+    student.dob = dob
+    student.place = place
+    student.post = post
+    student.save()
+
+    print("inside approve")
+
+    subject = 'welcome to Vadhyar APP world'
+    message = 'Hi thank you for registering in Vadhyar. Your password is' + password + ' .You Can Change Your Password in Profile Page'
+    from django.conf import settings
+
+    email_from = settings.EMAIL_HOST_USER
+    # recipient_list = ["praveenmv93@gmail.com", ]
+    context = {
+        "d": "d",
+    }
+    from django.core.mail import send_mail
+
+    send_mail(subject, message, email_from, [email, ])
+
     return render(request, 'adminapp/add_professor.html')
 
 
@@ -77,24 +104,7 @@ def hod_test_salary(request, id=None):
 
 def test_teacher(request):
     form = teacherregForm(request.POST)
-    if form.is_valid():
-        instance = form.save()
-        print(instance)
-        form.save()
-    # name = request.POST["name"]
-    # email = request.POST["email"]
-    # mobileno = request.POST["mobileno"]
-    # dob = request.POST["dob"]
-    # qualification = request.POST["qualification"]
-    # total_experience = request.POST["total_experience"]
-    # filenname = request.FILES["filename"]
-    # print(filenname)
-    # dep = request.POST.get('dep', None)
-    # house = request.POST["house"]
-    # place = request.POST["place"]
-    # post = request.POST["post"]
-    # subject = request.POST.get('subject', None)
-    # password = request.POST["password"]
+
     #
     # all = teacherreg(name=name, email=email, mobile_num=mobileno, dob=dob, qualification=qualification,
     #                  total_experience=total_experience, teacherimag=filenname, department=dep, housename=house,
@@ -109,12 +119,14 @@ def hod_salary_details(request, hod_id=None):
 
 
 def view_hod(request):
-    all_hods = hod.objects.all()
+    all_hods = Hods.objects.all()
+    for i in all_hods:
+        print(i.department, i.mobile_number)
     return render(request, 'adminapp/all_hod.html', {'head': all_hods})
 
 
 def view_teachers(request):
-    all_teachers = teacherreg.objects.all()
+    all_teachers = Teacher.objects.all()
     print(all_teachers)
     for i in all_teachers:
         print(i.department)
@@ -454,14 +466,57 @@ def all_course(request):
 
 
 def add_teacher(request):
-    print("called")
     form = teacherregForm(request.POST, request.FILES)
-    print(form.errors)
+
     if form.is_valid():
-        print("aswin")
-        instance = form.save()
-        print(instance)
-        form.save()
+        name = request.POST["name"]
+        email = request.POST["email"]
+        mobile_num = request.POST["mobile_num"]
+        dob = request.POST["dob"]
+        qualification = request.POST["qualification"]
+        total_experience = request.POST["total_experience"]
+        teacherimag = request.FILES["teacherimag"]
+        department = request.POST.get('department', None)
+        house = request.POST["housename"]
+        place = request.POST["place"]
+        pincode = request.POST["pincode"]
+        subjects = request.POST.get('subjects', None)
+        available_time = request.POST.get('available_time', None)
+        password = request.POST["password"]
+
+        stu = CustomUser.objects.create_user(username=name, password=password, email=email, user_type=2)
+
+        stu.save()
+
+        student = Teacher.objects.get(teacher__username=name)
+        student.total_experience = total_experience
+        student.qualification = qualification
+        student.mobile_number = mobile_num
+        student.teacherimag = teacherimag
+        student.department = department
+        student.subjects__subject_name = subjects
+        student.available_time = available_time
+        student.housename = house
+        student.dob = dob
+        student.place = place
+        student.post = pincode
+        student.save()
+
+        print("inside approve")
+
+        subject = 'welcome to Vadhyar APP world'
+        message = 'Hi thank you for registering in Vadhyar. Your password is' + password + ' .You Can Change Your Password in Profile Page'
+        from django.conf import settings
+
+        email_from = settings.EMAIL_HOST_USER
+        # recipient_list = ["praveenmv93@gmail.com", ]
+        context = {
+            "d": "d",
+        }
+        from django.core.mail import send_mail
+
+        # send_mail(subject, message, email_from, [email, ])
+
     # name = request.POST["name"]
     # email = request.POST["email"]
     # mobileno = request.POST["mobileno"]

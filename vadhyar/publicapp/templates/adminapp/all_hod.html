@@ -53,41 +53,40 @@
                         {% for i in head %}
                           <tr>
                             <td>
-                                {{ i.name}}
+                                {{ i.hod.username}}
                             </td>
 
                             <td>
-                                {{ i.email}}
+                                {{ i.hod.email}}
                             </td>
 
                             <td>
-                                {{ i.mobile_num}}
-                                {{ i.id }}                                   
-{{ i }}
+                                {{ i.mobile_number}}
+
                             </td>
                             
                             <td>
-                                {% if i.department == 0 %}
+                                {% if i.department == '0' %}
                                      Tuition
 
-                               {% elif i.department == 1 %}
+                               {% elif i.department == '1' %}
 
                                 Civil Engineering
-                              {% elif i.department == 2 %}
+                              {% elif i.department == '2' %}
                               Mech
-                            {% elif i.department == 3 %}
+                            {% elif i.department == '3' %}
                                  ECE
 
-                                   {% elif i.department == 4 %}
+                                   {% elif i.department == '4' %}
                                  CSE
                                 {% endif %}
 
                             </td>
 
-                            {% if i.hodimag %}
+                            {% if i.hodimage %}
 
                             <td>
-                               <img src='{{ i.hodimag.url }}' class='img-responsive'/>
+                               <img src='{{ i.hodimage.url }}' class='img-responsive'/>
                             </td>
                             {% endif %}
 

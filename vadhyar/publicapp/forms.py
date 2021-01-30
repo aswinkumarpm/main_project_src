@@ -1,5 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
+from django.forms import PasswordInput
 from django.shortcuts import render
 from publicapp.models import login
 from publicapp.models import student
@@ -61,8 +62,11 @@ class studentForm(forms.Form):
     spincode = forms.IntegerField(label="spincode")
     studentimag = forms.FileField()
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
-class teacherregForm(forms.ModelForm):
+
+class teacherregForm(forms.Form):
     DEPARTMENT_CHOICES = (('1-4', '1-4'),
                           ('5-7', '5-7'),
                           ('8-10', '8-10'),
@@ -76,7 +80,6 @@ class teacherregForm(forms.ModelForm):
                           ('Mechanical Engineering', 'Mechanical Engineering'),
                           ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
                           ('Computer Science Engineering', 'Computer Science Engineering'),
-
                           )
 
     AVAILABLETIME_CHOICES = (('4-5', '4-5'),
@@ -87,34 +90,38 @@ class teacherregForm(forms.ModelForm):
                              ('9-10', '9-10'),
                              )
 
-    department = forms.ChoiceField(required=True)
-    available_time = forms.ChoiceField(required=True)
+
 
     def __init__(self, *args, **kwargs):
         super(teacherregForm, self).__init__(*args, **kwargs)
-
-        self.fields["subjects"].queryset = subjects.objects.all()
+        self.fields['subjects'] = forms.ChoiceField(
+            choices=[(o.subject_name, str(o.subject_name)) for o in subjects.objects.all()]
+        )
         self.fields['department'].choices = self.DEPARTMENT_CHOICES
         self.fields['available_time'].choices = self.AVAILABLETIME_CHOICES
 
-    class Meta:
-        model = teacherreg
-        fields = ['name', 'email', 'mobile_num', 'department', 'teacherimag', 'dob', 'qualification',
-                  'total_experience', 'subjects', 'housename',
-                  'place', 'pincode', 'password', 'available_time']
-    # name = forms.CharField(label="name", max_length=30)
-    # email = forms.EmailField(label="email", max_length=50)
-    # mobile_num = forms.IntegerField(label="mobile_num")
-    # dob = forms.DateField(label="dob")
-    # qualification = forms.CharField(label="qualification", max_length=20)
-    # total_experience = forms.CharField(label="total_experience", max_length=5)
-    # subjects = forms.CharField(max_length=20)
-    # subjects = forms.CharField(max_length=20)
-    # occupation = forms.CharField(label="occupation", max_length=20)
-    # teacherimag = forms.FileField()
-    # housename = forms.CharField(label="housename", max_length=50)
-    # place = forms.CharField(label="place", max_length=50)
-    # pincode = forms.IntegerField(label="pincode")
+    name = forms.CharField(label="name", max_length=30)
+    email = forms.EmailField(label="email", max_length=50)
+    mobile_num = forms.CharField(validators=[phone_regex],label="mobile_num")
+    department = forms.ChoiceField(required=True)
+    available_time = forms.ChoiceField(required=True)
+
+    dob = forms.DateField(label="dob", widget=DateInput)
+    qualification = forms.CharField(label="qualification", max_length=20)
+    total_experience = forms.CharField(label="total_experience", max_length=5)
+    subjects = forms.ChoiceField(label="Please Enter Subject Name")
+    teacherimag = forms.FileField()
+    housename = forms.CharField(label="housename", max_length=50)
+    place = forms.CharField(label="place", max_length=50)
+    pincode = forms.IntegerField(label="pincode")
+    password = forms.CharField(widget=PasswordInput)
+
+    # class Meta:
+    #     model = teacherreg
+    #     fields = ['name', 'email', 'mobile_num', 'department', 'teacherimag', 'dob', 'qualification',
+    #               'total_experience', 'subjects', 'housename',
+    #               'place', 'pincode', 'password', 'available_time']
+
 
 
 class traineeForm(forms.Form):
@@ -303,8 +310,6 @@ class notesForm(forms.Form):
     questionpaper_pdf = forms.CharField(label="question", max_length=50)
 
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
 
 
 class TraineeRegForm(forms.Form):

@@ -50,10 +50,11 @@
                                                 <div id="dropzone1" class="pro-ad">
                                                     <form  class="dropzone dropzone-custom needsclick add-professors" id="demo1-upload" method="POST" enctype="multipart/form-data">
                                                         {% csrf_token %}
-    {{ form|crispy }}
 
-<!--                                                        <div class="row">-->
-<!--                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">-->
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    {{ form.as_p }}
+
 <!--                                                                <div class="form-group">-->
 <!--                                                                    <input type="text" name="name" class="form-control" placeholder="Name">-->
 <!--                                                                </div>-->
@@ -113,7 +114,7 @@
 <!--                                                                <div class="form-group">-->
 <!--                                                                    <input name="password" type="password" class="form-control" placeholder="Password">-->
 <!--                                                                </div>-->
-<!--                                                                  </div>-->
+                                                                  </div>
 
 
 
