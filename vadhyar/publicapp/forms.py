@@ -310,11 +310,11 @@ class DateInput(forms.DateInput):
 class TraineeRegForm(forms.Form):
     CHOICES = [('Male', 'Male'),
                ('Female', 'Female')]
-    name = forms.CharField(label="name", max_length=30)
-    email = forms.EmailField(label="email", max_length=50)
+    name = forms.CharField(label="Name", max_length=30)
+    email = forms.EmailField(label="Email", max_length=50)
     mobile_num = forms.CharField(label='Mobile Number', validators=[phone_regex], max_length=20)
     gender = forms.ChoiceField(label='Gender', choices=CHOICES, widget=forms.RadioSelect)
-    dob = forms.DateField(label="date", widget=DateInput())
+    dob = forms.DateField(label="Date of birth", widget=DateInput())
 
     def __init__(self, *args, **kwargs):
         super(TraineeRegForm, self).__init__(*args, **kwargs)
