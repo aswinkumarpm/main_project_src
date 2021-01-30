@@ -47,6 +47,33 @@
                             <th>Standard</th>
                             <th>Action</th>
                         </tr>
+
+                        {% for i in trainees %}
+                          <tr>
+                              <td>{{ forloop.counter }}</td>
+                            <td>
+                                {{ i.trainee.username}}
+                            </td>
+
+                            <td>
+                                {{ i.trainee.email}}
+                            </td>
+
+                            <td>
+                                {{ i.mobile_num}}
+                            </td>
+
+                            <td>{{ i.course.course_name }}</td>
+
+                            {% if i.traineetimage %}
+
+                            <td>
+                               <img src='{{ i.traineetimage.url }}' class='img-responsive'/>
+                            </td>
+                            {% endif %}
+
+                          </tr>
+                        {% endfor %}
                         
                     </table>
                 </div>

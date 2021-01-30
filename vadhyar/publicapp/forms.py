@@ -62,8 +62,58 @@ class studentForm(forms.Form):
     spincode = forms.IntegerField(label="spincode")
     studentimag = forms.FileField()
 
+
 class DateInput(forms.DateInput):
     input_type = 'date'
+
+
+class trainerregForm(forms.Form):
+    # DEPARTMENT_CHOICES = (('1-4', '1-4'),
+    #                       ('5-7', '5-7'),
+    #                       ('8-10', '8-10'),
+    #                       ('+1 Science', '+1 Science'),
+    #                       ('+2 science', '+2 science'),
+    #                       ('+1 Commerce', '+1 Commerce'),
+    #                       ('+2 Commerce', '+2 Commerce'),
+    #                       ('+2 Commerce', '+2 Commerce'),
+    #                       ('B.com/ M.com', 'B.com/ M.com'),
+    #                       ('Civil Engineering', 'Civil Engineering'),
+    #                       ('Mechanical Engineering', 'Mechanical Engineering'),
+    #                       ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
+    #                       ('Computer Science Engineering', 'Computer Science Engineering'),
+    #                       )
+
+    AVAILABLETIME_CHOICES = (('4-5', '4-5'),
+                             ('5-6', '5-6'),
+                             ('6-7', '6-7'),
+                             ('7-8', '7-8'),
+                             ('8-9', '8-9'),
+                             ('9-10', '9-10'),
+                             )
+
+    def __init__(self, *args, **kwargs):
+        super(trainerregForm, self).__init__(*args, **kwargs)
+        self.fields['course'] = forms.ChoiceField(
+            choices=[(o.course_name, str(o.course_name)) for o in courses.objects.all()]
+        )
+        # self.fields['department'].choices = self.DEPARTMENT_CHOICES
+        self.fields['available_time'].choices = self.AVAILABLETIME_CHOICES
+
+    name = forms.CharField(label="name", max_length=30)
+    email = forms.EmailField(label="email", max_length=50)
+    mobile_num = forms.CharField(validators=[phone_regex], label="mobile_num")
+    # department = forms.ChoiceField(required=True)
+    available_time = forms.ChoiceField(required=True)
+
+    dob = forms.DateField(label="dob", widget=DateInput)
+    qualification = forms.CharField(label="qualification", max_length=20)
+    total_experience = forms.CharField(label="total_experience", max_length=5)
+    course = forms.ChoiceField(label="Please Enter Course Name")
+    trainerimage = forms.FileField()
+    housename = forms.CharField(label="housename", max_length=50)
+    place = forms.CharField(label="place", max_length=50)
+    pincode = forms.IntegerField(label="pincode")
+    password = forms.CharField(widget=PasswordInput)
 
 
 class teacherregForm(forms.Form):
@@ -90,8 +140,6 @@ class teacherregForm(forms.Form):
                              ('9-10', '9-10'),
                              )
 
-
-
     def __init__(self, *args, **kwargs):
         super(teacherregForm, self).__init__(*args, **kwargs)
         self.fields['subjects'] = forms.ChoiceField(
@@ -102,7 +150,7 @@ class teacherregForm(forms.Form):
 
     name = forms.CharField(label="name", max_length=30)
     email = forms.EmailField(label="email", max_length=50)
-    mobile_num = forms.CharField(validators=[phone_regex],label="mobile_num")
+    mobile_num = forms.CharField(validators=[phone_regex], label="mobile_num")
     department = forms.ChoiceField(required=True)
     available_time = forms.ChoiceField(required=True)
 
@@ -116,12 +164,12 @@ class teacherregForm(forms.Form):
     pincode = forms.IntegerField(label="pincode")
     password = forms.CharField(widget=PasswordInput)
 
-    # class Meta:
-    #     model = teacherreg
-    #     fields = ['name', 'email', 'mobile_num', 'department', 'teacherimag', 'dob', 'qualification',
-    #               'total_experience', 'subjects', 'housename',
-    #               'place', 'pincode', 'password', 'available_time']
 
+# class Meta:
+#     model = teacherreg
+#     fields = ['name', 'email', 'mobile_num', 'department', 'teacherimag', 'dob', 'qualification',
+#               'total_experience', 'subjects', 'housename',
+#               'place', 'pincode', 'password', 'available_time']
 
 
 class traineeForm(forms.Form):
@@ -140,20 +188,20 @@ class traineeForm(forms.Form):
     qualification = forms.CharField(label="qualification", max_length=20)
 
 
-class trainerregForm(forms.Form):
-    name = forms.CharField(label="name", max_length=30)
-    email = forms.EmailField(label="email", max_length=50)
-    mobile_num = forms.IntegerField(label="mobile_num")
-    gender = forms.CharField(label="gender", max_length=10)
-    dob = forms.DateField(label="dob")
-    qualification = forms.CharField(label="qualification", max_length=20)
-    total_experience = forms.CharField(label="total_experience", max_length=5)
-    subjects = forms.CharField(max_length=20)
-    occupation = forms.CharField(label="occupation", max_length=20)
-    trainerimag = forms.FileField()
-    housename = forms.CharField(label="housename", max_length=50)
-    place = forms.CharField(label="place", max_length=50)
-    pincode = forms.IntegerField(label="pincode")
+# class trainerregForm(forms.Form):
+#     name = forms.CharField(label="name", max_length=30)
+#     email = forms.EmailField(label="email", max_length=50)
+#     mobile_num = forms.IntegerField(label="mobile_num")
+#     gender = forms.CharField(label="gender", max_length=10)
+#     dob = forms.DateField(label="dob")
+#     qualification = forms.CharField(label="qualification", max_length=20)
+#     total_experience = forms.CharField(label="total_experience", max_length=5)
+#     subjects = forms.CharField(max_length=20)
+#     occupation = forms.CharField(label="occupation", max_length=20)
+#     trainerimag = forms.FileField()
+#     housename = forms.CharField(label="housename", max_length=50)
+#     place = forms.CharField(label="place", max_length=50)
+#     pincode = forms.IntegerField(label="pincode")
 
 
 class feesForm(forms.Form):
@@ -308,8 +356,6 @@ class notesForm(forms.Form):
     subject_id = forms.IntegerField()
     notes_pdf = forms.CharField(label="notespdf", max_length=50)
     questionpaper_pdf = forms.CharField(label="question", max_length=50)
-
-
 
 
 class TraineeRegForm(forms.Form):

@@ -46,11 +46,38 @@
                             <th>Department</th>
                             <th>Subject</th>
                             <th>Image</th>
+                                                    </tr>
+
+
+                            {% for i in trainers %}
+                          <tr>
+                            <td>
+                                {{ i.trainer_name.username}}
+                            </td>
+
+                            <td>
+                                {{ i.trainer_name.email}}
+                            </td>
+
+                            <td>
+                                {{ i.mobile_num}}
+                            </td>
+
+                            <td>{{ i.department }}</td>
+                            <td>{{ i.course.course_name }}</td>
+
+                            {% if i.trainerimage %}
+
+                            <td>
+                               <img src='{{ i.trainerimage.url }}' class='img-responsive'/>
+                            </td>
+                            {% endif %}
+
+                          </tr>
+                        {% endfor %}
                             
                             
-                        </tr>
-                        
-                        </tr>
+
                     </table>
                 </div>
                 <div class="custom-pagination">

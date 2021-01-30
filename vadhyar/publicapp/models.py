@@ -401,6 +401,8 @@ class Trainers(models.Model):
     total_experience = models.CharField(max_length=5, blank=True, null=True)
     subjects = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True,
                                  related_name="students_name")
+    course = models.ForeignKey(courses, on_delete=models.CASCADE, blank=True, null=True)
+
     department = models.CharField(max_length=20, blank=True, null=True)
     available_time = models.CharField(max_length=50, blank=True, null=True)
     trainerimage = models.FileField(upload_to="trainer", blank=True, null=True)
