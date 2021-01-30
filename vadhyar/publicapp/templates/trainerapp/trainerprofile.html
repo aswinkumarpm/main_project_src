@@ -132,15 +132,11 @@
                                         <div class="review-content-section">
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <form id="acount-infor" action="#" class="acount-infor">
+                                                    <form id="acount-infor"  class="acount-infor" method="post">
                                                         <div class="devit-card-custom">
-                                                            
-                                                            <div class="form-group">
-                                                                <input name="password" type="password" class="form-control" placeholder="Password">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="confarmpassword" type="password" class="form-control" placeholder="Confirm Password">
-                                                            </div>
+
+                                                                 {% csrf_token %}
+  {{ form.as_p }}
                                                             <button type="Update" class="btn btn-primary waves-effect waves-light" >Update</button>
                                                         </div>
                                                     </form>

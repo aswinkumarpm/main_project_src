@@ -703,7 +703,19 @@ def viewinterview(request):
 
 
 def traineeprofile(request):
-    return render(request, "traineeapp/traineeprofile.html")
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            print("values updated")
+            return redirect('studentindex')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "traineeapp/traineeprofile.html", {'form': form})
 
 
 def trainee_exam(request):
@@ -759,7 +771,19 @@ def studreport(request):
 
 
 def teacherprofile(request):
-    return render(request, "teacherapp/teacherprofile.html")
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            print("values updated")
+            return redirect('studentindex')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "teacherapp/teacherprofile.html", {'form': form})
 
 
 def studfeedback(request):
@@ -811,7 +835,19 @@ def traineecomp(request):
 
 
 def hodprofile(request):
-    return render(request, "hodapp/hodprofile.html")
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            print("values updated")
+            return redirect('studentindex')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "hodapp/hodprofile.html", {'form': form})
 
 
 def hodinterview(request):
@@ -895,7 +931,19 @@ def traineereport(request):
 
 
 def trainerprofile(request):
-    return render(request, "trainerapp/trainerprofile.html")
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            print("values updated")
+            return redirect('studentindex')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "trainerapp/trainerprofile.html", {'form': form})
 
 
 def traineefeedback(request):
