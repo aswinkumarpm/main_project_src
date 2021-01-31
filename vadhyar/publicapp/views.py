@@ -10,7 +10,7 @@ from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
     trainerregForm, feesForm, InterviewAddForm, StudyMaterialForm
 from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Trainers, fees, \
-    interplacement
+    interplacement, StudyMaterial
 
 
 # Create your views here.
@@ -829,7 +829,8 @@ def all_interview(request):
 
 
 def all_videos(request):
-    return render(request, "adminapp/all_videos.html")
+    queryset = StudyMaterial.objects.filter(material_type='video')
+    return render(request, "adminapp/all_videos.html", {'queryset' : queryset})
 
 
 def recordvideos(request):
