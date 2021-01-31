@@ -1,20 +1,41 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render
 
 from .EmailBackend import EmailBackEnd
-from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
-    trainerregForm, feesForm, InterviewAddForm, StudyMaterialForm, coursesForm, ExamForm, ResultForm
-from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Trainers, fees, \
-    interplacement, StudyMaterial, subjects, courses, Exam, Result
-
-from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
-    ComplaintForm
-from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Complaint, Trainers
+from .forms import commontimetableForm
+from .forms import coursesForm
+from .forms import ExamForm
+from .forms import feesForm
+from .forms import InterviewAddForm
+from .forms import LoginForm
+from .forms import ResultForm
+from .forms import salaryForm
+from .forms import StudyMaterialForm
+from .forms import subjectsForm
+from .forms import teacherregForm
+from .forms import TraineeRegForm
+from .forms import trainerregForm
+from .models import Complaint
+from .models import courses
+from .models import CustomUser
+from .models import Exam
+from .models import fees
+from .models import Hods
+from .models import interplacement
+from .models import Result
+from .models import salary
+from .models import Students
+from .models import StudyMaterial
+from .models import subjects
+from .models import Teacher
+from .models import Trainees
+from .models import Trainers
 
 
 # Create your views here.
@@ -111,7 +132,8 @@ def hod_salary(request, id=None):
     print("aswin")
     salary_history = salary.objects.filter(user_id=user_instance.id)
 
-    return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance, "salaryhistory" : salary_history})
+    return render(request, 'adminapp/hod_salary.html',
+                  {"form": form, "instance": instance, "salaryhistory": salary_history})
 
 
 def teacher_salary(request, id=None):
@@ -137,8 +159,8 @@ def teacher_salary(request, id=None):
 
     salary_history = salary.objects.filter(user_id=user_instance.id)
 
-
-    return render(request, 'adminapp/teacher_salary.html', {"form": form, "instance": instance,  "salaryhistory" : salary_history})
+    return render(request, 'adminapp/teacher_salary.html',
+                  {"form": form, "instance": instance, "salaryhistory": salary_history})
 
 
 def trainer_salary(request, id=None):
@@ -164,7 +186,8 @@ def trainer_salary(request, id=None):
 
     salary_history = salary.objects.filter(user_id=user_instance.id)
 
-    return render(request, 'adminapp/trainer_salary.html', {"form": form, "instance": instance, "salaryhistory" : salary_history})
+    return render(request, 'adminapp/trainer_salary.html',
+                  {"form": form, "instance": instance, "salaryhistory": salary_history})
 
 
 def trainee_fee(request, id=None):
@@ -188,11 +211,10 @@ def trainee_fee(request, id=None):
 
         return redirect('admindex')
 
-
     fee_history = fees.objects.filter(user_id=user_instance.id)
 
-
-    return render(request, 'adminapp/trainee_fee.html', {"form": form, "instance": instance, "fee_history": fee_history})
+    return render(request, 'adminapp/trainee_fee.html',
+                  {"form": form, "instance": instance, "fee_history": fee_history})
 
 
 def student_fee(request, id=None):
@@ -217,7 +239,8 @@ def student_fee(request, id=None):
         return redirect('admindex')
     fee_history = fees.objects.filter(user_id=user_instance.id)
 
-    return render(request, 'adminapp/student_fee.html', {"form": form, "instance": instance, "fee_history": fee_history})
+    return render(request, 'adminapp/student_fee.html',
+                  {"form": form, "instance": instance, "fee_history": fee_history})
 
 
 # def hod_test_salary(request, id=None):
@@ -270,8 +293,10 @@ def view_students(request):
         print(i.standard)
     return render(request, 'adminapp/all_students.html', {'teachers': all_teachers})
 
+
 def index(request):
     return render(request, "publicapp/index.html", {})
+
 
 def studentsave(request):
     if request.method == 'POST':
@@ -579,8 +604,6 @@ def regteacher(request):
     return render(request, "publicapp/regteacher.html", {})
 
 
-
-
 # def all_subjects(request):
 #     sub = subjects.objects.all()
 #     print(sub)
@@ -783,11 +806,10 @@ def trainersave(request):
     return render(request, "adminapp/add_trainer.html", {"form": form})
 
 
-
 def all_course(request):
     queryset = courses.objects.all()
     print(queryset)
-    return render(request, "adminapp/all_course.html", {'queryset' : queryset})
+    return render(request, "adminapp/all_course.html", {'queryset': queryset})
 
 
 def courseadd(request):
@@ -797,18 +819,19 @@ def courseadd(request):
         course_duration = request.POST["course_duration"]
         course_department = request.POST.get("course_department", None)
         course_fee = request.POST["course_fee"]
-        stu = courses(course_name=course_name, course_duration=course_duration, course_department=course_department, course_fee=course_fee)
+        stu = courses(course_name=course_name, course_duration=course_duration, course_department=course_department,
+                      course_fee=course_fee)
 
         stu.save()
         return redirect('admindex')
-    return render(request, "adminapp/courseadd.html", {'form' : form})
+    return render(request, "adminapp/courseadd.html", {'form': form})
 
 
 def all_subjects(request):
     sub = subjects.objects.all()
     print(sub)
 
-    return render(request, "adminapp/all_subjects.html", {'sub' : sub})
+    return render(request, "adminapp/all_subjects.html", {'sub': sub})
 
 
 def subjectadd(request):
@@ -868,12 +891,12 @@ def interplacementadd(request):
 def all_interview(request):
     interviews = interplacement.objects.all()
 
-    return render(request, "adminapp/all_interview.html", {'interviews' : interviews})
+    return render(request, "adminapp/all_interview.html", {'interviews': interviews})
 
 
 def all_videos(request):
     queryset = StudyMaterial.objects.filter(material_type='video')
-    return render(request, "adminapp/all_videos.html", {'queryset' : queryset})
+    return render(request, "adminapp/all_videos.html", {'queryset': queryset})
 
 
 def recordvideos(request):
@@ -884,7 +907,7 @@ def recordvideos(request):
         print('video saved')
         print('video saved')
 
-    return render(request, "adminapp/recordvideos.html", {'form' : form})
+    return render(request, "adminapp/recordvideos.html", {'form': form})
 
 
 def all_students(request):
@@ -1109,21 +1132,12 @@ def allteacher_leave(request):
     return render(request, "teacherapp/allteacher_leave.html")
 
 
-
-
-
-
-
-
 def teachernotes(request):
     return render(request, "teacherapp/teachernotes.html")
 
 
 def allteacher_notes(request):
     return render(request, "teacherapp/allteacher_notes.html")
-
-
-
 
 
 def teacherprofile(request):
@@ -1441,11 +1455,11 @@ def teachercomp(request):
 
 def add_reply(request, id):
     print("id", id)
-    dep =Hods.objects.get(hod=request.user)
+    dep = Hods.objects.get(hod=request.user)
     department = dep.department
     if request.method == "POST":
         reply = request.POST.get('complaints_description')
-        print("re",reply)
+        print("re", reply)
         obj = Complaint.objects.get(id=id)
         obj.response = reply
         obj.save()
@@ -1469,18 +1483,20 @@ def teacherexam(request):
         print(course)
         print(subject)
 
-        stu = Exam(exam_name=exam_name, conducted_on=conducted_on, conducted_by=request.user,time=time,max_time=max_time, max_score=max_score,subject_id=subject, course_id=course)
+        stu = Exam(exam_name=exam_name, conducted_on=conducted_on, conducted_by=request.user, time=time,
+                   max_time=max_time, max_score=max_score, subject_id=subject, course_id=course)
 
         stu.save()
         return redirect('teacherindex')
     return render(request, "teacherapp/teacherexam.html", {'form': form})
 
+
 def allteacher_exam(request):
     query_set = Exam.objects.all()
     return render(request, "teacherapp/allteacher_exam.html", {'query_set': query_set})
 
-def teacherexamsave(request):
 
+def teacherexamsave(request):
     return render(request, "teacherapp/teacherexam.html")
 
 
@@ -1500,9 +1516,8 @@ def studreport(request):
         status = request.POST["status"]
 
         stu = Result(exam_id=exam, attended_by_id=attended_by, mark=mark, date=date,
-                   grade=grade, status=status)
+                     grade=grade, status=status)
 
         stu.save()
         return redirect('teacherindex')
     return render(request, "teacherapp/studreport.html", {'form': form})
-
