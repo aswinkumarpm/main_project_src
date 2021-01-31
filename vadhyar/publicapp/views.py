@@ -898,6 +898,10 @@ def all_videos(request):
     queryset = StudyMaterial.objects.filter(material_type='video')
     return render(request, "adminapp/all_videos.html", {'queryset': queryset})
 
+def all_notes(request):
+    queryset = StudyMaterial.objects.filter(material_type='note')
+    return render(request, "adminapp/all_notes.html", {'queryset': queryset})
+
 
 def recordvideos(request):
     form = StudyMaterialForm(request.POST, request.FILES)

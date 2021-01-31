@@ -186,6 +186,7 @@ if settings.DEBUG:
         url(r'^password/$', change_password, name='change_password'),
         path('logout/', auth_views.LogoutView.as_view()),
         path('complaints/', complaint_view, name="complaint_view"),
+        path('all_notes/', all_notes, name="all_notes"),
         path('teacherexamsave/', teacherexamsave, name="teacherexamsave"),
         path('add_reply/<int:id>/', add_reply, name='add_reply'),
 
