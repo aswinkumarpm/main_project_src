@@ -8,8 +8,9 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
-    trainerregForm
-from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Trainers
+    trainerregForm, feesForm, InterviewAddForm
+from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Trainers, fees, \
+    interplacement
 
 
 # Create your views here.
@@ -65,17 +66,36 @@ def test_test(request):
     return render(request, 'adminapp/add_professor.html')
 
 
-def test_salary(request, id=None):
-    print(id)
+# def hod_details(request, id=None):
+#     instance = get_object_or_404(Hods, id=id)
+#     print(instance)
+#
+#     return render(request, 'adminapp/hod_salary.html', {"instance": instance})
 
-    form = salaryForm(request.POST,id)
+
+def hod_salary(request, id=None):
+    instance = get_object_or_404(Hods, hod_id=id)
+    print(instance.hod.username)
+
+    user_instance = CustomUser.objects.get(username=instance.hod.username)
+
+    form = salaryForm(request.POST, id)
     print("called")
     if form.is_valid():
-        instance = form.save()
-        print(instance)
-        form.save()
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
 
-        return render(request, 'adminapp/hod_salary.html', {"form": form})
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('adminindex')
+
+    #
+    #     return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance})
     # month = request.POST["month"]
     # salaryamount = request.POST["salaryamount"]
     # paymentstatus = request.POST["paymentstatus"]
@@ -88,19 +108,115 @@ def test_salary(request, id=None):
     i = salary.objects.all()
     for q in i:
         print(q)
-    return render(request, 'adminapp/hod_salary.html', {"form": form})
+    return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance})
 
 
-def hod_test_salary(request, id=None):
-    print("aswin")
-    print(id)
-    month = request.POST.get('month', None)
-    salaryamount = request.POST.get('salaryamount', None)
-    paymentstatus = request.POST.get("paymentstatus", None)
-    pendingsalary = request.POST.get("pendingsalary", None)
-    # alldata= salary(month=month,salaryamount=salaryamount,paymentstatus=paymentstatus,pendingsalary=pendingsalary,hod_id_id=id)
-    # alldata.save()
-    return render(request, 'test1.html', {"id": id})
+def teacher_salary(request, id=None):
+    instance = get_object_or_404(Teacher, teacher_id=id)
+    print(instance.teacher.username)
+
+    user_instance = CustomUser.objects.get(username=instance.teacher.username)
+
+    form = salaryForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
+
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, 'adminapp/teacher_salary.html', {"form": form, "instance": instance})
+
+
+def trainer_salary(request, id=None):
+    instance = get_object_or_404(Trainers, trainer_name_id=id)
+    print(instance.trainer_name.username)
+
+    user_instance = CustomUser.objects.get(username=instance.trainer_name.username)
+
+    form = salaryForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
+
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, 'adminapp/trainer_salary.html', {"form": form, "instance": instance})
+
+
+def trainee_fee(request, id=None):
+    instance = get_object_or_404(Trainees, trainee_id=id)
+    print(instance.trainee.username)
+
+    user_instance = CustomUser.objects.get(username=instance.trainee.username)
+
+    form = feesForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        feetype = request.POST["feetype"]
+        feeamount = request.POST["feeamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        due = request.POST["due"]
+
+        alldata = fees(user_id=user_instance.id, feetype=feetype, feeamount=feeamount, paymentstatus=paymentstatus,
+                       due=due)
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, 'adminapp/trainee_fee.html', {"form": form, "instance": instance})
+
+
+def student_fee(request, id=None):
+    instance = get_object_or_404(Students, student_name_id=id)
+    print(instance.student_name.username)
+
+    user_instance = CustomUser.objects.get(username=instance.student_name.username)
+
+    form = feesForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        feetype = request.POST["feetype"]
+        feeamount = request.POST["feeamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        due = request.POST["due"]
+
+        alldata = fees(user_id=user_instance.id, feetype=feetype, feeamount=feeamount, paymentstatus=paymentstatus,
+                       due=due)
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, 'adminapp/student_fee.html', {"form": form, "instance": instance})
+
+
+# def hod_test_salary(request, id=None):
+#     print("aswin")
+#     print(id)
+#     month = request.POST.get('month', None)
+#     salaryamount = request.POST.get('salaryamount', None)
+#     paymentstatus = request.POST.get("paymentstatus", None)
+#     pendingsalary = request.POST.get("pendingsalary", None)
+#     # alldata= salary(month=month,salaryamount=salaryamount,paymentstatus=paymentstatus,pendingsalary=pendingsalary,hod_id_id=id)
+#     # alldata.save()
+#     return render(request, 'test1.html', {"id": id})
 
 
 def test_teacher(request):
@@ -141,8 +257,10 @@ def view_students(request):
         print(i.standard)
     return render(request, 'adminapp/all_students.html', {'teachers': all_teachers})
 
+
 def index(request):
     return render(request, "publicapp/index.html", {})
+
 
 def studentsave(request):
     if request.method == 'POST':
@@ -167,7 +285,6 @@ def studentsave(request):
         student.dob = user_dob
         student.save()
 
-
         print("inside approve")
 
         subject = 'welcome to Vadhyar APP world'
@@ -183,7 +300,6 @@ def studentsave(request):
 
         send_mail(subject, message, email_from, [user_email, ])
     return render(request, "publicapp/index.html", {})
-
 
 
 def traineesave(request):
@@ -202,17 +318,15 @@ def traineesave(request):
         print(course)
         print(uname)
 
-
         stu = CustomUser.objects.create_user(username=uname, password='q1w2e3r4', email=user_email, user_type=5)
 
         stu.save()
         student = Trainees.objects.get(trainee__username=uname)
-        student.standard = course
+        student.course = course
         student.mobile_num = user_mobile_number
         student.dob = user_dob
         student.gender = user_gender
         student.save()
-
 
         print("inside approve")
 
@@ -230,12 +344,8 @@ def traineesave(request):
     return render(request, "publicapp/index.html", {})
 
 
-
-
-
-
-def courses(request):
-    return render(request, "publicapp/courses.html", {})
+# def courses(request):
+#     return render(request, "publicapp/courses.html", {})
 
 
 def contact(request):
@@ -591,9 +701,7 @@ def add_trainer(request):
         from django.core.mail import send_mail
         send_mail(subject, message, email_from, [email, ])
 
-
     return render(request, "adminapp/add_trainer.html", {"form": form})
-
 
 
 def trainersave(request):
@@ -625,7 +733,7 @@ def trainersave(request):
         student.mobile_number = mobile_num
         student.trainerimag = trainerimag
         student.department = department
-        student.courses__course_name = course
+        student.course_id = course
         student.available_time = available_time
         student.housename = house
         student.dob = dob
@@ -647,10 +755,7 @@ def trainersave(request):
         from django.core.mail import send_mail
         # send_mail(subject, message, email_from, [email, ])
 
-
     return render(request, "adminapp/add_trainer.html", {"form": form})
-
-
 
 
 def all_subjects(request):
@@ -682,8 +787,30 @@ def select_teacher_timetable(request):
     return render(request, "adminapp/subjectadd.html", {all_teachers: all_teachers, "form": form})
 
 
-def interplacement(request):
-    return render(request, "adminapp/interplacement.html")
+def interplacementadd(request):
+    form = InterviewAddForm(request.POST)
+    print("called")
+    if form.is_valid():
+        companyname = request.POST["companyname"]
+        description = request.POST["description"]
+        date = request.POST["date"]
+        time = request.POST["time"]
+        course_name = request.POST["course_name"]
+        print(course_name)
+        print(companyname)
+
+        alldata = interplacement()
+        alldata.companyname = companyname
+
+        alldata.job_description = description
+        alldata.date = date
+        alldata.time = time
+        alldata.course_id = course_name
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, "adminapp/interplacement.html", {'form': form})
 
 
 def all_interview(request):
@@ -1138,7 +1265,6 @@ def hod_salary_details(request):
 
 
 def email_logins(request):
-
     print("inside email login")
     if request.method != "POST":
         form = LoginForm()
@@ -1150,10 +1276,10 @@ def email_logins(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            print("email,pass",email,password)
+            print("email,pass", email, password)
             user = EmailBackEnd.authenticate(request, username=request.POST.get('email'),
                                              password=request.POST.get('password'))
-            print("user",user)
+            print("user", user)
             if user != None:
                 login(request, user)
                 user_type = user.user_type
@@ -1182,7 +1308,7 @@ def email_logins(request):
             print("not valid")
             messages.error(request, "Invalid Login Credentials!")
 
-    return render(request,'publicapp/login.html',{"form":form})
+    return render(request, 'publicapp/login.html', {"form": form})
 
 
 def change_password(request):

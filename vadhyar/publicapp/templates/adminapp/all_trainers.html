@@ -46,6 +46,7 @@
                             <th>Department</th>
                             <th>Subject</th>
                             <th>Image</th>
+                            <th>Actions</th>
                                                     </tr>
 
 
@@ -72,6 +73,14 @@
                                <img src='{{ i.trainerimage.url }}' class='img-responsive'/>
                             </td>
                             {% endif %}
+
+                                                          <td>
+                                <div >
+ <button class="primary">
+                                    <a href="{% url 'trainer_salary' i.trainer_name_id %}"> Salary Details</a>
+                                </button>
+                                </div>
+                            </td>
 
                           </tr>
                         {% endfor %}

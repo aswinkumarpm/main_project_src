@@ -30,6 +30,10 @@ phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
                              "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 
+class CustomUser(AbstractUser):
+    user_type_data = ((1, "HOD"), (2, "TEACHER"), (3, "STUDENT"), (4, "TRAINER"), (5, "TRAINEE"))
+    user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
+
 
 class student(models.Model):
     student_id = models.AutoField(primary_key=True)
@@ -115,36 +119,41 @@ class trainerreg(models.Model):
 
 
 class fees(models.Model):
-    fees_id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(to=CustomUser, on_delete=models.CASCADE)
     feetype = models.CharField(max_length=35, choices=FEES_CHOICES)
     feeamount = models.IntegerField()
     paymentstatus = models.CharField(max_length=50)
     due = models.CharField(max_length=50)
-    trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
-    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+    trainee_id = models.ForeignKey("publicapp.Trainees", on_delete=models.CASCADE, blank=True, null=True)
+    student_id = models.ForeignKey("publicapp.Students", on_delete=models.CASCADE, blank=True, null=True)
 
 
 class salary(models.Model):
-    salary_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     month = models.CharField(max_length=35, choices=MONTH_CHOICES)
     salaryamount = models.IntegerField()
     paymentstatus = models.CharField(max_length=50)
     pendingsalary = models.IntegerField()
-    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+    hod_id = models.ForeignKey("publicapp.Hods", on_delete=models.CASCADE, blank=True, null=True)
     # trainer_id=models.IntegerField()
-    teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    teacher_id = models.ForeignKey("publicapp.Teacher", on_delete=models.CASCADE, blank=True, null=True)
+    trainer_id = models.ForeignKey("publicapp.Trainers", on_delete=models.CASCADE, blank=True, null=True)
 
 
-class interplacement(models.Model):
-    interplacement_id = models.AutoField(primary_key=True)
-    companyname = models.CharField(max_length=10)
-    date = models.DateField()
-    time = models.TimeField(max_length=10)
-    course_id = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True)
-    job_description = models.CharField(max_length=100)
-    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
-    # trainer_id=models.IntegerField()
-    trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+class StudyMaterial(models.Model):
+    material_type = models.CharField(choices=(('video', 'Video'), ('note', 'Note')), max_length=12)
+    course = models.ForeignKey(to="publicapp.courses", on_delete=models.CASCADE, blank=True, null=True)
+    subject = models.ForeignKey(to="publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True)
+    file = models.FileField(upload_to='study-material')
+    uploaded_by = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    uploaded_on = models.DateTimeField(auto_now_add=True)
+
+
+
+
+    # hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+    # # trainer_id=models.IntegerField()
+    # trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
 
 
 class attendance(models.Model):
@@ -181,6 +190,14 @@ class courses(models.Model):
 
     def _str_(self):
         return self.course_name
+
+
+class interplacement(models.Model):
+    companyname = models.CharField(max_length=10)
+    date = models.DateField()
+    time = models.TimeField(max_length=10)
+    course = models.ForeignKey(courses, on_delete=models.CASCADE, blank=True, null=True)
+    job_description = models.CharField(max_length=100)
 
 
 class subjects(models.Model):
@@ -329,9 +346,6 @@ class notes(models.Model):
     notes_pdf = models.FileField(upload_to="Notes")
 
 
-class CustomUser(AbstractUser):
-    user_type_data = ((1, "HOD"), (2, "TEACHER"), (3, "STUDENT"), (4, "TRAINER"), (5, "TRAINEE"))
-    user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
 
 
 class Hods(models.Model):

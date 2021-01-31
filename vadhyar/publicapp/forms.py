@@ -24,9 +24,10 @@ from publicapp.models import recordedvideos
 from publicapp.models import applyforexam
 # from publicapp.models import courestimetable
 from publicapp.models import commontimetable
-from publicapp.models import notes
+from publicapp.models import notes, Hods
 
 # from vadhyar.institute.models import Course
+
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
                              "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
@@ -66,6 +67,9 @@ class studentForm(forms.Form):
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+
 
 class trainerregForm(forms.Form):
     # DEPARTMENT_CHOICES = (('1-4', '1-4'),
@@ -94,7 +98,7 @@ class trainerregForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(trainerregForm, self).__init__(*args, **kwargs)
         self.fields['course'] = forms.ChoiceField(
-            choices=[(o.course_name, str(o.course_name)) for o in courses.objects.all()]
+            choices=[(o.courses_id, str(o.course_name)) for o in courses.objects.all()]
         )
         # self.fields['department'].choices = self.DEPARTMENT_CHOICES
         self.fields['available_time'].choices = self.AVAILABLETIME_CHOICES
@@ -205,26 +209,48 @@ class traineeForm(forms.Form):
 
 
 class feesForm(forms.Form):
-    #  
-    feetype = forms.CharField(label="feetype", max_length=35)
+    FEES_CHOICES = (
+        ("june-september", "june-september"),
+        ("october-december", "october-december"),
+        ("january-march", "january-march")
+    )
+
+    feetype = forms.ChoiceField(label="feetype", choices=FEES_CHOICES)
     feeamount = forms.IntegerField(label="feeamount")
     paymentstatus = forms.CharField(label="paymentstatus", max_length=50)
     due = forms.CharField(max_length=50, label="due")
 
 
-class salaryForm(forms.ModelForm):
+class salaryForm(forms.Form):
+
     def __init__(self, *args, **kwargs):
         super(salaryForm, self).__init__(*args, **kwargs)
         print(*args[1])
+        # instance = Hods.objects.get(id=*args[1])
+        # print(instance.hod.username)
 
-    class Meta:
-        model = salary
-        fields = ['month', 'salaryamount', 'paymentstatus', 'pendingsalary']
+    # class Meta:
+    #     model = salary
+    #     fields = ['month', 'salaryamount', 'paymentstatus', 'pendingsalary']
     # id=    (primary_key=True)
-    # month=forms.CharField(label="month",max_length=10)
-    # salaryamount=forms.IntegerField(label="salaryamount")
-    # paymentstatus=forms.CharField(label="paymentstatus",max_length=50)
-    # pendingsalary=forms.IntegerField(label="pendingsalary")
+    MONTH_CHOICES = (
+        ("january", "january"),
+        ("february", "february"),
+        ("march", "march"),
+        ("april", "april"),
+        ("may", "may"),
+        ("june", "june"),
+        ("july", "july"),
+        ("august", "august"),
+        ("september", "september"),
+        ("october", "october"),
+        ("november", "november"),
+        ("december", "december")
+    )
+    month=forms.ChoiceField(label="month", choices=MONTH_CHOICES)
+    salaryamount=forms.IntegerField(label="salaryamount")
+    paymentstatus=forms.CharField(label="paymentstatus",max_length=50)
+    pendingsalary=forms.IntegerField(label="pendingsalary")
     # hod_id=forms.IntegerField()
     # trainer_id=forms.IntegerField()
     # teacher_id=forms.IntegerField()
@@ -235,6 +261,21 @@ class interplacementForm(forms.Form):
     date = forms.DateField(label="date")
     time = forms.TimeField(label="time")
     description = forms.CharField(label="description", max_length=100)
+
+
+class InterviewAddForm(forms.Form):
+    companyname = forms.CharField(label="companyname", max_length=10)
+    description = forms.CharField(label="description", max_length=100)
+    date = forms.DateField(label="Date", widget=DateInput())
+    time = forms.TimeField(label="time", widget=TimeInput())
+
+    def __init__(self, *args, **kwargs):
+        super(InterviewAddForm, self).__init__(*args, **kwargs)
+        self.fields['course_name'] = forms.ChoiceField(
+            choices=[(o.courses_id, str(o.course_name)) for o in courses.objects.all()]
+        )
+
+    course_name = forms.ChoiceField(label="Please Enter Course Name")
 
 
 class attendanceForm(forms.Form):
