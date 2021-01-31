@@ -223,19 +223,36 @@
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                                 
-                                                
+
+
                                                 <li class="nav-item">
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-															<img src="static/teacherapp/img/product/pro4.jpg" alt="" />
+															<img src="static/hodapp/img/product/pro4.jpg" alt="" />
 															<span class="admin-name">{{ request.user }}</span>
 															<i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
 														</a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                        <li><a href="{% url 'teacherprofile' %}"><span class="edu-icon edu-locked author-log-ic"></span>My Profile</a>
+                                                        <li><a href="{% url 'hodprofile' %}"><span class="edu-icon edu-locked author-log-ic"></span>My Profile</a>
                                                         <li><a href="/logout"><span class="edu-icon edu-locked author-log-ic"></span>Log Out</a>
                                                         </li>
                                                     </ul>
                                                 </li>
+                                                                                                {% else %}
+ <li class="nav-item">
+                                                    <a href="{% url 'email_login' %}" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+															<img src="{% static 'adminapp/img/product/pro4.jpg' alt="" %}"/>
+
+															<span class="admin-name">Please Login</span>
+															<i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
+														</a>
+                                                    <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
+
+                                                        <li><a href="/email_login"><span class="edu-icon edu-locked author-log-ic"></span>Login</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                                                                        {% endif %}
+
                                                 
                                             </ul>
                                         </div>
