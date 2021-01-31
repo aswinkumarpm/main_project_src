@@ -839,6 +839,7 @@ def recordvideos(request):
         instance = form.save()
         print(instance)
         print('video saved')
+        print('video saved')
 
     return render(request, "adminapp/recordvideos.html", {'form' : form})
 
