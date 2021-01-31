@@ -36,9 +36,8 @@ from .models import subjects
 from .models import Teacher
 from .models import Trainees
 from .models import Trainers
-
-
 # Create your views here.
+from .utils import generate_timetable
 
 
 def test_test(request):
@@ -1525,3 +1524,13 @@ def studreport(request):
         stu.save()
         return redirect('teacherindex')
     return render(request, "teacherapp/studreport.html", {'form': form})
+
+
+def time_table_view(request, teacher_type):
+    time_table = generate_timetable()
+    if teacher_type == 'teacher':
+        time_table = time_table.filter(teacher__user_type=2)
+    else:
+        time_table = time_table.filter(teacher__user_type=4)
+
+    return render(request, 'hod/time-table.html', {'time_table':time_table})

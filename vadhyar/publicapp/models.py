@@ -525,9 +525,8 @@ class Complaint(models.Model):
         return f'complaint from {self.user}'
 
 
-
 class Exam(models.Model):
-    exam_name  = models.CharField(max_length=250, null=True, blank=True)
+    exam_name = models.CharField(max_length=250, null=True, blank=True)
     course = models.ForeignKey(to=courses, on_delete=models.CASCADE, blank=True, null=True)
     subject = models.ForeignKey(to=subjects, on_delete=models.CASCADE, blank=True, null=True)
     conducted_by = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, blank=True, null=True)
@@ -547,7 +546,6 @@ class Result(models.Model):
     date = models.DateField(auto_now_add=True)
     grade = models.CharField(max_length=50, null=True, blank=True)
     status = models.CharField(max_length=50, null=True, blank=True)
-
 
 
 class TimeTable(models.Model):
