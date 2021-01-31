@@ -12,7 +12,7 @@ if settings.DEBUG:
     urlpatterns = [
         path('admin/', admin.site.urls),
         url(r'^$', index, name='index'),
-        # url(r'^courses$', courses, name='courses'),
+        url(r'^courseslist$', courseslist, name='courseslist'),
         url(r'^contact$', contact, name='contact'),
         url(r'^teachers$', teachers, name='teachers'),
         url(r'^tution$', tution, name='tution'),

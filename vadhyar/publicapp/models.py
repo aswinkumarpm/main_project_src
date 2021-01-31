@@ -294,6 +294,17 @@ class complaints(models.Model):
     student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
     trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
 
+class Complaint(models.Model):
+    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='user')
+    to_who = (("HOD", "HOD"), ("ADMIN", "ADMIN"))
+    to = models.CharField(max_length=50,choices=to_who)
+    complaint = models.TextField()
+    response = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    department = models.CharField(max_length=120,blank=True, null=True)
+
+    def _str_(self):
+        return f'complaint from {self.user}'
 
 class recordedvideos(models.Model):
     recordedvideos_id = models.AutoField(primary_key=True)
