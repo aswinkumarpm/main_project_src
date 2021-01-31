@@ -8,7 +8,7 @@ from publicapp.models import courses
 from publicapp.models import StudyMaterial
 from publicapp.models import subjects
 # from vadhyar.institute.models import Course
-from .models import Complaint
+from .models import Complaint, Exam, CustomUser
 
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
