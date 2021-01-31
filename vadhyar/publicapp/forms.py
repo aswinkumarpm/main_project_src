@@ -27,6 +27,7 @@ from publicapp.models import commontimetable
 from publicapp.models import notes, Hods
 
 # from vadhyar.institute.models import Course
+from publicapp.models import StudyMaterial
 
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
@@ -311,6 +312,11 @@ class subjectsForm(forms.ModelForm):
     # subject_name = forms.CharField(label="subjectname",max_length=50)
     # department = forms.CharField(label="department",max_length=15)
     # teacher_id= forms.CharField(label="teacher",max_length=20)
+
+class StudyMaterialForm(forms.ModelForm):
+    class Meta:
+        model = StudyMaterial
+        fields = ['material_type', 'course', 'subject', 'file']
 
 
 class feedbackstudentForm(forms.Form):

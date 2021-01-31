@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
-    trainerregForm, feesForm, InterviewAddForm
+    trainerregForm, feesForm, InterviewAddForm, StudyMaterialForm
 from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Trainers, fees, \
     interplacement
 
@@ -833,7 +833,13 @@ def all_videos(request):
 
 
 def recordvideos(request):
-    return render(request, "adminapp/recordvideos.html")
+    form = StudyMaterialForm(request.POST, request.FILES)
+    if form.is_valid():
+        instance = form.save()
+        print(instance)
+        print('video saved')
+
+    return render(request, "adminapp/recordvideos.html", {'form' : form})
 
 
 def all_students(request):

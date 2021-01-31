@@ -80,8 +80,9 @@ class teacherreg(models.Model):
     pincode = models.IntegerField(blank=True, null=True)
     password = models.CharField(max_length=20, blank=True, null=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.name
+
 
 
 class trainee(models.Model):
@@ -188,7 +189,7 @@ class courses(models.Model):
     hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
     trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
 
-    def _str_(self):
+    def __str__(self):
         return self.course_name
 
 
