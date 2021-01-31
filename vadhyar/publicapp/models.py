@@ -528,11 +528,11 @@ class Complaint(models.Model):
 class TimeTable(models.Model):
     subject = models.ForeignKey(to=subjects, on_delete=models.CASCADE, blank=True, null=True)
     course = models.ForeignKey(to=courses, on_delete=models.CASCADE, blank=True, null=True)
-    teacher = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='teacher')
+    teacher = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
     time = models.CharField(max_length=16)
     date = models.DateField()
 
 
 class StudentsAttending(models.Model):
     time_table = models.ForeignKey(to=TimeTable, on_delete=models.CASCADE)
-    student = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='teacher')
+    student = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
