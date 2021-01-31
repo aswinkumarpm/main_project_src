@@ -96,7 +96,7 @@ def hod_salary(request, id=None):
                          pendingsalary=pendingsalary)
         alldata.save()
 
-        return redirect('adminindex')
+        return redirect('admindex')
 
     #
     #     return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance})

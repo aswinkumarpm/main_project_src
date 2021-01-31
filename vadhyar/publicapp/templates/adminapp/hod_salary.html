@@ -36,7 +36,7 @@
                     <ul id="myTabedu1" class="tab-review-design">
                         <li class="active"><a href="#description">Basic Information</a></li>
 
-                        <li><a href="#info">Salary Details</a></li>
+                        <li><a href="#info">Salary Update Form</a></li>
 
 
                     </ul>
@@ -87,50 +87,6 @@
                                                         {% endif %}
 
                                                         </p>
-
-
-                                                                                   </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="product-tab-list tab-pane fade" id="info">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="review-content-section">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <form class="acount-infor" method="POST">
-                                                {% csrf_token %}
-                                                <div class="devit-card-custom">
-
-                                                    {{ form.as_p }}
-
-                                                    <button type="submit"
-                                                            class="btn btn-primary waves-effect waves-light">Submit
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-        </div>
-            </div>
-        </div>
-
-
 <div class="product-status mg-b-15">
 <div class="container-fluid">
     <div class="row">
@@ -179,6 +135,50 @@
         </div>
     </div>
 </div>
+
+
+                                                                                   </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="product-tab-list tab-pane fade" id="info">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="review-content-section">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <form class="acount-infor" method="POST">
+                                                {% csrf_token %}
+                                                <div class="devit-card-custom">
+
+                                                    {{ form.as_p }}
+
+                                                    <button type="submit"
+                                                            class="btn btn-primary waves-effect waves-light">Submit
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+        </div>
+            </div>
+        </div>
+
+
 
 
 {%  endblock  %}

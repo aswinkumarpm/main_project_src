@@ -120,7 +120,7 @@ class trainerreg(models.Model):
 
 
 class fees(models.Model):
-    user = models.OneToOneField(to=CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     feetype = models.CharField(max_length=35, choices=FEES_CHOICES)
     feeamount = models.IntegerField()
     paymentstatus = models.CharField(max_length=50)
@@ -446,6 +446,19 @@ class Trainees(models.Model):
     schoolname = models.CharField(max_length=50, blank=True, null=True)
     traineetimage = models.FileField(upload_to="Trainee", blank=True, null=True)
 
+
+class leavereport(models.Model):
+    leavereport_id = models.AutoField(primary_key=True)
+    student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
+    teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True)
+    trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+    hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
+
+    from_date = models.DateField(blank=True, null=True)
+    to_date = models.DateField(blank=True, null=True)
+    teacheremail = models.CharField(max_length=20)
+    leave_message = models.TextField()
+    leave_status = models.IntegerField(default=0)
 
 
 class LeaveReportStudent(models.Model):
