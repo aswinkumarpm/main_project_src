@@ -14,6 +14,7 @@ from publicapp.models import Students
 from publicapp.models import Trainees
 from publicapp.models import CustomUser
 from publicapp.models import Trainers
+from publicapp.models import StudyMaterial
 
 
 # Register your models here.
@@ -33,4 +34,5 @@ admin.site.register(Students)
 admin.site.register(Complaint)
 admin.site.register(CustomUser)
 admin.site.register(Trainers)
+admin.site.register(StudyMaterial)
 

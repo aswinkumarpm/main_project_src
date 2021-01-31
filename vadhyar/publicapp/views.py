@@ -8,9 +8,10 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
-    trainerregForm, feesForm, InterviewAddForm
+    trainerregForm, feesForm, InterviewAddForm, StudyMaterialForm
 from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Trainers, fees, \
-    interplacement
+    interplacement, StudyMaterial
+
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
     ComplaintForm
 from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Complaint, Trainers
@@ -108,10 +109,9 @@ def hod_salary(request, id=None):
     # alldata.save()
 
     print("aswin")
-    i = salary.objects.all()
-    for q in i:
-        print(q)
-    return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance})
+    salary_history = salary.objects.filter(user_id=user_instance.id)
+
+    return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance, "salaryhistory" : salary_history})
 
 
 def teacher_salary(request, id=None):
@@ -135,7 +135,10 @@ def teacher_salary(request, id=None):
 
         return redirect('admindex')
 
-    return render(request, 'adminapp/teacher_salary.html', {"form": form, "instance": instance})
+    salary_history = salary.objects.filter(user_id=user_instance.id)
+
+
+    return render(request, 'adminapp/teacher_salary.html', {"form": form, "instance": instance,  "salaryhistory" : salary_history})
 
 
 def trainer_salary(request, id=None):
@@ -159,7 +162,9 @@ def trainer_salary(request, id=None):
 
         return redirect('admindex')
 
-    return render(request, 'adminapp/trainer_salary.html', {"form": form, "instance": instance})
+    salary_history = salary.objects.filter(user_id=user_instance.id)
+
+    return render(request, 'adminapp/trainer_salary.html', {"form": form, "instance": instance, "salaryhistory" : salary_history})
 
 
 def trainee_fee(request, id=None):
@@ -183,7 +188,11 @@ def trainee_fee(request, id=None):
 
         return redirect('admindex')
 
-    return render(request, 'adminapp/trainee_fee.html', {"form": form, "instance": instance})
+
+    fee_history = fees.objects.filter(user_id=user_instance.id)
+
+
+    return render(request, 'adminapp/trainee_fee.html', {"form": form, "instance": instance, "fee_history": fee_history})
 
 
 def student_fee(request, id=None):
@@ -206,8 +215,9 @@ def student_fee(request, id=None):
         alldata.save()
 
         return redirect('admindex')
+    fee_history = fees.objects.filter(user_id=user_instance.id)
 
-    return render(request, 'adminapp/student_fee.html', {"form": form, "instance": instance})
+    return render(request, 'adminapp/student_fee.html', {"form": form, "instance": instance, "fee_history": fee_history})
 
 
 # def hod_test_salary(request, id=None):
@@ -345,8 +355,8 @@ def traineesave(request):
     return render(request, "publicapp/index.html", {})
 
 
-# def courses(request):
-#     return render(request, "publicapp/courses.html", {})
+def courseslist(request):
+    return render(request, "publicapp/courses.html", {})
 
 
 def contact(request):
@@ -815,15 +825,24 @@ def interplacementadd(request):
 
 
 def all_interview(request):
-    return render(request, "adminapp/all_interview.html")
+    interviews = interplacement.objects.all()
+
+    return render(request, "adminapp/all_interview.html", {'interviews' : interviews})
 
 
 def all_videos(request):
-    return render(request, "adminapp/all_videos.html")
+    queryset = StudyMaterial.objects.filter(material_type='video')
+    return render(request, "adminapp/all_videos.html", {'queryset' : queryset})
 
 
 def recordvideos(request):
-    return render(request, "adminapp/recordvideos.html")
+    form = StudyMaterialForm(request.POST, request.FILES)
+    if form.is_valid():
+        instance = form.save()
+        print(instance)
+        print('video saved')
+
+    return render(request, "adminapp/recordvideos.html", {'form' : form})
 
 
 def all_students(request):
