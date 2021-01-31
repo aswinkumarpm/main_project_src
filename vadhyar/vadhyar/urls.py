@@ -2,11 +2,10 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from publicapp.views import *
-from django.contrib.auth import views as auth_views
-
 
 if settings.DEBUG:
     urlpatterns = [
@@ -186,8 +185,8 @@ if settings.DEBUG:
         url(r'^email_login$', email_logins, name='email_login'),
         url(r'^password/$', change_password, name='change_password'),
         path('logout/', auth_views.LogoutView.as_view()),
-        path('complaints/', complaint_view, name = "complaint_view"),
-        path(r'^add_reply/<int:id>/', add_reply, name='add_reply'),
+        path('complaints/', complaint_view, name="complaint_view"),
+        path('add_reply/<int:id>/', add_reply, name='add_reply'),
 
     ]
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
