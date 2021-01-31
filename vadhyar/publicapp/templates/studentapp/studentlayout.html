@@ -195,6 +195,7 @@
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                                 
+                                                                                                                                                        {% if user.is_authenticated %}
 
 
                                                 <li class="nav-item">
@@ -212,7 +213,7 @@
                                                                                                 {% else %}
  <li class="nav-item">
                                                     <a href="{% url 'email_login' %}" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-															<img src="{% static 'adminapp/img/product/pro4.jpg' alt="" %}"/>
+															<img src="static 'adminapp/img/product/pro4.jpg' alt="" %}"/>
 
 															<span class="admin-name">Please Login</span>
 															<i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
