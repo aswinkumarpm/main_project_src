@@ -211,7 +211,7 @@ class subjects(models.Model):
     teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True,
                                    related_name="subject_teacher")
 
-    def _str_(self):
+    def __str__(self):
         return self.subject_name
 
 
