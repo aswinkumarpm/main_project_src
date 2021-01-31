@@ -33,6 +33,20 @@ from publicapp.models import StudyMaterial
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
                              "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+DEPARTMENT_CHOICES = (('1-4', '1-4'),
+                      ('5-7', '5-7'),
+                      ('8-10', '8-10'),
+                      ('+1 Science', '+1 Science'),
+                      ('+2 science', '+2 science'),
+                      ('+1 Commerce', '+1 Commerce'),
+                      ('+2 Commerce', '+2 Commerce'),
+                      ('+2 Commerce', '+2 Commerce'),
+                      ('B.com/ M.com', 'B.com/ M.com'),
+                      ('Civil Engineering', 'Civil Engineering'),
+                      ('Mechanical Engineering', 'Mechanical Engineering'),
+                      ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
+                      ('Computer Science Engineering', 'Computer Science Engineering'),
+                      )
 
 
 class LoginForm(forms.Form):
@@ -123,20 +137,6 @@ class trainerregForm(forms.Form):
 
 
 class teacherregForm(forms.Form):
-    DEPARTMENT_CHOICES = (('1-4', '1-4'),
-                          ('5-7', '5-7'),
-                          ('8-10', '8-10'),
-                          ('+1 Science', '+1 Science'),
-                          ('+2 science', '+2 science'),
-                          ('+1 Commerce', '+1 Commerce'),
-                          ('+2 Commerce', '+2 Commerce'),
-                          ('+2 Commerce', '+2 Commerce'),
-                          ('B.com/ M.com', 'B.com/ M.com'),
-                          ('Civil Engineering', 'Civil Engineering'),
-                          ('Mechanical Engineering', 'Mechanical Engineering'),
-                          ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
-                          ('Computer Science Engineering', 'Computer Science Engineering'),
-                          )
 
     AVAILABLETIME_CHOICES = (('4-5', '4-5'),
                              ('5-6', '5-6'),
@@ -300,21 +300,23 @@ class coursesForm(forms.Form):
     course_name = forms.CharField(label="coursename", max_length=50)
 
     course_duration = forms.CharField(label="duration", max_length=50)
-    course_description = forms.CharField(label="description", max_length=50)
-    course_department = forms.CharField(label="department", max_length=15)
-    course_trainer = forms.CharField(label="trainer", max_length=15)
+    # course_description = forms.CharField(label="description", max_length=50)
+    course_department = forms.CharField(label="department", max_length=15, required=False)
+    # course_trainer = forms.CharField(label="trainer", max_length=15)
     course_fee = forms.IntegerField()
 
 
-class subjectsForm(forms.ModelForm):
-    class Meta:
-        model = subjects
-        fields = ['subject_name', 'department', 'teacher_id']
+class subjectsForm(forms.Form):
+
+    # class Meta:
+    #     model = subjects
+    #     fields = ['subject_name', 'department']
 
     # id =    (primary_key=True)
     # subject_name = forms.CharField(label="subjectname",max_length=50)
-    # department = forms.CharField(label="department",max_length=15)
-    # teacher_id= forms.CharField(label="teacher",max_length=20)
+    subject_name= forms.CharField(label="Subject Name",max_length=50)
+
+    department= forms.ChoiceField(label="Department", choices=DEPARTMENT_CHOICES)
 
 class StudyMaterialForm(forms.ModelForm):
     class Meta:

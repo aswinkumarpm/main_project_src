@@ -181,10 +181,11 @@ class attendancereport(models.Model):
 class courses(models.Model):
     courses_id = models.AutoField(primary_key=True)
     course_name = models.CharField(max_length=50)
-    course_pic = models.FileField(upload_to='uploads')
+    course_pic = models.FileField(upload_to='uploads', blank=True, null=True)
     course_duration = models.CharField(max_length=20)
-    course_department = models.CharField(max_length=15)
-    course_trainer = models.CharField(max_length=15)
+    course_department = models.CharField(max_length=15, blank=True, null=True)
+    course_description= models.CharField(max_length=15, blank=True, null=True)
+    course_trainer = models.CharField(max_length=15, blank=True, null=True)
     course_fee = models.IntegerField()
     hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
     trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
@@ -208,7 +209,7 @@ class subjects(models.Model):
     teacher = models.CharField(max_length=20, null=True, blank=True)
     hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True,
                                related_name="subject_hod")
-    teacher_id = models.ForeignKey("publicapp.teacherreg", on_delete=models.CASCADE, blank=True, null=True,
+    teacher_id = models.ForeignKey("publicapp.Teacher", on_delete=models.CASCADE, blank=True, null=True,
                                    related_name="subject_teacher")
 
     def __str__(self):
@@ -284,17 +285,17 @@ class complaints(models.Model):
     student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
     trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
 
-class Complaint(models.Model):
-    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='user')
-    to_who = (("HOD", "HOD"), ("ADMIN", "ADMIN"))
-    to = models.CharField(max_length=50,choices=to_who)
-    complaint = models.TextField()
-    response = models.TextField(blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    department = models.CharField(max_length=120,blank=True, null=True)
-
-    def _str_(self):
-        return f'complaint from {self.user}'
+# class Complaint(models.Model):
+#     user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='user')
+#     to_who = (("HOD", "HOD"), ("ADMIN", "ADMIN"))
+#     to = models.CharField(max_length=50,choices=to_who)
+#     complaint = models.TextField()
+#     response = models.TextField(blank=True, null=True)
+#     created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+#     department = models.CharField(max_length=120,blank=True, null=True)
+#
+#     def _str_(self):
+#         return f'complaint from {self.user}'
 
 class recordedvideos(models.Model):
     recordedvideos_id = models.AutoField(primary_key=True)
@@ -382,6 +383,10 @@ class Teacher(models.Model):
     housename = models.CharField(max_length=50, blank=True, null=True)
     place = models.CharField(max_length=50, blank=True, null=True)
     pincode = models.IntegerField(blank=True, null=True)
+
+
+    def __str__(self):
+        return self.teacher.username
 
 
 class Students(models.Model):

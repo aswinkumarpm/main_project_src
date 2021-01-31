@@ -44,40 +44,44 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="review-content-section">
                                     <div id="dropzone1" class="pro-ad addcoursepro">
-                                        <form action="/upload" class="dropzone dropzone-custom needsclick addcourse" id="demo1-upload">
+                                        <form class="dropzone dropzone-custom needsclick addcourse" id="demo1-upload" method="post">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                    <div class="form-group">
-                                                        <input name="coursename" type="text" class="form-control" placeholder="Course Name">
-                                                    </div>
-                                                    
-                                                    <div class="form-group">
-                                                        <input name="duration" type="text" class="form-control" placeholder="Course Duration">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input name="price" type="number" class="form-control" placeholder="Course Price">
-                                                    </div>
-                                                    <div class="form-group alert-up-pd">
-                                                        <div class="dz-message needsclick download-custom">
-                                                            <i class="fa fa-download edudropnone" aria-hidden="true"></i>
-                                                            <h2 class="edudropnone">Drop image here or click to upload.</h2>
-                                                            
-                                                            <input name="filename" type="file" id="myfile" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                    <div class="form-group res-mg-t-15">
-                                                        <input name="department" type="text" class="form-control" placeholder="Department">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <textarea name="description" placeholder="Description"></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input name="crprofessor" type="text" class="form-control" placeholder="trainer">
-                                                    </div>
-                                                    
-                                                </div>
+
+                                                         {% csrf_token %}
+                                                    {{ form.as_p }}
+
+<!--                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">-->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <input name="coursename" type="text" class="form-control" placeholder="Course Name">-->
+<!--                                                    </div>-->
+<!--                                                    -->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <input name="duration" type="text" class="form-control" placeholder="Course Duration">-->
+<!--                                                    </div>-->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <input name="price" type="number" class="form-control" placeholder="Course Price">-->
+<!--                                                    </div>-->
+<!--                                                    <div class="form-group alert-up-pd">-->
+<!--                                                        <div class="dz-message needsclick download-custom">-->
+<!--                                                            <i class="fa fa-download edudropnone" aria-hidden="true"></i>-->
+<!--                                                            <h2 class="edudropnone">Drop image here or click to upload.</h2>-->
+<!--                                                            -->
+<!--                                                            <input name="filename" type="file" id="myfile" />-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">-->
+<!--                                                    <div class="form-group res-mg-t-15">-->
+<!--                                                        <input name="department" type="text" class="form-control" placeholder="Department">-->
+<!--                                                    </div>-->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <textarea name="description" placeholder="Description"></textarea>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <input name="crprofessor" type="text" class="form-control" placeholder="trainer">-->
+<!--                                                    </div>-->
+<!--                                                    -->
+<!--                                                </div>-->
                                             </div>
                                             <div class="row">
                                                 <div class="col-lg-12">

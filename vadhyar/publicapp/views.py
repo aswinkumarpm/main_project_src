@@ -8,9 +8,9 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
-    trainerregForm, feesForm, InterviewAddForm, StudyMaterialForm
+    trainerregForm, feesForm, InterviewAddForm, StudyMaterialForm, coursesForm
 from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Trainers, fees, \
-    interplacement, StudyMaterial
+    interplacement, StudyMaterial, subjects, courses
 
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
     ComplaintForm
@@ -579,12 +579,26 @@ def regteacher(request):
     return render(request, "publicapp/regteacher.html", {})
 
 
-def courseadd(request):
-    return render(request, "adminapp/courseadd.html")
 
 
-def all_course(request):
-    return render(request, "adminapp/all_course.html")
+# def all_subjects(request):
+#     sub = subjects.objects.all()
+#     print(sub)
+#
+#     return render(request, "adminapp/all_subjects.html", {'sub' : sub})
+
+
+# def subjectadd(request):
+#     all_teachers = Teacher.objects.all()
+#     form = subjectsForm(request.POST)
+#     if form.is_valid():
+#         subject_name = request.POST["subject_name"]
+#         department = request.POST["department"]
+#         stu = subjects.objects.create_user(subject_name=subject_name, department=department)
+#
+#         stu.save()
+#         return redirect('admindex')
+#     return render(request, "adminapp/subjectadd.html", {all_teachers: all_teachers, "form": form})
 
 
 def add_teacher(request):
@@ -769,17 +783,44 @@ def trainersave(request):
     return render(request, "adminapp/add_trainer.html", {"form": form})
 
 
+
+def all_course(request):
+    queryset = courses.objects.all()
+    print(queryset)
+    return render(request, "adminapp/all_course.html", {'queryset' : queryset})
+
+
+def courseadd(request):
+    form = coursesForm(request.POST)
+    if form.is_valid():
+        course_name = request.POST["course_name"]
+        course_duration = request.POST["course_duration"]
+        course_department = request.POST.get("course_department", None)
+        course_fee = request.POST["course_fee"]
+        stu = courses(course_name=course_name, course_duration=course_duration, course_department=course_department, course_fee=course_fee)
+
+        stu.save()
+        return redirect('admindex')
+    return render(request, "adminapp/courseadd.html", {'form' : form})
+
+
 def all_subjects(request):
-    return render(request, "adminapp/all_subjects.html")
+    sub = subjects.objects.all()
+    print(sub)
+
+    return render(request, "adminapp/all_subjects.html", {'sub' : sub})
 
 
 def subjectadd(request):
-    all_teachers = teacherreg.objects.all()
+    all_teachers = Teacher.objects.all()
     form = subjectsForm(request.POST)
     if form.is_valid():
-        instance = form.save()
-        print(instance)
-        form.save()
+        subject_name = request.POST["subject_name"]
+        department = request.POST["department"]
+        stu = subjects(subject_name=subject_name, department=department)
+
+        stu.save()
+        return redirect('admindex')
     return render(request, "adminapp/subjectadd.html", {all_teachers: all_teachers, "form": form})
 
 
