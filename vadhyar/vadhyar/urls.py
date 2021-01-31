@@ -79,7 +79,7 @@ if settings.DEBUG:
         url(r'^recordvideos$', recordvideos, name='recordvideos'),
         url(r'^all_students$', all_students, name='all_students'),
         url(r'^studentfee$', studentfee, name='studentfee'),
-        url(r'^complaints$', complaints, name='complaints'),
+        # url(r'^complaintss$', complaintss, name='complaintss'),
         url(r'^all_teachers$', all_teachers, name='all_teachers'),
         url(r'^all_hod$', all_hod, name='all_hod'),
         url(r'^all_trainers$', all_trainers, name='all_trainers'),
@@ -186,6 +186,9 @@ if settings.DEBUG:
         url(r'^email_login$', email_logins, name='email_login'),
         url(r'^password/$', change_password, name='change_password'),
         path('logout/', auth_views.LogoutView.as_view()),
+        path('complaints/', complaint_view, name = "complaint_view"),
+        path(r'^add_reply/<int:id>/', add_reply, name='add_reply'),
+
     ]
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -489,3 +489,16 @@ def save_user_profile(sender, instance, **kwargs):
     if instance.user_type == 5:
         instance.trainees.save()
 
+
+
+class Complaint(models.Model):
+    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='user')
+    to_who = (("HOD", "HOD"), ("ADMIN", "ADMIN"))
+    to = models.CharField(max_length=50,choices=to_who)
+    complaint = models.TextField()
+    response = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    department = models.CharField(max_length=120,blank=True, null=True)
+
+    def __str__(self):
+        return f'complaint from {self.user}'
