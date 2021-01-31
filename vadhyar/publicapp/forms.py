@@ -27,6 +27,8 @@ from publicapp.models import commontimetable
 from publicapp.models import notes
 
 # from vadhyar.institute.models import Course
+from .models import Complaint
+
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
                              "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
@@ -328,3 +330,9 @@ class TraineeRegForm(forms.Form):
         )
 
     course_name = forms.ChoiceField(label="Please Enter Course Name")
+
+
+class ComplaintForm(forms.ModelForm):
+    class Meta:
+        model = Complaint
+        fields = ['complaint','to']

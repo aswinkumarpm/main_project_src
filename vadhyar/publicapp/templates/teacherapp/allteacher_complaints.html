@@ -40,18 +40,23 @@
                     <table>
                         <tr>
                             <th>No</th>
-                            <th>Full Name</th>
-                            
-                            <th>Email</th>
                             <th>Date</th>
                             <th>Recevier</th>
                             <th>Complaint</th>
                             <th>Status From Recevier</th>
                             
                         </tr>
+                        {% if query.count >= 0 %}
+                            {% for i in query %}
                         <tr>
-                            
+                            <td>{{ i.id | safe}}</td>
+                            <td>{{ i.created }}</td>
+                            <td>{{ i.to }}</td>
+                            <td>{{ i.complaint }}</td>
+                            <td>{{ i.response }}</td>
                         </tr>
+                        {% endfor %}
+                        {% endif %}
                         <tr>
                             
                         <tr>
@@ -72,11 +77,11 @@
                 <div class="custom-pagination">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+{#                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>#}
+{#                            <li class="page-item"><a class="page-link" href="#">1</a></li>#}
+{#                            <li class="page-item"><a class="page-link" href="#">2</a></li>#}
+{#                            <li class="page-item"><a class="page-link" href="#">3</a></li>#}
+{#                            <li class="page-item"><a class="page-link" href="#">Next</a></li>#}
                         </ul>
                     </nav>
                 </div>

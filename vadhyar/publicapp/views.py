@@ -7,8 +7,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 from .EmailBackend import EmailBackEnd
-from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm
-from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher
+from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
+    ComplaintForm
+from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Complaint, Trainers
 
 
 # Create your views here.
@@ -67,7 +68,7 @@ def test_test(request):
 def test_salary(request, id=None):
     print(id)
 
-    form = salaryForm(request.POST,id)
+    form = salaryForm(request.POST, id)
     print("called")
     if form.is_valid():
         instance = form.save()
@@ -140,8 +141,10 @@ def view_students(request):
         print(i.standard)
     return render(request, 'adminapp/all_students.html', {'teachers': all_teachers})
 
+
 def index(request):
     return render(request, "publicapp/index.html", {})
+
 
 def studentsave(request):
     if request.method == 'POST':
@@ -166,7 +169,6 @@ def studentsave(request):
         student.dob = user_dob
         student.save()
 
-
         print("inside approve")
 
         subject = 'welcome to Vadhyar APP world'
@@ -182,7 +184,6 @@ def studentsave(request):
 
         send_mail(subject, message, email_from, [user_email, ])
     return render(request, "publicapp/index.html", {})
-
 
 
 def traineesave(request):
@@ -201,7 +202,6 @@ def traineesave(request):
         print(course)
         print(uname)
 
-
         stu = CustomUser.objects.create_user(username=uname, password='q1w2e3r4', email=user_email, user_type=5)
 
         stu.save()
@@ -211,7 +211,6 @@ def traineesave(request):
         student.dob = user_dob
         student.gender = user_gender
         student.save()
-
 
         print("inside approve")
 
@@ -227,10 +226,6 @@ def traineesave(request):
 
         send_mail(subject, message, email_from, [user_email, ])
     return render(request, "publicapp/index.html", {})
-
-
-
-
 
 
 def courses(request):
@@ -596,7 +591,7 @@ def studentfee(request):
     return render(request, "adminapp/studentfee.html")
 
 
-def complaints(request):
+def complaintss(request):
     return render(request, "adminapp/complaints.html")
 
 
@@ -786,10 +781,13 @@ def trainee_report(request):
 
 
 def allteacher_complaints(request):
-    return render(request, "teacherapp/allteacher_complaints.html")
+    query = Complaint.objects.filter(user=request.user)
+    print(query)
+    return render(request, "teacherapp/allteacher_complaints.html", {"query": query})
 
 
-def teacher_complaints(request):
+def complaint_view(request):
+    # form = ComplaintForm()
     return render(request, "teacherapp/teacher_complaints.html")
 
 
@@ -875,10 +873,6 @@ def studentleavereq(request):
 
 def studentcomp(request):
     return render(request, "hodapp/studentcomp.html")
-
-
-def teachercomp(request):
-    return render(request, "hodapp/teachercomp.html")
 
 
 def trainercomp(request):
@@ -1022,7 +1016,6 @@ def hod_salary_details(request):
 
 
 def email_logins(request):
-
     print("inside email login")
     if request.method != "POST":
         form = LoginForm()
@@ -1034,10 +1027,10 @@ def email_logins(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            print("email,pass",email,password)
+            print("email,pass", email, password)
             user = EmailBackEnd.authenticate(request, username=request.POST.get('email'),
                                              password=request.POST.get('password'))
-            print("user",user)
+            print("user", user)
             if user != None:
                 login(request, user)
                 user_type = user.user_type
@@ -1066,7 +1059,7 @@ def email_logins(request):
             print("not valid")
             messages.error(request, "Invalid Login Credentials!")
 
-    return render(request,'publicapp/login.html',{"form":form})
+    return render(request, 'publicapp/login.html', {"form": form})
 
 
 def change_password(request):
@@ -1085,3 +1078,64 @@ def change_password(request):
     return render(request, 'accounts/change_password.html', {
         'form': form
     })
+
+
+#
+# def complaint_view(request):
+#     form = ComplaintForm()
+#     return render(request, "teacherapp/teacher_complaints.html",{"form":form})
+
+def teacher_complaints(request):
+    if request.method == "POST":
+        try:
+            complaint = request.POST.get('admin_hod')
+            complaints_description = request.POST.get('complaints_description')
+            # ((1, "HOD"), (2, "TEACHER"), (3, "STUDENT"), (4, "TRAINER"), (5, "TRAINEE"))
+            department = None
+            if request.user.user_type_data == 2:
+                dep = Teacher.objects.get(teacher=request.user)
+                department = dep.department
+            elif request.user.user_type_data == 3:
+                dep = Students.objects.get(student_name=request.user)
+                department = dep.standard
+            elif request.user.user_type_data == 4:
+                dep = Trainers.objects.get(trainer_name=request.user)
+                department = dep.department
+            # elif request.user.is_superuser:
+            #     department="ADMIN"
+            # else:
+            #     dep = Trainees.objects.get(trainee=request.user)
+            #     department = dep.department
+
+            obj = Complaint()
+            obj.user = request.user
+            obj.to = complaint
+            obj.complaint = complaints_description
+            obj.department = department
+            obj.save()
+            return redirect("allteacher_complaints")
+        except:
+            pass
+
+
+    else:
+        print("else")
+    return render(request, "teacherapp/teacher_complaints.html")
+
+
+def teachercomp(request):
+    if request.user.is_superuser:
+        query = Complaint.objects.filter(to="ADMIN")
+        # ((1, "HOD"), (2, "TEACHER"), (3, "STUDENT"), (4, "TRAINER"), (5, "TRAINEE"))
+    else:
+        hod = Hods.objects.get(hod=request.user)
+        department = hod.department
+
+        query = Complaint.objects.filter(to="HOD", department=department)
+
+    return render(request, "hodapp/teachercomp.html", {"query": query})
+
+
+def add_reply(request, id):
+    print("id", id)
+    return render(request, "hodapp/add_replies.html")
