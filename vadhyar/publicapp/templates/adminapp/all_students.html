@@ -45,6 +45,7 @@
                             <th>Mobile No</th>
                             
                             <th>Standard</th>
+                            <th>Image</th>
                             <!-- <th>Action</th> -->
                             
                         </tr>
@@ -52,15 +53,15 @@
                         {% for i in teachers %}
                         <tr>
                             <td>
-                                {{ i.student_id}}
+                                {{ forloop.counter}}
                             </td>
 
                           <td>
-                              {{ i.name}}
+                              {{ i.student_name.username}}
                           </td>
 
                           <td>
-                              {{ i.email}}
+                              {{ i.student_name.email}}
                           </td>
 
                           <td>
@@ -114,14 +115,21 @@
 
                           </td>
 
-                          <td>{{ i.subjects }}</td>
 
-                          {% if i.teacherimag %}
+                          {% if i.studentimage %}
 
                           <td>
-                             <img src='{{ i.teacherimag.url }}' class='img-responsive'/>
+                             <img src='{{ i.studentimage.url }}' class='img-responsive'/>
                           </td>
                           {% endif %}
+
+                            <td>
+                                <div >
+ <button class="primary">
+                                    <a href="{% url 'student_fee' i.student_name_id %}"> Fee Details</a>
+                                </button>
+                                </div>
+                            </td>
 
                         </tr>
                       {% endfor %}

@@ -46,11 +46,47 @@
                             <th>Department</th>
                             <th>Subject</th>
                             <th>Image</th>
+                            <th>Actions</th>
+                                                    </tr>
+
+
+                            {% for i in trainers %}
+                          <tr>
+                            <td>
+                                {{ i.trainer_name.username}}
+                            </td>
+
+                            <td>
+                                {{ i.trainer_name.email}}
+                            </td>
+
+                            <td>
+                                {{ i.mobile_num}}
+                            </td>
+
+                            <td>{{ i.department }}</td>
+                            <td>{{ i.course.course_name }}</td>
+
+                            {% if i.trainerimage %}
+
+                            <td>
+                               <img src='{{ i.trainerimage.url }}' class='img-responsive'/>
+                            </td>
+                            {% endif %}
+
+                                                          <td>
+                                <div >
+ <button class="primary">
+                                    <a href="{% url 'trainer_salary' i.trainer_name_id %}"> Salary Details</a>
+                                </button>
+                                </div>
+                            </td>
+
+                          </tr>
+                        {% endfor %}
                             
                             
-                        </tr>
-                        
-                        </tr>
+
                     </table>
                 </div>
                 <div class="custom-pagination">

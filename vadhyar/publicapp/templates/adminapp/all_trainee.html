@@ -47,6 +47,41 @@
                             <th>Standard</th>
                             <th>Action</th>
                         </tr>
+
+                        {% for i in trainees %}
+                          <tr>
+                              <td>{{ forloop.counter }}</td>
+                            <td>
+                                {{ i.trainee.username}}
+                            </td>
+
+                            <td>
+                                {{ i.trainee.email}}
+                            </td>
+
+                            <td>
+                                {{ i.mobile_num}}
+                            </td>
+
+                            <td>{{ i.course.course_name }}</td>
+
+                            {% if i.traineetimage %}
+
+                            <td>
+                               <img src='{{ i.traineetimage.url }}' class='img-responsive'/>
+                            </td>
+                            {% endif %}
+
+                               <td>
+                                <div >
+ <button class="primary">
+                                    <a href="{% url 'trainee_fee' i.trainee_id %}"> Fee Details</a>
+                                </button>
+                                </div>
+                            </td>
+
+                          </tr>
+                        {% endfor %}
                         
                     </table>
                 </div>

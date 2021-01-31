@@ -8,6 +8,10 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
+    trainerregForm, feesForm, InterviewAddForm
+from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Trainers, fees, \
+    interplacement
+from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
     ComplaintForm
 from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Complaint, Trainers
 
@@ -65,17 +69,36 @@ def test_test(request):
     return render(request, 'adminapp/add_professor.html')
 
 
-def test_salary(request, id=None):
-    print(id)
+# def hod_details(request, id=None):
+#     instance = get_object_or_404(Hods, id=id)
+#     print(instance)
+#
+#     return render(request, 'adminapp/hod_salary.html', {"instance": instance})
+
+
+def hod_salary(request, id=None):
+    instance = get_object_or_404(Hods, hod_id=id)
+    print(instance.hod.username)
+
+    user_instance = CustomUser.objects.get(username=instance.hod.username)
 
     form = salaryForm(request.POST, id)
     print("called")
     if form.is_valid():
-        instance = form.save()
-        print(instance)
-        form.save()
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
 
-        return render(request, 'adminapp/hod_salary.html', {"form": form})
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('adminindex')
+
+    #
+    #     return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance})
     # month = request.POST["month"]
     # salaryamount = request.POST["salaryamount"]
     # paymentstatus = request.POST["paymentstatus"]
@@ -88,19 +111,115 @@ def test_salary(request, id=None):
     i = salary.objects.all()
     for q in i:
         print(q)
-    return render(request, 'adminapp/hod_salary.html', {"form": form})
+    return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance})
 
 
-def hod_test_salary(request, id=None):
-    print("aswin")
-    print(id)
-    month = request.POST.get('month', None)
-    salaryamount = request.POST.get('salaryamount', None)
-    paymentstatus = request.POST.get("paymentstatus", None)
-    pendingsalary = request.POST.get("pendingsalary", None)
-    # alldata= salary(month=month,salaryamount=salaryamount,paymentstatus=paymentstatus,pendingsalary=pendingsalary,hod_id_id=id)
-    # alldata.save()
-    return render(request, 'test1.html', {"id": id})
+def teacher_salary(request, id=None):
+    instance = get_object_or_404(Teacher, teacher_id=id)
+    print(instance.teacher.username)
+
+    user_instance = CustomUser.objects.get(username=instance.teacher.username)
+
+    form = salaryForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
+
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, 'adminapp/teacher_salary.html', {"form": form, "instance": instance})
+
+
+def trainer_salary(request, id=None):
+    instance = get_object_or_404(Trainers, trainer_name_id=id)
+    print(instance.trainer_name.username)
+
+    user_instance = CustomUser.objects.get(username=instance.trainer_name.username)
+
+    form = salaryForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
+
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, 'adminapp/trainer_salary.html', {"form": form, "instance": instance})
+
+
+def trainee_fee(request, id=None):
+    instance = get_object_or_404(Trainees, trainee_id=id)
+    print(instance.trainee.username)
+
+    user_instance = CustomUser.objects.get(username=instance.trainee.username)
+
+    form = feesForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        feetype = request.POST["feetype"]
+        feeamount = request.POST["feeamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        due = request.POST["due"]
+
+        alldata = fees(user_id=user_instance.id, feetype=feetype, feeamount=feeamount, paymentstatus=paymentstatus,
+                       due=due)
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, 'adminapp/trainee_fee.html', {"form": form, "instance": instance})
+
+
+def student_fee(request, id=None):
+    instance = get_object_or_404(Students, student_name_id=id)
+    print(instance.student_name.username)
+
+    user_instance = CustomUser.objects.get(username=instance.student_name.username)
+
+    form = feesForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        feetype = request.POST["feetype"]
+        feeamount = request.POST["feeamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        due = request.POST["due"]
+
+        alldata = fees(user_id=user_instance.id, feetype=feetype, feeamount=feeamount, paymentstatus=paymentstatus,
+                       due=due)
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, 'adminapp/student_fee.html', {"form": form, "instance": instance})
+
+
+# def hod_test_salary(request, id=None):
+#     print("aswin")
+#     print(id)
+#     month = request.POST.get('month', None)
+#     salaryamount = request.POST.get('salaryamount', None)
+#     paymentstatus = request.POST.get("paymentstatus", None)
+#     pendingsalary = request.POST.get("pendingsalary", None)
+#     # alldata= salary(month=month,salaryamount=salaryamount,paymentstatus=paymentstatus,pendingsalary=pendingsalary,hod_id_id=id)
+#     # alldata.save()
+#     return render(request, 'test1.html', {"id": id})
 
 
 def test_teacher(request):
@@ -135,16 +254,14 @@ def view_teachers(request):
 
 
 def view_students(request):
-    all_teachers = student.objects.all()
+    all_teachers = Students.objects.all()
     print(all_teachers)
     for i in all_teachers:
         print(i.standard)
     return render(request, 'adminapp/all_students.html', {'teachers': all_teachers})
 
-
 def index(request):
     return render(request, "publicapp/index.html", {})
-
 
 def studentsave(request):
     if request.method == 'POST':
@@ -206,7 +323,7 @@ def traineesave(request):
 
         stu.save()
         student = Trainees.objects.get(trainee__username=uname)
-        student.standard = course
+        student.course = course
         student.mobile_num = user_mobile_number
         student.dob = user_dob
         student.gender = user_gender
@@ -228,8 +345,8 @@ def traineesave(request):
     return render(request, "publicapp/index.html", {})
 
 
-def courses(request):
-    return render(request, "publicapp/courses.html", {})
+# def courses(request):
+#     return render(request, "publicapp/courses.html", {})
 
 
 def contact(request):
@@ -510,7 +627,7 @@ def add_teacher(request):
         }
         from django.core.mail import send_mail
 
-        # send_mail(subject, message, email_from, [email, ])
+        send_mail(subject, message, email_from, [email, ])
 
     # name = request.POST["name"]
     # email = request.POST["email"]
@@ -535,7 +652,111 @@ def add_teacher(request):
 
 
 def add_trainer(request):
-    return render(request, "adminapp/add_trainer.html")
+    form = trainerregForm(request.POST, request.FILES)
+
+    if form.is_valid():
+        name = request.POST["name"]
+        email = request.POST["email"]
+        mobile_num = request.POST["mobile_num"]
+        dob = request.POST["dob"]
+        qualification = request.POST["qualification"]
+        total_experience = request.POST["total_experience"]
+        trainerimage = request.FILES["trainerimage"]
+        department = request.POST.get('department', None)
+        house = request.POST["housename"]
+        place = request.POST["place"]
+        pincode = request.POST["pincode"]
+        course = request.POST.get('course', None)
+        available_time = request.POST.get('available_time', None)
+        password = request.POST["password"]
+
+        stu = CustomUser.objects.create_user(username=name, password=password, email=email, user_type=4)
+
+        stu.save()
+
+        student = Trainers.objects.get(trainer_name__username=name)
+        student.total_experience = total_experience
+        student.qualification = qualification
+        student.mobile_number = mobile_num
+        student.trainerimag = trainerimage
+        student.department = department
+        student.courses__course_name = course
+        student.available_time = available_time
+        student.housename = house
+        student.dob = dob
+        student.place = place
+        student.post = pincode
+        student.save()
+
+        print("inside approve")
+
+        subject = 'welcome to Vadhyar APP world'
+        message = 'Hi thank you for registering in Vadhyar. Your password is' + password + ' .You Can Change Your Password in Profile Page'
+        from django.conf import settings
+
+        email_from = settings.EMAIL_HOST_USER
+        # recipient_list = ["praveenmv93@gmail.com", ]
+        context = {
+            "d": "d",
+        }
+        from django.core.mail import send_mail
+        send_mail(subject, message, email_from, [email, ])
+
+    return render(request, "adminapp/add_trainer.html", {"form": form})
+
+
+def trainersave(request):
+    form = trainerregForm(request.POST, request.FILES)
+
+    if form.is_valid():
+        name = request.POST["name"]
+        email = request.POST["email"]
+        mobile_num = request.POST["mobile_num"]
+        dob = request.POST["dob"]
+        qualification = request.POST["qualification"]
+        total_experience = request.POST["total_experience"]
+        trainerimag = request.FILES["teacherimag"]
+        department = request.POST.get('department', None)
+        house = request.POST["housename"]
+        place = request.POST["place"]
+        pincode = request.POST["pincode"]
+        course = request.POST.get('course', None)
+        available_time = request.POST.get('available_time', None)
+        password = request.POST["password"]
+
+        stu = CustomUser.objects.create_user(username=name, password=password, email=email, user_type=4)
+
+        stu.save()
+
+        student = Trainers.objects.get(teacher__username=name)
+        student.total_experience = total_experience
+        student.qualification = qualification
+        student.mobile_number = mobile_num
+        student.trainerimag = trainerimag
+        student.department = department
+        student.course_id = course
+        student.available_time = available_time
+        student.housename = house
+        student.dob = dob
+        student.place = place
+        student.post = pincode
+        student.save()
+
+        print("inside approve")
+
+        subject = 'welcome to Vadhyar APP world'
+        message = 'Hi thank you for registering in Vadhyar. Your password is' + password + ' .You Can Change Your Password in Profile Page'
+        from django.conf import settings
+
+        email_from = settings.EMAIL_HOST_USER
+        # recipient_list = ["praveenmv93@gmail.com", ]
+        context = {
+            "d": "d",
+        }
+        from django.core.mail import send_mail
+        # send_mail(subject, message, email_from, [email, ])
+
+    return render(request, "adminapp/add_trainer.html", {"form": form})
 
 
 def all_subjects(request):
@@ -567,8 +788,30 @@ def select_teacher_timetable(request):
     return render(request, "adminapp/subjectadd.html", {all_teachers: all_teachers, "form": form})
 
 
-def interplacement(request):
-    return render(request, "adminapp/interplacement.html")
+def interplacementadd(request):
+    form = InterviewAddForm(request.POST)
+    print("called")
+    if form.is_valid():
+        companyname = request.POST["companyname"]
+        description = request.POST["description"]
+        date = request.POST["date"]
+        time = request.POST["time"]
+        course_name = request.POST["course_name"]
+        print(course_name)
+        print(companyname)
+
+        alldata = interplacement()
+        alldata.companyname = companyname
+
+        alldata.job_description = description
+        alldata.date = date
+        alldata.time = time
+        alldata.course_id = course_name
+        alldata.save()
+
+        return redirect('admindex')
+
+    return render(request, "adminapp/interplacement.html", {'form': form})
 
 
 def all_interview(request):
@@ -591,7 +834,7 @@ def studentfee(request):
     return render(request, "adminapp/studentfee.html")
 
 
-def complaintss(request):
+def complaints(request):
     return render(request, "adminapp/complaints.html")
 
 
@@ -604,11 +847,17 @@ def all_hod(request):
 
 
 def all_trainers(request):
-    return render(request, "adminapp/all_trainers.html")
+    all_trainers = Trainers.objects.all()
+    print(all_trainers)
+    return render(request, "adminapp/all_trainers.html", {'trainers': all_trainers})
 
 
 def all_trainee(request):
-    return render(request, "adminapp/all_trainee.html")
+    all_trainees = Trainees.objects.all()
+    print(all_trainees)
+    for i in all_trainees:
+        print(i)
+    return render(request, "adminapp/all_trainee.html", {'trainees': all_trainees})
 
 
 def hodindex(request):

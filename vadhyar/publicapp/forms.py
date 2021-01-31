@@ -24,7 +24,7 @@ from publicapp.models import recordedvideos
 from publicapp.models import applyforexam
 # from publicapp.models import courestimetable
 from publicapp.models import commontimetable
-from publicapp.models import notes
+from publicapp.models import notes, Hods
 
 # from vadhyar.institute.models import Course
 from .models import Complaint
@@ -64,8 +64,61 @@ class studentForm(forms.Form):
     spincode = forms.IntegerField(label="spincode")
     studentimag = forms.FileField()
 
+
 class DateInput(forms.DateInput):
     input_type = 'date'
+
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+
+
+class trainerregForm(forms.Form):
+    # DEPARTMENT_CHOICES = (('1-4', '1-4'),
+    #                       ('5-7', '5-7'),
+    #                       ('8-10', '8-10'),
+    #                       ('+1 Science', '+1 Science'),
+    #                       ('+2 science', '+2 science'),
+    #                       ('+1 Commerce', '+1 Commerce'),
+    #                       ('+2 Commerce', '+2 Commerce'),
+    #                       ('+2 Commerce', '+2 Commerce'),
+    #                       ('B.com/ M.com', 'B.com/ M.com'),
+    #                       ('Civil Engineering', 'Civil Engineering'),
+    #                       ('Mechanical Engineering', 'Mechanical Engineering'),
+    #                       ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
+    #                       ('Computer Science Engineering', 'Computer Science Engineering'),
+    #                       )
+
+    AVAILABLETIME_CHOICES = (('4-5', '4-5'),
+                             ('5-6', '5-6'),
+                             ('6-7', '6-7'),
+                             ('7-8', '7-8'),
+                             ('8-9', '8-9'),
+                             ('9-10', '9-10'),
+                             )
+
+    def __init__(self, *args, **kwargs):
+        super(trainerregForm, self).__init__(*args, **kwargs)
+        self.fields['course'] = forms.ChoiceField(
+            choices=[(o.courses_id, str(o.course_name)) for o in courses.objects.all()]
+        )
+        # self.fields['department'].choices = self.DEPARTMENT_CHOICES
+        self.fields['available_time'].choices = self.AVAILABLETIME_CHOICES
+
+    name = forms.CharField(label="name", max_length=30)
+    email = forms.EmailField(label="email", max_length=50)
+    mobile_num = forms.CharField(validators=[phone_regex], label="mobile_num")
+    # department = forms.ChoiceField(required=True)
+    available_time = forms.ChoiceField(required=True)
+
+    dob = forms.DateField(label="dob", widget=DateInput)
+    qualification = forms.CharField(label="qualification", max_length=20)
+    total_experience = forms.CharField(label="total_experience", max_length=5)
+    course = forms.ChoiceField(label="Please Enter Course Name")
+    trainerimage = forms.FileField()
+    housename = forms.CharField(label="housename", max_length=50)
+    place = forms.CharField(label="place", max_length=50)
+    pincode = forms.IntegerField(label="pincode")
+    password = forms.CharField(widget=PasswordInput)
 
 
 class teacherregForm(forms.Form):
@@ -104,7 +157,7 @@ class teacherregForm(forms.Form):
 
     name = forms.CharField(label="name", max_length=30)
     email = forms.EmailField(label="email", max_length=50)
-    mobile_num = forms.CharField(validators=[phone_regex],label="mobile_num")
+    mobile_num = forms.CharField(validators=[phone_regex], label="mobile_num")
     department = forms.ChoiceField(required=True)
     available_time = forms.ChoiceField(required=True)
 
@@ -118,12 +171,12 @@ class teacherregForm(forms.Form):
     pincode = forms.IntegerField(label="pincode")
     password = forms.CharField(widget=PasswordInput)
 
-    # class Meta:
-    #     model = teacherreg
-    #     fields = ['name', 'email', 'mobile_num', 'department', 'teacherimag', 'dob', 'qualification',
-    #               'total_experience', 'subjects', 'housename',
-    #               'place', 'pincode', 'password', 'available_time']
 
+# class Meta:
+#     model = teacherreg
+#     fields = ['name', 'email', 'mobile_num', 'department', 'teacherimag', 'dob', 'qualification',
+#               'total_experience', 'subjects', 'housename',
+#               'place', 'pincode', 'password', 'available_time']
 
 
 class traineeForm(forms.Form):
@@ -142,43 +195,65 @@ class traineeForm(forms.Form):
     qualification = forms.CharField(label="qualification", max_length=20)
 
 
-class trainerregForm(forms.Form):
-    name = forms.CharField(label="name", max_length=30)
-    email = forms.EmailField(label="email", max_length=50)
-    mobile_num = forms.IntegerField(label="mobile_num")
-    gender = forms.CharField(label="gender", max_length=10)
-    dob = forms.DateField(label="dob")
-    qualification = forms.CharField(label="qualification", max_length=20)
-    total_experience = forms.CharField(label="total_experience", max_length=5)
-    subjects = forms.CharField(max_length=20)
-    occupation = forms.CharField(label="occupation", max_length=20)
-    trainerimag = forms.FileField()
-    housename = forms.CharField(label="housename", max_length=50)
-    place = forms.CharField(label="place", max_length=50)
-    pincode = forms.IntegerField(label="pincode")
+# class trainerregForm(forms.Form):
+#     name = forms.CharField(label="name", max_length=30)
+#     email = forms.EmailField(label="email", max_length=50)
+#     mobile_num = forms.IntegerField(label="mobile_num")
+#     gender = forms.CharField(label="gender", max_length=10)
+#     dob = forms.DateField(label="dob")
+#     qualification = forms.CharField(label="qualification", max_length=20)
+#     total_experience = forms.CharField(label="total_experience", max_length=5)
+#     subjects = forms.CharField(max_length=20)
+#     occupation = forms.CharField(label="occupation", max_length=20)
+#     trainerimag = forms.FileField()
+#     housename = forms.CharField(label="housename", max_length=50)
+#     place = forms.CharField(label="place", max_length=50)
+#     pincode = forms.IntegerField(label="pincode")
 
 
 class feesForm(forms.Form):
-    #  
-    feetype = forms.CharField(label="feetype", max_length=35)
+    FEES_CHOICES = (
+        ("june-september", "june-september"),
+        ("october-december", "october-december"),
+        ("january-march", "january-march")
+    )
+
+    feetype = forms.ChoiceField(label="feetype", choices=FEES_CHOICES)
     feeamount = forms.IntegerField(label="feeamount")
     paymentstatus = forms.CharField(label="paymentstatus", max_length=50)
     due = forms.CharField(max_length=50, label="due")
 
 
-class salaryForm(forms.ModelForm):
+class salaryForm(forms.Form):
+
     def __init__(self, *args, **kwargs):
         super(salaryForm, self).__init__(*args, **kwargs)
         print(*args[1])
+        # instance = Hods.objects.get(id=*args[1])
+        # print(instance.hod.username)
 
-    class Meta:
-        model = salary
-        fields = ['month', 'salaryamount', 'paymentstatus', 'pendingsalary']
+    # class Meta:
+    #     model = salary
+    #     fields = ['month', 'salaryamount', 'paymentstatus', 'pendingsalary']
     # id=    (primary_key=True)
-    # month=forms.CharField(label="month",max_length=10)
-    # salaryamount=forms.IntegerField(label="salaryamount")
-    # paymentstatus=forms.CharField(label="paymentstatus",max_length=50)
-    # pendingsalary=forms.IntegerField(label="pendingsalary")
+    MONTH_CHOICES = (
+        ("january", "january"),
+        ("february", "february"),
+        ("march", "march"),
+        ("april", "april"),
+        ("may", "may"),
+        ("june", "june"),
+        ("july", "july"),
+        ("august", "august"),
+        ("september", "september"),
+        ("october", "october"),
+        ("november", "november"),
+        ("december", "december")
+    )
+    month=forms.ChoiceField(label="month", choices=MONTH_CHOICES)
+    salaryamount=forms.IntegerField(label="salaryamount")
+    paymentstatus=forms.CharField(label="paymentstatus",max_length=50)
+    pendingsalary=forms.IntegerField(label="pendingsalary")
     # hod_id=forms.IntegerField()
     # trainer_id=forms.IntegerField()
     # teacher_id=forms.IntegerField()
@@ -189,6 +264,21 @@ class interplacementForm(forms.Form):
     date = forms.DateField(label="date")
     time = forms.TimeField(label="time")
     description = forms.CharField(label="description", max_length=100)
+
+
+class InterviewAddForm(forms.Form):
+    companyname = forms.CharField(label="companyname", max_length=10)
+    description = forms.CharField(label="description", max_length=100)
+    date = forms.DateField(label="Date", widget=DateInput())
+    time = forms.TimeField(label="time", widget=TimeInput())
+
+    def __init__(self, *args, **kwargs):
+        super(InterviewAddForm, self).__init__(*args, **kwargs)
+        self.fields['course_name'] = forms.ChoiceField(
+            choices=[(o.courses_id, str(o.course_name)) for o in courses.objects.all()]
+        )
+
+    course_name = forms.ChoiceField(label="Please Enter Course Name")
 
 
 class attendanceForm(forms.Form):
@@ -310,8 +400,6 @@ class notesForm(forms.Form):
     subject_id = forms.IntegerField()
     notes_pdf = forms.CharField(label="notespdf", max_length=50)
     questionpaper_pdf = forms.CharField(label="question", max_length=50)
-
-
 
 
 class TraineeRegForm(forms.Form):

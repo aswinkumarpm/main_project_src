@@ -46,7 +46,8 @@
                             <th>Department</th>
                             <th>Subject</th>
                             <th>Image</th>
-                            
+                            <th>Actions</th>
+
                             
                         </tr>
                         {% for i in teachers %}
@@ -72,6 +73,14 @@
                                <img src='{{ i.teacherimage.url }}' class='img-responsive'/>
                             </td>
                             {% endif %}
+
+                                                          <td>
+                                <div >
+ <button class="primary">
+                                    <a href="{% url 'teacher_salary' i.teacher_id %}"> Salary Details</a>
+                                </button>
+                                </div>
+                            </td>
 
                           </tr>
                         {% endfor %}
