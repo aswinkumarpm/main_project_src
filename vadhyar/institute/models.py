@@ -23,6 +23,8 @@ MONTH_CHOICES = (
     ("november", "november"),
     ("december", "december")
 )
+
+
 class User(AbstractUser):
     USER_TYPE = ((1, "HOD"), (2, "Teacher"), (3, "Student"), (4, "Trainer"), (5, "Trainee"))
     user_type = models.IntegerField(choices=USER_TYPE)
@@ -152,9 +154,8 @@ class fees(models.Model):
     due = models.CharField(max_length=50)
 
 
-
 class salary(models.Model):
-    #hod, teacher, trainer
+    # hod, teacher, trainer
     month = models.CharField(max_length=35, choices=MONTH_CHOICES)
     salaryamount = models.IntegerField()
     paymentstatus = models.CharField(max_length=50)
@@ -162,16 +163,13 @@ class salary(models.Model):
 
 
 class interplacement(models.Model):
-    #hod, trainer, trainee
+    # hod, trainer, trainee
     interplacement_id = models.AutoField(primary_key=True)
     companyname = models.CharField(max_length=10)
     date = models.DateField()
     time = models.TimeField(max_length=10)
     course_id = models.ForeignKey("publicapp.subjects", on_delete=models.CASCADE, blank=True, null=True)
     job_description = models.CharField(max_length=100)
-
-
-
 
 
 class StudyMaterial(models.Model):
@@ -214,10 +212,10 @@ class TimeTable(models.Model):
 
 
 class Attendance(models.Model):
-    #subject wise
+    # subject wise
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='teacher')
     date = models.DateField()
-    #subject = models.ForeignKey(to=Subject, on_delete=models.CASCADE, blank=True, null=True)
+    # subject = models.ForeignKey(to=Subject, on_delete=models.CASCADE, blank=True, null=True)
     status = models.CharField(max_length=6)
 
 #
