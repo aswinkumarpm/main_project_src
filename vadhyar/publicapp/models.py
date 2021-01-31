@@ -524,6 +524,15 @@ class Complaint(models.Model):
     def __str__(self):
         return f'complaint from {self.user}'
 
+class Feedback(models.Model):
+    user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
+    feedback = models.TextField()
+    email = models.EmailField()
+    created = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f'Feedback from {self.user}'
+
+
 
 class Exam(models.Model):
     exam_name = models.CharField(max_length=250, null=True, blank=True)

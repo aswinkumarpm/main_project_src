@@ -128,6 +128,7 @@ if settings.DEBUG:
         url(r'^studreport$', studreport, name='studreport'),
         url(r'^teacherprofile$', teacherprofile, name='teacherprofile'),
         url(r'^studfeedback$', studfeedback, name='studfeedback'),
+        url(r'^studfeedbacks$', studfeedbacks, name='studfeedbacks'),
         url(r'^studleave$', studleave, name='studleave'),
         url(r'^teachervideo$', teachervideo, name='teachervideo'),
         url(r'^teacherstudent$', teacherstudent, name='teacherstudent'),

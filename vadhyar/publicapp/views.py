@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
+from vadhyar import settings
 from .EmailBackend import EmailBackEnd
 from .forms import commontimetableForm
 from .forms import coursesForm
@@ -21,7 +22,7 @@ from .forms import subjectsForm
 from .forms import teacherregForm
 from .forms import TraineeRegForm
 from .forms import trainerregForm
-from .models import Complaint
+from .models import Complaint, Feedback
 from .models import courses
 from .models import CustomUser
 from .models import Exam
@@ -1010,11 +1011,11 @@ def studleave(request):
 
 def feedback(request):
     return render(request, "studentapp/feedback.html")
-
-
+#
+#
 def studcomplaints(request):
     return render(request, "studentapp/studcomplaints.html")
-
+#
 
 def all_complaints(request):
     return render(request, "studentapp/all_complaints.html")
@@ -1159,7 +1160,7 @@ def teacherprofile(request):
     return render(request, "teacherapp/teacherprofile.html", {'form': form})
 
 
-def studfeedback(request):
+def studfeedbacks(request):
     return render(request, "teacherapp/studfeedback.html")
 
 
@@ -1534,3 +1535,58 @@ def time_table_view(request, teacher_type):
         time_table = time_table.filter(teacher__user_type=4)
 
     return render(request, 'hod/time-table.html', {'time_table':time_table})
+
+
+
+
+def studfeedback(request):
+    if request.method == "POST":
+        try:
+            feedback_to = request.POST.get('email')
+            feedback_description = request.POST.get('feedback')
+            # ((1, "HOD"), (2, "TEACHER"), (3, "STUDENT"), (4, "TRAINER"), (5, "TRAINEE"))
+            # department = None
+            # if request.user.user_type_data == 2:
+            #     dep = Teacher.objects.get(teacher=request.user)
+            #     department = dep.department
+            # elif request.user.user_type_data == 3:
+            #     dep = Students.objects.get(student_name=request.user)
+            #     department = dep.standard
+            # elif request.user.user_type_data == 4:
+            #     dep = Trainers.objects.get(trainer_name=request.user)
+            #     department = dep.department
+            if Teacher.objects.filter(teacher__email = feedback_to).count() > 0:
+                print("d")
+
+                print("ggg",feedback_to)
+                print("dddd",feedback_description)
+                obj = Feedback()
+                obj.user = request.user
+                obj.email = feedback_to
+                obj.feedback = feedback_description
+                obj.save()
+                try:
+                    student = Students.objects.get(student_name=request.user)
+                    contacts = student.mobile_num
+                    from django.core.mail import send_mail
+                    subject ="Feedback From Student"
+                    message = feedback_description + " by "+ " /n"+request.user.first_name + ", /n"+ contacts
+                    email_from = settings.EMAIL_HOST_USER
+                    send_mail(subject, message, email_from, [feedback_to, ])
+                except :
+                    print("mail send error")
+                    pass
+                return redirect("studentindex")
+            else:
+                print("ddddd")
+                messages.error(request, 'Please Enter a valid teacher Email.')
+                return render(request, "studentapp/feedback.html")
+        except:
+            pass
+
+
+    else:
+        print("else")
+    return render(request, "studentapp/feedback.html")
+
+

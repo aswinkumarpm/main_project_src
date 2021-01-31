@@ -1,5 +1,5 @@
 from django.contrib import admin
-from publicapp.models import courses, Complaint
+from publicapp.models import courses, Complaint, Feedback
 from publicapp.models import login
 from publicapp.models import fees
 from publicapp.models import salary
@@ -38,5 +38,6 @@ admin.site.register(CustomUser)
 admin.site.register(Trainers)
 admin.site.register(StudyMaterial)
 admin.site.register(Exam)
+admin.site.register(Feedback)
 admin.site.register(Result)
 
