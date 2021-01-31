@@ -1,52 +1,42 @@
 from django import forms
 from django.core.validators import RegexValidator
 from django.forms import PasswordInput
-from django.shortcuts import render
-from publicapp.models import login
-from publicapp.models import student
-from publicapp.models import teacherreg
-from publicapp.models import trainee
-from publicapp.models import trainerreg
-from publicapp.models import fees
-from publicapp.models import salary
-from publicapp.models import interplacement
-from publicapp.models import attendance
-from publicapp.models import attendancereport
-from publicapp.models import courses
-from publicapp.models import feedbackstudent
-from publicapp.models import examination
-from publicapp.models import studentresult
-from publicapp.models import subjects
-from publicapp.models import hod
-from publicapp.models import leavereport
-from publicapp.models import complaints
-from publicapp.models import recordedvideos
-from publicapp.models import applyforexam
+
 # from publicapp.models import courestimetable
 from publicapp.models import commontimetable
-from publicapp.models import notes, Hods
-
-# from vadhyar.institute.models import Course
-from .models import Complaint, Exam, Students, CustomUser
+from publicapp.models import courses
 from publicapp.models import StudyMaterial
+from publicapp.models import subjects
+# from vadhyar.institute.models import Course
+from .models import Complaint
 
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
                              "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-DEPARTMENT_CHOICES = (('1-4', '1-4'),
-                      ('5-7', '5-7'),
-                      ('8-10', '8-10'),
-                      ('+1 Science', '+1 Science'),
-                      ('+2 science', '+2 science'),
-                      ('+1 Commerce', '+1 Commerce'),
-                      ('+2 Commerce', '+2 Commerce'),
-                      ('+2 Commerce', '+2 Commerce'),
-                      ('B.com/ M.com', 'B.com/ M.com'),
-                      ('Civil Engineering', 'Civil Engineering'),
-                      ('Mechanical Engineering', 'Mechanical Engineering'),
-                      ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
-                      ('Computer Science Engineering', 'Computer Science Engineering'),
-                      )
+DEPARTMENT_CHOICES = (
+    ('1-4', '1-4'),
+    ('5-7', '5-7'),
+    ('8-10', '8-10'),
+    ('+1 Science', '+1 Science'),
+    ('+2 science', '+2 science'),
+    ('+1 Commerce', '+1 Commerce'),
+    ('+2 Commerce', '+2 Commerce'),
+    ('+2 Commerce', '+2 Commerce'),
+    ('B.com/ M.com', 'B.com/ M.com'),
+    ('Civil Engineering', 'Civil Engineering'),
+    ('Mechanical Engineering', 'Mechanical Engineering'),
+    ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
+    ('Computer Science Engineering', 'Computer Science Engineering'),
+)
+
+AVAILABLETIME_CHOICES = (
+    ('4-5', '4-5'),
+    ('5-6', '5-6'),
+    ('6-7', '6-7'),
+    ('7-8', '7-8'),
+    ('8-9', '8-9'),
+    ('9-10', '9-10'),
+)
 
 
 class LoginForm(forms.Form):
@@ -83,34 +73,12 @@ class studentForm(forms.Form):
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+
 class TimeInput(forms.TimeInput):
     input_type = 'time'
 
 
 class trainerregForm(forms.Form):
-    # DEPARTMENT_CHOICES = (('1-4', '1-4'),
-    #                       ('5-7', '5-7'),
-    #                       ('8-10', '8-10'),
-    #                       ('+1 Science', '+1 Science'),
-    #                       ('+2 science', '+2 science'),
-    #                       ('+1 Commerce', '+1 Commerce'),
-    #                       ('+2 Commerce', '+2 Commerce'),
-    #                       ('+2 Commerce', '+2 Commerce'),
-    #                       ('B.com/ M.com', 'B.com/ M.com'),
-    #                       ('Civil Engineering', 'Civil Engineering'),
-    #                       ('Mechanical Engineering', 'Mechanical Engineering'),
-    #                       ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
-    #                       ('Computer Science Engineering', 'Computer Science Engineering'),
-    #                       )
-
-    AVAILABLETIME_CHOICES = (('4-5', '4-5'),
-                             ('5-6', '5-6'),
-                             ('6-7', '6-7'),
-                             ('7-8', '7-8'),
-                             ('8-9', '8-9'),
-                             ('9-10', '9-10'),
-                             )
-
     def __init__(self, *args, **kwargs):
         super(trainerregForm, self).__init__(*args, **kwargs)
         self.fields['course'] = forms.ChoiceField(
@@ -137,31 +105,6 @@ class trainerregForm(forms.Form):
 
 
 class teacherregForm(forms.Form):
-    DEPARTMENT_CHOICES = (('1-4', '1-4'),
-                          ('5-7', '5-7'),
-                          ('8-10', '8-10'),
-                          ('+1 Science', '+1 Science'),
-                          ('+2 science', '+2 science'),
-                          ('+1 Commerce', '+1 Commerce'),
-                          ('+2 Commerce', '+2 Commerce'),
-                          ('+2 Commerce', '+2 Commerce'),
-                          ('B.com/ M.com', 'B.com/ M.com'),
-                          ('Civil Engineering', 'Civil Engineering'),
-                          ('Mechanical Engineering', 'Mechanical Engineering'),
-                          ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
-                          ('Computer Science Engineering', 'Computer Science Engineering'),)
-
-
-    AVAILABLETIME_CHOICES = (('4-5', '4-5'),
-                             ('5-6', '5-6'),
-                             ('6-7', '6-7'),
-                             ('7-8', '7-8'),
-                             ('8-9', '8-9'),
-                             ('9-10', '9-10'),
-                             )
-
-
-
     def __init__(self, *args, **kwargs):
         super(teacherregForm, self).__init__(*args, **kwargs)
         self.fields['subjects'] = forms.ChoiceField(
@@ -265,10 +208,10 @@ class salaryForm(forms.Form):
         ("november", "november"),
         ("december", "december")
     )
-    month=forms.ChoiceField(label="month", choices=MONTH_CHOICES)
-    salaryamount=forms.IntegerField(label="salaryamount")
-    paymentstatus=forms.CharField(label="paymentstatus",max_length=50)
-    pendingsalary=forms.IntegerField(label="pendingsalary")
+    month = forms.ChoiceField(label="month", choices=MONTH_CHOICES)
+    salaryamount = forms.IntegerField(label="salaryamount")
+    paymentstatus = forms.CharField(label="paymentstatus", max_length=50)
+    pendingsalary = forms.IntegerField(label="pendingsalary")
     # hod_id=forms.IntegerField()
     # trainer_id=forms.IntegerField()
     # teacher_id=forms.IntegerField()
@@ -321,16 +264,16 @@ class coursesForm(forms.Form):
 
 
 class subjectsForm(forms.Form):
-
     # class Meta:
     #     model = subjects
     #     fields = ['subject_name', 'department']
 
     # id =    (primary_key=True)
     # subject_name = forms.CharField(label="subjectname",max_length=50)
-    subject_name= forms.CharField(label="Subject Name",max_length=50)
+    subject_name = forms.CharField(label="Subject Name", max_length=50)
 
-    department= forms.ChoiceField(label="Department", choices=DEPARTMENT_CHOICES)
+    department = forms.ChoiceField(label="Department", choices=DEPARTMENT_CHOICES)
+
 
 class StudyMaterialForm(forms.ModelForm):
     class Meta:
@@ -445,7 +388,7 @@ class TraineeRegForm(forms.Form):
 class ComplaintForm(forms.ModelForm):
     class Meta:
         model = Complaint
-        fields = ['complaint','to']
+        fields = ['complaint', 'to']
 
 
 class ExamForm(forms.Form):
