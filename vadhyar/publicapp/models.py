@@ -30,6 +30,7 @@ phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
                              "Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 
+
 class CustomUser(AbstractUser):
     user_type_data = ((1, "HOD"), (2, "TEACHER"), (3, "STUDENT"), (4, "TRAINER"), (5, "TRAINEE"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
@@ -82,7 +83,6 @@ class teacherreg(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class trainee(models.Model):
@@ -149,9 +149,6 @@ class StudyMaterial(models.Model):
     uploaded_by = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     uploaded_on = models.DateTimeField(auto_now_add=True)
 
-
-
-
     # hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
     # # trainer_id=models.IntegerField()
     # trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
@@ -184,7 +181,7 @@ class courses(models.Model):
     course_pic = models.FileField(upload_to='uploads', blank=True, null=True)
     course_duration = models.CharField(max_length=20)
     course_department = models.CharField(max_length=15, blank=True, null=True)
-    course_description= models.CharField(max_length=15, blank=True, null=True)
+    course_description = models.CharField(max_length=15, blank=True, null=True)
     course_trainer = models.CharField(max_length=15, blank=True, null=True)
     course_fee = models.IntegerField()
     hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True)
@@ -270,9 +267,6 @@ class hod(models.Model):
     department = models.IntegerField()
 
 
-
-
-
 class complaints(models.Model):
     complaints_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
@@ -284,6 +278,7 @@ class complaints(models.Model):
     # trainer_id=models.IntegerField()
     student_id = models.ForeignKey("publicapp.student", on_delete=models.CASCADE, blank=True, null=True)
     trainee_id = models.ForeignKey("publicapp.trainee", on_delete=models.CASCADE, blank=True, null=True)
+
 
 # class Complaint(models.Model):
 #     user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='user')
@@ -348,8 +343,6 @@ class notes(models.Model):
     notes_pdf = models.FileField(upload_to="Notes")
 
 
-
-
 class Hods(models.Model):
     hod = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -383,7 +376,6 @@ class Teacher(models.Model):
     housename = models.CharField(max_length=50, blank=True, null=True)
     place = models.CharField(max_length=50, blank=True, null=True)
     pincode = models.IntegerField(blank=True, null=True)
-
 
     def __str__(self):
         return self.teacher.username
@@ -488,7 +480,6 @@ class LeaveReportStaff(models.Model):
     objects = models.Manager()
 
 
-
 @receiver(post_save, sender=CustomUser)
 # Now Creating a Function which will automatically insert data in HOD, Staff or Student
 def create_user_profile(sender, instance, created, **kwargs):
@@ -521,15 +512,27 @@ def save_user_profile(sender, instance, **kwargs):
         instance.trainees.save()
 
 
-
 class Complaint(models.Model):
     user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='user')
     to_who = (("HOD", "HOD"), ("ADMIN", "ADMIN"))
-    to = models.CharField(max_length=50,choices=to_who)
+    to = models.CharField(max_length=50, choices=to_who)
     complaint = models.TextField()
     response = models.TextField(blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    department = models.CharField(max_length=120,blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    department = models.CharField(max_length=120, blank=True, null=True)
 
     def __str__(self):
         return f'complaint from {self.user}'
+
+
+class TimeTable(models.Model):
+    subject = models.ForeignKey(to=subjects, on_delete=models.CASCADE, blank=True, null=True)
+    course = models.ForeignKey(to=courses, on_delete=models.CASCADE, blank=True, null=True)
+    teacher = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='teacher')
+    time = models.CharField(max_length=16)
+    date = models.DateField()
+
+
+class StudentsAttending(models.Model):
+    time_table = models.ForeignKey(to=TimeTable, on_delete=models.CASCADE)
+    student = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='teacher')
