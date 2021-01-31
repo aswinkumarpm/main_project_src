@@ -57,8 +57,10 @@
                             <td>{{ i.created }}</td>
                             <td>{{ i.complaint }}</td>
                             <td>{{ i.response }}</td>
-                            <td><button class="button"><a href="{% url 'add_reply' i.id %}">Reply</a> </button></td>
-
+                            <td>
+                                {% if not i.response %}
+                                    <button class="button"><a href="{% url 'add_reply' i.id %}">Reply</a> </button></td>
+                                {% endif %}
                         </tr>
                             
                         

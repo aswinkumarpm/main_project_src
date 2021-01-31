@@ -1380,11 +1380,53 @@ def teachercomp(request):
         hod = Hods.objects.get(hod=request.user)
         department = hod.department
 
-        query = Complaint.objects.filter(to="HOD", department=department)
+        query = Complaint.objects.filter(to="HOD", department=department).order_by('-id')
 
     return render(request, "hodapp/teachercomp.html", {"query": query})
 
 
 def add_reply(request, id):
     print("id", id)
+    dep =Hods.objects.get(hod=request.user)
+    department = dep.department
+    if request.method == "POST":
+        reply = request.POST.get('complaints_description')
+        print("re",reply)
+        obj = Complaint.objects.get(id=id)
+        obj.response = reply
+        obj.save()
+
+        return redirect('teachercomp')
+    else:
+        pass
     return render(request, "hodapp/add_replies.html")
+    # if request.method == "POST":
+    #     try:
+    #         complaint = request.POST.get('admin_hod')
+    #         complaints_description = request.POST.get('complaints_description')
+    #         # ((1, "HOD"), (2, "TEACHER"), (3, "STUDENT"), (4, "TRAINER"), (5, "TRAINEE"))
+    #         department = None
+    #         if request.user.user_type_data == 2:
+    #             dep = Teacher.objects.get(teacher=request.user)
+    #             department = dep.department
+    #         elif request.user.user_type_data == 3:
+    #             dep = Students.objects.get(student_name=request.user)
+    #             department = dep.standard
+    #         elif request.user.user_type_data == 4:
+    #             dep = Trainers.objects.get(trainer_name=request.user)
+    #             department = dep.department
+    #
+    #         obj = Complaint()
+    #         obj.user = request.user
+    #         obj.to = complaint
+    #         obj.complaint = complaints_description
+    #         obj.department = department
+    #         obj.save()
+    #         return redirect("allteacher_complaints")
+    #     except:
+    #         pass
+    #
+    #
+    # else:
+    #     print("else")
+    return render(request, "teacherapp/teacher_complaints.html")
