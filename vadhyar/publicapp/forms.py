@@ -137,6 +137,20 @@ class trainerregForm(forms.Form):
 
 
 class teacherregForm(forms.Form):
+    DEPARTMENT_CHOICES = (('1-4', '1-4'),
+                          ('5-7', '5-7'),
+                          ('8-10', '8-10'),
+                          ('+1 Science', '+1 Science'),
+                          ('+2 science', '+2 science'),
+                          ('+1 Commerce', '+1 Commerce'),
+                          ('+2 Commerce', '+2 Commerce'),
+                          ('+2 Commerce', '+2 Commerce'),
+                          ('B.com/ M.com', 'B.com/ M.com'),
+                          ('Civil Engineering', 'Civil Engineering'),
+                          ('Mechanical Engineering', 'Mechanical Engineering'),
+                          ('Electrical&Electronics Engineering', 'Electrical&Electronics Engineering'),
+                          ('Computer Science Engineering', 'Computer Science Engineering'),)
+
 
     AVAILABLETIME_CHOICES = (('4-5', '4-5'),
                              ('5-6', '5-6'),
