@@ -27,7 +27,7 @@ from publicapp.models import commontimetable
 from publicapp.models import notes, Hods
 
 # from vadhyar.institute.models import Course
-from .models import Complaint
+from .models import Complaint, Exam, Students, CustomUser
 from publicapp.models import StudyMaterial
 
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
@@ -446,3 +446,34 @@ class ComplaintForm(forms.ModelForm):
     class Meta:
         model = Complaint
         fields = ['complaint','to']
+
+
+class ExamForm(forms.Form):
+    exam_name = forms.CharField(label="Exam Name", required=False)
+    conducted_on = forms.DateField(label="Conducted ON", widget=DateInput())
+
+    time = forms.TimeField(label="Time", widget=TimeInput())
+    max_time = forms.IntegerField(label="max_time")
+    max_score = forms.IntegerField(label="max_score")
+    subject = forms.ModelChoiceField(queryset=subjects.objects.all(), required=False)
+    course = forms.ModelChoiceField(queryset=courses.objects.all(), required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(ExamForm, self).__init__(*args, **kwargs)
+        self.fields['course'] = forms.ChoiceField(
+            choices=[(o.courses_id, str(o.course_name)) for o in courses.objects.all()]
+        )
+        self.fields['subject'] = forms.ChoiceField(
+            choices=[(o.subjects_id, str(o.subject_name)) for o in subjects.objects.all()]
+        )
+
+
+class ResultForm(forms.Form):
+    exam = forms.ModelChoiceField(queryset=Exam.objects.all(), required=False)
+    attended_by = forms.ModelChoiceField(queryset=CustomUser.objects.filter(user_type__in=[3, 5]), required=False)
+    mark = forms.IntegerField(label='Mark')
+    date = forms.DateField(label="Conducted ON", widget=DateInput())
+    grade = forms.CharField(max_length=50, required=False)
+    status = forms.CharField(max_length=50, required=False)
+
+

@@ -533,3 +533,27 @@ class Complaint(models.Model):
 
     def __str__(self):
         return f'complaint from {self.user}'
+
+
+
+class Exam(models.Model):
+    exam_name  = models.CharField(max_length=250, null=True, blank=True)
+    course = models.ForeignKey(to=courses, on_delete=models.CASCADE, blank=True, null=True)
+    subject = models.ForeignKey(to=subjects, on_delete=models.CASCADE, blank=True, null=True)
+    conducted_by = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    conducted_on = models.DateField()
+    time = models.TimeField()
+    max_time = models.IntegerField()
+    max_score = models.IntegerField()
+
+    def __str__(self):
+        return self.exam_name
+
+
+class Result(models.Model):
+    exam = models.ForeignKey(to=Exam, on_delete=models.CASCADE, blank=True, null=True)
+    attended_by = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    mark = models.IntegerField()
+    date = models.DateField(auto_now_add=True)
+    grade = models.CharField(max_length=50, null=True, blank=True)
+    status = models.CharField(max_length=50, null=True, blank=True)

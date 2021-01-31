@@ -8,9 +8,9 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 
 from .EmailBackend import EmailBackEnd
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
-    trainerregForm, feesForm, InterviewAddForm, StudyMaterialForm, coursesForm
+    trainerregForm, feesForm, InterviewAddForm, StudyMaterialForm, coursesForm, ExamForm, ResultForm
 from .models import hod, salary, teacherreg, student, CustomUser, Students, Trainees, Hods, Teacher, Trainers, fees, \
-    interplacement, StudyMaterial, subjects, courses
+    interplacement, StudyMaterial, subjects, courses, Exam, Result
 
 from .forms import subjectsForm, commontimetableForm, salaryForm, teacherregForm, LoginForm, TraineeRegForm, \
     ComplaintForm
@@ -1109,12 +1109,10 @@ def allteacher_leave(request):
     return render(request, "teacherapp/allteacher_leave.html")
 
 
-def allteacher_exam(request):
-    return render(request, "teacherapp/allteacher_exam.html")
 
 
-def teacherexam(request):
-    return render(request, "teacherapp/teacherexam.html")
+
+
 
 
 def teachernotes(request):
@@ -1125,12 +1123,7 @@ def allteacher_notes(request):
     return render(request, "teacherapp/allteacher_notes.html")
 
 
-def allteacher_report(request):
-    return render(request, "teacherapp/allteacher_report.html")
 
-
-def studreport(request):
-    return render(request, "teacherapp/studreport.html")
 
 
 def teacherprofile(request):
@@ -1461,4 +1454,55 @@ def add_reply(request, id):
     else:
         pass
     return render(request, "hodapp/add_replies.html")
+
+
+def teacherexam(request):
+    form = ExamForm(request.POST)
+    if form.is_valid():
+        exam_name = request.POST["exam_name"]
+        conducted_on = request.POST["conducted_on"]
+        max_time = request.POST["max_time"]
+        time = request.POST["time"]
+        max_score = request.POST["max_score"]
+        subject = request.POST["subject"]
+        course = request.POST["course"]
+        print(course)
+        print(subject)
+
+        stu = Exam(exam_name=exam_name, conducted_on=conducted_on, conducted_by=request.user,time=time,max_time=max_time, max_score=max_score,subject_id=subject, course_id=course)
+
+        stu.save()
+        return redirect('teacherindex')
+    return render(request, "teacherapp/teacherexam.html", {'form': form})
+
+def allteacher_exam(request):
+    query_set = Exam.objects.all()
+    return render(request, "teacherapp/allteacher_exam.html", {'query_set': query_set})
+
+def teacherexamsave(request):
+
+    return render(request, "teacherapp/teacherexam.html")
+
+
+def allteacher_report(request):
+    query_set = Result.objects.all()
+    return render(request, "teacherapp/allteacher_report.html", {'queryset': query_set})
+
+
+def studreport(request):
+    form = ResultForm(request.POST)
+    if form.is_valid():
+        exam = request.POST["exam"]
+        attended_by = request.POST["attended_by"]
+        mark = request.POST["mark"]
+        date = request.POST["date"]
+        grade = request.POST["grade"]
+        status = request.POST["status"]
+
+        stu = Result(exam_id=exam, attended_by_id=attended_by, mark=mark, date=date,
+                   grade=grade, status=status)
+
+        stu.save()
+        return redirect('teacherindex')
+    return render(request, "teacherapp/studreport.html", {'form': form})
 

@@ -40,30 +40,55 @@
                     <table>
                         <tr>
                             <th>No</th>
+                            <th>Exam</th>
+                            <th>Student</th>
                             <th>Date</th>
                             
                             <th>Mark</th>
                             <th>Grade</th>
                             <th>Status</th>
-                            <th>Action</th>
+
                             
-                            
-                        </tr>
-                        <tr>
-                            
-                        </tr>
-                        <tr>
-                            
-                        <tr>
-                            
-                        </tr>
-                        <tr>
-                            
-                        </tr>
-                        <tr>
-                            
-                        </tr>
-                        <tr>
+                       {% for i in queryset %}
+                          <tr>
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+
+                            <td>
+                                {{ i.exam.exam_name }}
+                            </td>
+
+                            <td>
+                                {{ i.attended_by}}
+
+                            </td>
+
+                                               <td>
+                                {{ i.date}}
+
+                            </td>
+
+                                               <td>
+                                {{ i.mark}}
+
+                            </td>
+
+
+                                               <td>
+                                {{ i.grade}}
+
+                            </td>
+
+                                                                       <td>
+                                {{ i.status}}
+
+                            </td>
+
+
+
+                          </tr>
+                        {% endfor %}
                             
                             
                         </tr>

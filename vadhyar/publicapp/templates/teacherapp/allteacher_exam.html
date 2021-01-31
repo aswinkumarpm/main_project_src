@@ -38,27 +38,48 @@
                     <table>
                         <tr>
                             <th>No</th>
+                            <th>Exam Name</th>
                             <th>Date</th>
                             
                             <th>Time</th>
-                            <th>Details</th>
-                            
-                        </tr>
-                        <tr>
-                            
-                        </tr>
-                        <tr>
-                            
-                        <tr>
-                            
-                        </tr>
-                        <tr>
-                            
-                        </tr>
-                        <tr>
-                            
-                        </tr>
-                        <tr>
+                            <th>Max Time</th>
+                            <th>Max Score</th>
+
+                        {% for i in query_set %}
+                          <tr>
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+
+                            <td>
+                                {{ i.exam_name }}
+                            </td>
+
+                            <td>
+                                {{ i.conducted_on}}
+
+                            </td>
+
+                                               <td>
+                                {{ i.time}}
+
+                            </td>
+
+
+                                               <td>
+                                {{ i.max_time}}
+
+                            </td>
+
+                                                                       <td>
+                                {{ i.max_score}}
+
+                            </td>
+
+
+
+                          </tr>
+                        {% endfor %}
                             
                             
                         </tr>
