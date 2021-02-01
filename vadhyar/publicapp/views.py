@@ -1139,7 +1139,6 @@ def complaint_view(request):
 
 
 def teacherleave(request):
-
     title = 'Request Leave'
     data = Leaves.objects.filter(taken_by=request.user)
     if request.method == 'POST':
@@ -1562,6 +1561,15 @@ def time_table_view(request, teacher_type):
     else:
         title = "Time Table"
         time_table = time_table.filter(teacher__user_type__in=[2, 4])
+    try:
+        profile = Hods.objects.get(hod=request.user)
+        time_table = time_table.filter(teacher__teachers_for_students__department=profile.department)
+    except Exception as e:
+        try:
+            profile = Hods.objects.get(hod=request.user)
+            time_table = time_table.filter(teacher__trainers__department=profile.department)
+        except Exception as a:
+            pass
     return render(request, 'hodapp/time-table.html', {'time_table': time_table, 'title': title})
 
 
@@ -1707,3 +1715,4 @@ def reject_leave_request(request, obj_id):
             url = redirect('Trainer-leave-request-list')
         else:
             url = redirect('Trainee-leave-request-list')
+        return url
