@@ -1024,12 +1024,52 @@ def all_interview(request):
 
 def all_videos(request):
     queryset = StudyMaterial.objects.filter(material_type='video')
-    return render(request, "adminapp/all_videos.html", {'queryset': queryset})
+    if request.user.is_superuser:
+        queryset= queryset
+        return render(request, "adminapp/all_videos.html", {'queryset': queryset})
+
+    elif request.user.user_type == 2:
+        return render(request, "teacherapp/all_videos.html", {'queryset': queryset})
+    elif request.user.user_type == 3:
+            return render(request, "studentapp/all_videos.html", {'queryset': queryset})
+
+    elif request.user.user_type == 4:
+            return render(request, "trainerapp/all_videos.html", {'queryset': queryset})
+    else:
+        return render(request, "traineeapp/all_videos.html", {'queryset': queryset})
 
 
 def all_notes(request):
     queryset = StudyMaterial.objects.filter(material_type='note')
     return render(request, "adminapp/all_notes.html", {'queryset': queryset})
+
+
+def all_notes_students(request):
+    stu = Students.objects.get(student_name=request.user)
+    stand = stu.standard
+    queryset = StudyMaterial.objects.filter(material_type='note',subject__subject_name=stand)
+    return render(request, "studentapp/all_notes.html", {'queryset': queryset})
+
+def all_notes_teachers(request):
+    stu = Teacher.objects.get(teacher=request.user)
+    stand = stu.subjects
+    queryset = StudyMaterial.objects.filter(material_type='note',subject=stand)
+    return render(request, "teacherapp/all_notes.html", {'queryset': queryset})
+
+def all_notes_trainer(request):
+    stu = Trainers.objects.get(trainer_name=request.user)
+    stand = stu.course
+    queryset = StudyMaterial.objects.filter(material_type='note',course=stand)
+    return render(request, "trainerapp/all_notes.html", {'queryset': queryset})
+
+def all_notes_trainee(request):
+
+    print("inside try")
+    stu = Trainees.objects.get(trainee=request.user)
+    stand = stu.course
+    queryset = StudyMaterial.objects.filter(material_type='note',course=stand)
+
+    return render(request, "traineeapp/all_notes.html", {'queryset': queryset})
 
 
 def recordvideos(request):
@@ -1867,6 +1907,7 @@ def trainee_leave_request_list(request):
 
 def trainer_leave_request_list(request):
     title = 'Trainer Leave Requests'
+
     list_data = Leaves.objects.filter(taken_by__user_type=4, status='pending')
     approved = Leaves.objects.filter(taken_by__user_type=4, status='approved')
     rejected = Leaves.objects.filter(taken_by__user_type=4, status='rejected')
