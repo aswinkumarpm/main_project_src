@@ -142,6 +142,44 @@ def hod_salary(request, id=None):
                   {"form": form, "instance": instance, "salaryhistory": salary_history})
 
 
+def hod_salarys(request, id=None):
+    instance = get_object_or_404(Hods, hod_id=id)
+    print(instance.hod.username)
+
+    user_instance = CustomUser.objects.get(username=instance.hod.username)
+
+    form = salaryForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
+
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('admindex')
+
+    #
+    #     return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance})
+    # month = request.POST["month"]
+    # salaryamount = request.POST["salaryamount"]
+    # paymentstatus = request.POST["paymentstatus"]
+    # pendingsalary = request.POST["pendingsalary"]
+    #
+    # alldata = salary(month=month, salaryamount=salaryamount, paymentstatus=paymentstatus, pendingsalary=pendingsalary)
+    # alldata.save()
+
+    print("aswin")
+    salary_history = salary.objects.filter(user_id=user_instance.id)
+
+    return render(request, 'hodapp/hod_salary.html',
+                  {"form": form, "instance": instance, "salaryhistory": salary_history})
+
+
 def teacher_salary(request, id=None):
     instance = get_object_or_404(Teacher, teacher_id=id)
     print(instance.teacher.username)
@@ -1105,7 +1143,13 @@ def hodstudent(request):
 
 
 def hodtrainee(request):
-    return render(request, "hodapp/hodtrainee.html")
+    hos = Hods.objects.get(hod=request.user)
+    dep = hos.department
+    print(dep)
+    trainers = Trainers.objects.filter(department=dep).values_list('course__course_name').distinct()
+    query = Trainees.objects.filter(course__course_name__in=trainers)
+    print(query)
+    return render(request, "hodapp/hodtrainee.html",{"query":query})
 
 
 def addleave(request):
