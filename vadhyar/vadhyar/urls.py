@@ -171,6 +171,7 @@ if settings.DEBUG:
         url(r'^test_test$', test_test, name='test_test'),
         url(r'^hod_salary/(?P<id>\d+)/$', hod_salary, name='hod_salary'),
         url(r'^teacher_salary/(?P<id>\d+)/$', teacher_salary, name='teacher_salary'),
+        url(r'^teacher_salarys/(?P<id>\d+)/$', teacher_salarys, name='teacher_salarys'),
         url(r'^trainer_salary/(?P<id>\d+)/$', trainer_salary, name='trainer_salary'),
         url(r'^trainee_fee/(?P<id>\d+)/$', trainee_fee, name='trainee_fee'),
         url(r'^student_fee/(?P<id>\d+)/$', student_fee, name='student_fee'),

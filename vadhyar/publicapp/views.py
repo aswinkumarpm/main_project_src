@@ -169,6 +169,33 @@ def teacher_salary(request, id=None):
                   {"form": form, "instance": instance, "salaryhistory": salary_history})
 
 
+def teacher_salarys(request, id=None):
+    instance = get_object_or_404(Teacher, teacher_id=id)
+    print(instance.teacher.username)
+
+    user_instance = CustomUser.objects.get(username=instance.teacher.username)
+
+    form = salaryForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
+
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('admindex')
+
+    salary_history = salary.objects.filter(user_id=user_instance.id)
+
+    return render(request, 'teacherapp/salary.html',
+                  {"form": form, "instance": instance, "salaryhistory": salary_history})
+
+
 def trainer_salary(request, id=None):
     instance = get_object_or_404(Trainers, trainer_name_id=id)
     print(instance.trainer_name.username)
@@ -1240,7 +1267,6 @@ def complaint_view(request):
 
 
 def teacherleave(request):
-
     title = 'Request Leave'
     data = Leaves.objects.filter(taken_by=request.user)
     if request.method == 'POST':
@@ -1670,6 +1696,7 @@ def studreport(request):
 
 def time_table_view(request, teacher_type):
     time_table = generate_timetable()
+    print(time_table, '*'*100)
     if teacher_type == 'teacher':
         title = "Teacher's Time Table"
         time_table = time_table.filter(teacher__user_type=2)
@@ -1679,6 +1706,15 @@ def time_table_view(request, teacher_type):
     else:
         title = "Time Table"
         time_table = time_table.filter(teacher__user_type__in=[2, 4])
+    # try:
+    #     profile = Hods.objects.get(hod=request.user)
+    #     time_table = time_table.filter(teacher__teachers_for_students__department=profile.department)
+    # except Exception as e:
+    #     try:
+    #         profile = Hods.objects.get(hod=request.user)
+    #         time_table = time_table.filter(teacher__trainers__department=profile.department)
+    #     except Exception as a:
+    #         pass
     return render(request, 'hodapp/time-table.html', {'time_table': time_table, 'title': title})
 
 
