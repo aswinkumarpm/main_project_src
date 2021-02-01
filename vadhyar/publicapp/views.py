@@ -42,6 +42,7 @@ from .models import subjects
 from .models import Teacher
 from .models import Trainees
 from .models import Trainers
+from .models import subjects
 # Create your views here.
 from .utils import generate_timetable
 
@@ -324,7 +325,11 @@ def studentsave(request):
         student.standard = standard
         student.mobile_num = user_mobile_number
         student.dob = user_dob
-        student.save()
+        try:
+            student.save()
+        except Exception as e:
+            print("EXCEPTION",e)
+            messages.error(request, 'Please correct the error below. /n'+str(e))
 
         print("inside approve")
 
@@ -466,6 +471,52 @@ def loginstud(request):
 
 
 def re(request):
+    if request.method == 'POST':
+        uname = request.POST['user_name']
+        print(uname)
+        user_email = request.POST['user_email']
+        print(user_email)
+        user_mobile_number = request.POST['user_mobile_number']
+        print(user_mobile_number)
+        user_dob = request.POST['user_dob']
+        print(user_dob)
+        standard = request.POST['standard']
+        print(standard)
+        print(uname)
+        try:
+            stu = CustomUser.objects.create_user(username=uname, password='q1w2e3r4', email=user_email, user_type=3)
+
+            stu.save()
+            student = Students.objects.get(student_name__username=uname)
+            student.standard = standard
+            student.mobile_num = user_mobile_number
+            student.dob = user_dob
+
+            student.save()
+            print("inside approve")
+
+            subject = 'welcome to Vadhyar APP world'
+            message = 'Hi thank you for registering in Vadhyar. Your password is q1w2e3r4 .You Can Change Your Password in Profile Page'
+            from django.conf import settings
+
+            email_from = settings.EMAIL_HOST_USER
+            # recipient_list = ["praveenmv93@gmail.com", ]
+            context = {
+                "d": "d",
+            }
+            from django.core.mail import send_mail
+
+            send_mail(subject, message, email_from, [user_email, ])
+        except Exception as e:
+            print("EXCEPTION",e)
+            if str(e) =="UNIQUE constraint failed: publicapp_customuser.username":
+                print("RRR")
+
+                messages.error(request, 'Username must be a unique one, please try with another one')
+
+            else:
+                messages.error(request, str(e))
+
     return render(request, "publicapp/re.html", {})
 
 
@@ -1196,7 +1247,15 @@ def teachervideo(request):
 
 
 def teacherstudent(request):
-    return render(request, "teacherapp/teacherstudent.html")
+    query = ""
+    try:
+        sub = Teacher.objects.get(teacher=request.user)
+        query = Students.objects.filter(standard=sub.subjects.subject_name)
+        print("dd",sub)
+        print("ee",query)
+    except Exception as e:
+        print("Exception",e)
+    return render(request, "teacherapp/teacherstudent.html",{"query":query})
 
 
 def teacherleavereq(request):
