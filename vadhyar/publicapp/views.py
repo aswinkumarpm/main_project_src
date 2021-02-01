@@ -42,7 +42,6 @@ from .models import subjects
 from .models import Teacher
 from .models import Trainees
 from .models import Trainers
-from .models import subjects
 # Create your views here.
 from .utils import generate_timetable
 
@@ -393,8 +392,8 @@ def studentsave(request):
         try:
             student.save()
         except Exception as e:
-            print("EXCEPTION",e)
-            messages.error(request, 'Please correct the error below. /n'+str(e))
+            print("EXCEPTION", e)
+            messages.error(request, 'Please correct the error below. /n' + str(e))
 
         print("inside approve")
 
@@ -573,8 +572,8 @@ def re(request):
 
             send_mail(subject, message, email_from, [user_email, ])
         except Exception as e:
-            print("EXCEPTION",e)
-            if str(e) =="UNIQUE constraint failed: publicapp_customuser.username":
+            print("EXCEPTION", e)
+            if str(e) == "UNIQUE constraint failed: publicapp_customuser.username":
                 print("RRR")
 
                 messages.error(request, 'Username must be a unique one, please try with another one')
@@ -940,9 +939,9 @@ def courseadd(request):
         course_duration = request.POST["course_duration"]
         course_department = request.POST.get("course_department", None)
         course_fee = request.POST["course_fee"]
-        if courses.objects.filter(course_name=course_name).count()>0:
+        if courses.objects.filter(course_name=course_name).count() > 0:
             print("Ffff")
-            messages.error(request,"Course name must be unique")
+            messages.error(request, "Course name must be unique")
         else:
             stu = courses(course_name=course_name, course_duration=course_duration, course_department=course_department,
                           course_fee=course_fee)
@@ -1372,11 +1371,11 @@ def teacherstudent(request):
     try:
         sub = Teacher.objects.get(teacher=request.user)
         query = Students.objects.filter(standard=sub.subjects.subject_name)
-        print("dd",sub)
-        print("ee",query)
+        print("dd", sub)
+        print("ee", query)
     except Exception as e:
-        print("Exception",e)
-    return render(request, "teacherapp/teacherstudent.html",{"query":query})
+        print("Exception", e)
+    return render(request, "teacherapp/teacherstudent.html", {"query": query})
 
 
 def teacherleavereq(request):
@@ -1532,15 +1531,15 @@ def trainervideo(request):
 
 
 def trainerstudent(request):
-    query= ''
+    query = ''
     try:
         train = Trainers.objects.get(trainer_name=request.user)
         train_course = train.course.course_name
-        query =Trainees.objects.filter(course__course_name=train_course)
+        query = Trainees.objects.filter(course__course_name=train_course)
     except Exception as e:
-        print("Exception",e)
+        print("Exception", e)
 
-    return render(request, "trainerapp/trainerstudent.html",{"query":query})
+    return render(request, "trainerapp/trainerstudent.html", {"query": query})
 
 
 def hod_salary_details(request):
@@ -1739,26 +1738,18 @@ def studreport(request):
 
 
 def time_table_view(request, teacher_type):
-    time_table = generate_timetable()
-    print(time_table, '*'*100)
+    time_table = generate_timetable(request.user)
+    print(time_table, '*' * 100)
     if teacher_type == 'teacher':
         title = "Teacher's Time Table"
-        time_table = time_table.filter(teacher__user_type=2)
+        time_table = time_table.filter(teacher__user_type__in=[2, 'TEACHER'])
     elif teacher_type == 'trainer':
         title = "Trainer's Time Table"
-        time_table = time_table.filter(teacher__user_type=4)
+        time_table = time_table.filter(teacher__user_type=['TRAINER', 4])
     else:
         title = "Time Table"
-        time_table = time_table.filter(teacher__user_type__in=[2, 4])
-    # try:
-    #     profile = Hods.objects.get(hod=request.user)
-    #     time_table = time_table.filter(teacher__teachers_for_students__department=profile.department)
-    # except Exception as e:
-    #     try:
-    #         profile = Hods.objects.get(hod=request.user)
-    #         time_table = time_table.filter(teacher__trainers__department=profile.department)
-    #     except Exception as a:
-    #         pass
+        time_table = time_table.filter(teacher__user_type__in=['TEACHER', 'TRAINER', 2, 4])
+
     return render(request, 'hodapp/time-table.html', {'time_table': time_table, 'title': title})
 
 

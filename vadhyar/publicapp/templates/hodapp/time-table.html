@@ -30,17 +30,18 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap drp-lst">
                         <h4>{{ title }}</h4>
-
-                        <div class="row">
-                            {% for data in time_table %}
-                                <div class="col-md-3 card text-center">
+                    </div>
+                    {% for data in time_table %}
+                        <a href="">
+                            <div class="card ">
+                                <div class="col-md-3 card-body shadow text-center">
                                     <h3>{{ data.subject }}</h3>
                                     <p>{{ data.teacher }}</p>
                                     <p>Time:{{ data.time }}</p>
                                 </div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                            </div>
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
