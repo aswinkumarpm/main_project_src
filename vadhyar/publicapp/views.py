@@ -857,7 +857,7 @@ def trainersave(request):
             "d": "d",
         }
         from django.core.mail import send_mail
-        # send_mail(subject, message, email_from, [email, ])
+        send_mail(subject, message, email_from, [email, ])
 
     return render(request, "adminapp/add_trainer.html", {"form": form})
 
@@ -1053,7 +1053,7 @@ def retrainer(request):
             }
             from django.core.mail import send_mail
 
-            # send_mail(subject, message, email_from, [user_email, ])
+            send_mail(subject, message, email_from, [user_email, ])
             return redirect("/")
         except Exception as e:
             print("ESCEPTION", e)
