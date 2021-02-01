@@ -457,27 +457,41 @@ class leavereport(models.Model):
     leave_message = models.TextField()
     leave_status = models.IntegerField(default=0)
 
+STATUS = (
+    ('pending', 'Pending'),
+    ('approved', 'Approved'),
+    ('rejected', 'Rejected'),
+)
+class Leaves(models.Model):
+    taken_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    from_date = models.DateField()
+    to_date = models.DateField()
+    reason = models.CharField(max_length=10)
+    leave_type = models.CharField(max_length=10)
+    comment = models.CharField(max_length=50, blank=True, null=True)
+    status = models.CharField(choices=STATUS, max_length=32, default='pending')
 
-class LeaveReportStudent(models.Model):
-    id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
-    leave_date = models.CharField(max_length=255)
-    leave_message = models.TextField()
-    leave_status = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
 
-
-class LeaveReportStaff(models.Model):
-    id = models.AutoField(primary_key=True)
-    staff_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    leave_date = models.CharField(max_length=255)
-    leave_message = models.TextField()
-    leave_status = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
+# class LeaveReportStudent(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
+#     leave_date = models.CharField(max_length=255)
+#     leave_message = models.TextField()
+#     leave_status = models.IntegerField(default=0)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     objects = models.Manager()
+#
+#
+# class LeaveReportStaff(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     staff_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+#     leave_date = models.CharField(max_length=255)
+#     leave_message = models.TextField()
+#     leave_status = models.IntegerField(default=0)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     objects = models.Manager()
 
 
 @receiver(post_save, sender=CustomUser)
