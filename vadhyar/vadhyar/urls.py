@@ -190,6 +190,7 @@ if settings.DEBUG:
         path('all_notes/', all_notes, name="all_notes"),
         path('teacherexamsave/', teacherexamsave, name="teacherexamsave"),
         path('add_reply/<int:id>/', add_reply, name='add_reply'),
+        path('time-table-view/<str:teacher_type>/', time_table_view, name="time-table-view"),
 
     ]
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

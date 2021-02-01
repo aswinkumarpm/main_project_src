@@ -11,11 +11,12 @@ from django.shortcuts import render
 
 from vadhyar import settings
 from .EmailBackend import EmailBackEnd
-from .forms import commontimetableForm, LeavesForm
+from .forms import commontimetableForm
 from .forms import coursesForm
 from .forms import ExamForm
 from .forms import feesForm
 from .forms import InterviewAddForm
+from .forms import LeavesForm
 from .forms import LoginForm
 from .forms import ResultForm
 from .forms import salaryForm
@@ -24,13 +25,15 @@ from .forms import subjectsForm
 from .forms import teacherregForm
 from .forms import TraineeRegForm
 from .forms import trainerregForm
-from .models import Complaint, Feedback, Leaves
+from .models import Complaint
 from .models import courses
 from .models import CustomUser
 from .models import Exam
+from .models import Feedback
 from .models import fees
 from .models import Hods
 from .models import interplacement
+from .models import Leaves
 from .models import Result
 from .models import salary
 from .models import Students
@@ -900,6 +903,7 @@ def all_videos(request):
     queryset = StudyMaterial.objects.filter(material_type='video')
     return render(request, "adminapp/all_videos.html", {'queryset': queryset})
 
+
 def all_notes(request):
     queryset = StudyMaterial.objects.filter(material_type='note')
     return render(request, "adminapp/all_notes.html", {'queryset': queryset})
@@ -1013,10 +1017,14 @@ def studleave(request):
 
 def feedback(request):
     return render(request, "studentapp/feedback.html")
+
+
 #
 #
 def studcomplaints(request):
     return render(request, "studentapp/studcomplaints.html")
+
+
 #
 
 def all_complaints(request):
@@ -1536,9 +1544,7 @@ def time_table_view(request, teacher_type):
     else:
         time_table = time_table.filter(teacher__user_type=4)
 
-    return render(request, 'hod/time-table.html', {'time_table':time_table})
-
-
+    return render(request, 'hodapp/time-table.html', {'time_table': time_table})
 
 
 def studfeedback(request):
@@ -1557,11 +1563,11 @@ def studfeedback(request):
             # elif request.user.user_type_data == 4:
             #     dep = Trainers.objects.get(trainer_name=request.user)
             #     department = dep.department
-            if Teacher.objects.filter(teacher__email = feedback_to).count() > 0:
+            if Teacher.objects.filter(teacher__email=feedback_to).count() > 0:
                 print("d")
 
-                print("ggg",feedback_to)
-                print("dddd",feedback_description)
+                print("ggg", feedback_to)
+                print("dddd", feedback_description)
                 obj = Feedback()
                 obj.user = request.user
                 obj.email = feedback_to
@@ -1571,11 +1577,11 @@ def studfeedback(request):
                     student = Students.objects.get(student_name=request.user)
                     contacts = student.mobile_num
                     from django.core.mail import send_mail
-                    subject ="Feedback From Student"
-                    message = feedback_description + " by "+ " /n"+request.user.first_name + ", /n"+ contacts
+                    subject = "Feedback From Student"
+                    message = feedback_description + " by " + " /n" + request.user.first_name + ", /n" + contacts
                     email_from = settings.EMAIL_HOST_USER
                     send_mail(subject, message, email_from, [feedback_to, ])
-                except :
+                except:
                     print("mail send error")
                     pass
                 return redirect("studentindex")
@@ -1590,8 +1596,6 @@ def studfeedback(request):
     else:
         print("else")
     return render(request, "studentapp/feedback.html")
-
-
 
 
 def request_leave(request):
@@ -1610,7 +1614,6 @@ def request_leave(request):
     return render(request, 'admin/leave-create.html', {'form': form, 'title': title, 'list_data': data})
 
 
-
 def teacher_leave_request_list(request):
     title = 'Teacher Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=2, status='pending')
@@ -1622,15 +1625,18 @@ def student_leave_request_list(request):
     list_data = Leaves.objects.filter(taken_by__user_type=3, status='pending')
     return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
 
+
 def trainee_leave_request_list(request):
     title = 'Trainee Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=5, status='pending')
     return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
 
+
 def trainer_leave_request_list(request):
     title = 'Trainer Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=4, status='pending')
     return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
+
 
 @login_required
 def approve_leave_request(request, obj_id):
@@ -1664,7 +1670,3 @@ def reject_leave_request(request, obj_id):
         else:
             url = redirect('student-leave-request-list')
         return url
-
-
-
-
