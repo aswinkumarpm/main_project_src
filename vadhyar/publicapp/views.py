@@ -857,7 +857,7 @@ def trainersave(request):
             "d": "d",
         }
         from django.core.mail import send_mail
-        # send_mail(subject, message, email_from, [email, ])
+        send_mail(subject, message, email_from, [email, ])
 
     return render(request, "adminapp/add_trainer.html", {"form": form})
 
@@ -875,11 +875,15 @@ def courseadd(request):
         course_duration = request.POST["course_duration"]
         course_department = request.POST.get("course_department", None)
         course_fee = request.POST["course_fee"]
-        stu = courses(course_name=course_name, course_duration=course_duration, course_department=course_department,
-                      course_fee=course_fee)
+        if courses.objects.filter(course_name=course_name).count()>0:
+            print("Ffff")
+            messages.error(request,"Course name must be unique")
+        else:
+            stu = courses(course_name=course_name, course_duration=course_duration, course_department=course_department,
+                          course_fee=course_fee)
 
-        stu.save()
-        return redirect('admindex')
+            stu.save()
+            return redirect('admindex')
     return render(request, "adminapp/courseadd.html", {'form': form})
 
 
@@ -1011,7 +1015,53 @@ def hodindex(request):
 
 def retrainer(request):
     form = TraineeRegForm()
+    if request.method == 'POST':
+        uname = request.POST['name']
+        print(uname)
+        user_email = request.POST['email']
+        print(user_email)
+        user_mobile_number = request.POST['mobile_num']
+        print(user_mobile_number)
+        user_dob = request.POST['dob']
+        print(user_dob)
+        user_gender = request.POST['gender']
+        print(user_gender)
+        course = request.POST['course_name']
+        print(course)
+        print(uname)
 
+        try:
+            stu = CustomUser.objects.create_user(username=uname, password='q1w2e3r4', email=user_email, user_type=5)
+
+            stu.save()
+            student = Trainees.objects.get(trainee__username=uname)
+            student.course = courses.objects.get(course_name=course)
+            student.mobile_num = user_mobile_number
+            student.dob = user_dob
+            student.gender = user_gender
+            student.save()
+
+            print("inside approve")
+
+            subject = 'welcome to Vadhyar APP world'
+            message = 'Hi thank you for registering in Vadhyar. Your password is q1w2e3r4 .You Can Change Your Password in Profile Page'
+            from django.conf import settings
+
+            email_from = settings.EMAIL_HOST_USER
+            context = {
+                "d": "d",
+            }
+            from django.core.mail import send_mail
+
+            send_mail(subject, message, email_from, [user_email, ])
+            return redirect("/")
+        except Exception as e:
+            print("ESCEPTION", e)
+
+            if str(e) == "UNIQUE constraint failed: publicapp_customuser.username":
+                messages.error(request, "Username must be unique please try with another. ")
+            else:
+                messages.error(request, str(e))
     return render(request, "publicapp/retrainer.html", {'form': form})
 
 
@@ -1411,7 +1461,15 @@ def trainervideo(request):
 
 
 def trainerstudent(request):
-    return render(request, "trainerapp/trainerstudent.html")
+    query= ''
+    try:
+        train = Trainers.objects.get(trainer_name=request.user)
+        train_course = train.course.course_name
+        query =Trainees.objects.filter(course__course_name=train_course)
+    except Exception as e:
+        print("Exception",e)
+
+    return render(request, "trainerapp/trainerstudent.html",{"query":query})
 
 
 def hod_salary_details(request):
@@ -1443,14 +1501,14 @@ def email_logins(request):
                 if user_type == '1':
                     return redirect('hodindex')
                 elif user_type == '2':
-                    return redirect('teacher_home')
+                    return redirect('teacherindex')
 
                 elif user_type == '3':
                     return redirect('studentindex')
                 elif user_type == '4':
-                    return redirect('trainer_home')
+                    return redirect('traineeindex')
                 elif user_type == '5':
-                    return redirect('trainee_home')
+                    return redirect('traineeindex')
                 else:
                     messages.error(request, "Invalid Login!")
                     return redirect('login')
@@ -1663,7 +1721,7 @@ def studfeedback(request):
                     contacts = student.mobile_num
                     from django.core.mail import send_mail
                     subject = "Feedback From Student"
-                    message = feedback_description + " by " + " /n" + request.user.first_name + ", /n" + contacts
+                    message = feedback_description + " by " + " \n" + request.user.username + ", \n" + contacts
                     email_from = settings.EMAIL_HOST_USER
                     send_mail(subject, message, email_from, [feedback_to, ])
                 except:
