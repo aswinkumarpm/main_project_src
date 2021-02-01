@@ -202,6 +202,8 @@ if settings.DEBUG:
         path('leave-request/<int:obj_id>/reject/', reject_leave_request, name='staff-leave-request-reject'),
         path('add_reply/<int:id>/', add_reply, name='add_reply'),
         path('time-table-view/<str:teacher_type>/', time_table_view, name="time-table-view"),
+        path('search-class/<str:session_type>/', search_class, name="search-class"),
+        path('join-session/<str:session_id>/', search_class, name="join-session"),
 
     ]
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

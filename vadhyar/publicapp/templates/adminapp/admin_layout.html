@@ -17,270 +17,306 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
     <!-- Bootstrap CSS
 		============================================ -->
+{#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"#}
+{#          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">#}
     <link rel="stylesheet" href="{% static 'adminapp/css/bootstrap.min.css' %}">
     <!-- Bootstrap CSS
 		============================================ -->
     <link rel="stylesheet" href="{% static 'adminapp/css/font-awesome.min.css' %}">
     <!-- owl.carousel CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/owl.carousel.css'  %}">
-    <link rel="stylesheet" href="{% static 'adminapp/css/owl.theme.css'  %}">
-    <link rel="stylesheet" href="{% static 'adminapp/css/owl.transitions.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/owl.transitions.css' %}">
     <!-- animate CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/animate.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/animate.css' %}">
     <!-- normalize CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/normalize.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/normalize.css' %}">
     <!-- meanmenu icon CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/meanmenu.min.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/meanmenu.min.css' %}">
     <!-- main CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/main.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/main.css' %}">
     <!-- educate icon CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/educate-custon-icon.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/educate-custon-icon.css' %}">
     <!-- morrisjs CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/morrisjs/morris.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/morrisjs/morris.css' %}">
     <!-- mCustomScrollbar CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/scrollbar/jquery.mCustomScrollbar.min.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/scrollbar/jquery.mCustomScrollbar.min.css' %}">
     <!-- metisMenu CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/metisMenu/metisMenu.min.css'  %}">
-    <link rel="stylesheet" href="{% static 'adminapp/css/metisMenu/metisMenu-vertical.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/metisMenu/metisMenu.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/metisMenu/metisMenu-vertical.css' %}">
     <!-- calendar CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/calendar/fullcalendar.min.css'  %}">
-    <link rel="stylesheet" href="{% static 'adminapp/css/calendar/fullcalendar.print.min.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/calendar/fullcalendar.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/calendar/fullcalendar.print.min.css' %}">
     <!-- style CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/style.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/style.css' %}">
     <!-- responsive CSS
 		============================================ -->
-    <link rel="stylesheet" href="{% static 'adminapp/css/responsive.css'  %}">
+    <link rel="stylesheet" href="{% static 'adminapp/css/responsive.css' %}">
     <!-- modernizr JS
 		============================================ -->
-    <script src="{% static 'adminapp/js/vendor/modernizr-2.8.3.min.js'  %}"></script>
+    <script src="{% static 'adminapp/js/vendor/modernizr-2.8.3.min.js' %}"></script>
 </head>
 
 <body>
-    <!--[if lt IE 8]>
-		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
-    <!-- Start Left menu area -->
-    <div class="left-sidebar-pro">
-        <nav id="sidebar" class="">
-            <div class="sidebar-header">
-                <a href="index.html"><img class="main-logo" src="{% static 'adminapp/img/logo/lo.png' alt=""  %}"/></a>
-                 
-            </div>
-            <div class="left-custom-menu-adp-wrap comment-scrollbar">
-                <nav class="sidebar-nav left-sidebar-menu-pro">
-                    <ul class="metismenu" id="menu1">
-                        <li class="active">
-                            <a class="has-arrow" href="index.html">
-								   <span class="educate-icon educate-home icon-wrap"></span>
-								   <span class="mini-click-non">Education</span>
-								</a>
-                            <ul class="submenu-angle" aria-expanded="true">
-                                <li><a title="Dashboard v.1" href="{% url 'admindex' %}"><span class="mini-sub-pro">Dashboard </span></a></li>
-                            </ul>
-                        </li>
-                        
-                        <li>
-                            <a class="has-arrow" href="all-professors.html" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">HOD</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                
-                                <li><a title="Add HOD" href="{% url 'add_professor' %}"><span class="mini-sub-pro">Add HOD</span></a></li>
-                               
-                                <li><a title="HOD Profile" href="/view_hod"><span class="mini-sub-pro">HOD Profile</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="all-professors.html" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">TEACHERS</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Add Teacher" href="{% url 'add_teacher' %}"><span class="mini-sub-pro">Add Teacher</span></a></li>
-                               
-                                <li><a title="Teachers Profile" href="{% url 'view_teachers' %}"><span class="mini-sub-pro">All Teachers</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="all-professors.html" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">TRAINERS</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Add Trainer" href="{% url 'add_trainer' %}"><span class="mini-sub-pro">Add Trainer</span></a></li>
-                                <li><a title="Trainer Profile" href="{% url 'all_trainers' %}"><span class="mini-sub-pro">All Trainers</span></a></li>
-                                
-                                
-                            </ul>
-                        </li>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<!-- Start Left menu area -->
+<div class="left-sidebar-pro">
+    <nav id="sidebar" class="">
+        <div class="sidebar-header">
+            <a href="index.html"><img class="main-logo" src="{% static 'adminapp/img/logo/lo.png' alt="" %}"/></a>
 
-                        <li>
-                            <a class="has-arrow" href="all-students.html" aria-expanded="false"><span class="educate-icon educate-student icon-wrap"></span> <span class="mini-click-non">STUDENTS</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="All Students" href="{% url 'view_students' %}"><span class="mini-sub-pro">All Student</span></a></li>
-                                
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="all-students.html" aria-expanded="false"><span class="educate-icon educate-student icon-wrap"></span> <span class="mini-click-non">TRAINEE</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="All Students" href="{% url 'all_trainee' %}"><span class="mini-sub-pro">All Trainees</span></a></li>
-                                
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">COURSES</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="All Courses" href="{% url 'all_course' %}"><span class="mini-sub-pro">All Courses</span></a></li>
-                                <li><a title="Add Course" href="{% url 'courseadd' %}"><span class="mini-sub-pro">Add Course</span></a></li>
-                                <li><a title="Edit Courses" href=""><span class="mini-sub-pro"></span></a></li>
-                               
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">SUBJECTS</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="All Subjects" href="{% url 'all_subjects' %}"><span class="mini-sub-pro">All Subjects</span></a></li>
-                                <li><a title="Add Subjects" href="{% url 'subjectadd' %}"><span class="mini-sub-pro">Add Subjects</span></a></li>
-                                <li><a title="Edit Courses" href=""><span class="mini-sub-pro"></span></a></li>
-                               
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">INTERVIEW DETAILS</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Interview" href="{% url 'all_interview' %}"><span class="mini-sub-pro">All Interviews</span></a></li>
-                        
-                                <li><a title="Add Interview" href="{% url 'interplacementadd' %}"><span class="mini-sub-pro">Add Interview</span></a></li>
-                              
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">RECORDED VIDEOS</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Recorded Videos" href="{% url 'all_videos' %}"><span class="mini-sub-pro">All Videos</span></a></li>
-                        
-                                <li><a title="Add Recorded Videos" href="{% url 'recordvideos' %}"><span class="mini-sub-pro">Add Recorded Video</span></a></li>
-                              
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">COMPLAINTS</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="studentComplaints" href="{% url 'studentscomp' %}"><span class="mini-sub-pro"> Students Complaints</span></a></li>
-                               
-                                <li><a title="traineesComplaints" href="{% url 'traineescomp' %}"><span class="mini-sub-pro"> Trainees Complaints</span></a></li>
-                                <li><a title="teachersComplaints" href="{% url 'teacherscomp' %}"><span class="mini-sub-pro"> Teachers Complaints</span></a></li>
-                                <li><a title="trainersComplaints" href="{% url 'trianerscomp' %}"><span class="mini-sub-pro"> Trainers Complaints</span></a></li>
-                            </ul>
-                        </li>
+        </div>
+        <div class="left-custom-menu-adp-wrap comment-scrollbar">
+            <nav class="sidebar-nav left-sidebar-menu-pro">
+                <ul class="metismenu" id="menu1">
+                    <li class="active">
+                        <a class="has-arrow" href="index.html">
+                            <span class="educate-icon educate-home icon-wrap"></span>
+                            <span class="mini-click-non">Education</span>
+                        </a>
+                        <ul class="submenu-angle" aria-expanded="true">
+                            <li><a title="Dashboard v.1" href="{% url 'admindex' %}"><span class="mini-sub-pro">Dashboard </span></a>
+                            </li>
+                        </ul>
+                    </li>
 
-                                                <li>
-                            <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Leave Requests</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="hodleaveRequests" href="{% url 'hod_leave_request_list' %}"><span class="mini-sub-pro"> HOD Leave Requests</span></a></li>
+                    <li>
+                        <a class="has-arrow" href="all-professors.html" aria-expanded="false"><span
+                                class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">HOD</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
 
-                                                         </ul>
-                        </li>
+                            <li><a title="Add HOD" href="{% url 'add_professor' %}"><span
+                                    class="mini-sub-pro">Add HOD</span></a></li>
+
+                            <li><a title="HOD Profile" href="/view_hod"><span
+                                    class="mini-sub-pro">HOD Profile</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="all-professors.html" aria-expanded="false"><span
+                                class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">TEACHERS</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="Add Teacher" href="{% url 'add_teacher' %}"><span class="mini-sub-pro">Add Teacher</span></a>
+                            </li>
+
+                            <li><a title="Teachers Profile" href="{% url 'view_teachers' %}"><span class="mini-sub-pro">All Teachers</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="all-professors.html" aria-expanded="false"><span
+                                class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">TRAINERS</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="Add Trainer" href="{% url 'add_trainer' %}"><span class="mini-sub-pro">Add Trainer</span></a>
+                            </li>
+                            <li><a title="Trainer Profile" href="{% url 'all_trainers' %}"><span class="mini-sub-pro">All Trainers</span></a>
+                            </li>
 
 
-                        
-                        
-                        
-                        
-                        
-                            
-                        
-                    </ul>
-                </nav>
-            </div>
-        </nav>
-    </div>
-    <!-- End Left menu area -->
-    <!-- Start Welcome area -->
-    <div class="all-content-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="logo-pro">
-                        <a href="#"><img class="main-logo" src="{% static 'adminapp/img/logo/logo.png' alt="" %}"/></a>
-                    </div>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="has-arrow" href="all-students.html" aria-expanded="false"><span
+                                class="educate-icon educate-student icon-wrap"></span> <span class="mini-click-non">STUDENTS</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Students" href="{% url 'view_students' %}"><span class="mini-sub-pro">All Student</span></a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="all-students.html" aria-expanded="false"><span
+                                class="educate-icon educate-student icon-wrap"></span> <span class="mini-click-non">TRAINEE</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Students" href="{% url 'all_trainee' %}"><span class="mini-sub-pro">All Trainees</span></a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span
+                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">COURSES</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Courses" href="{% url 'all_course' %}"><span class="mini-sub-pro">All Courses</span></a>
+                            </li>
+                            <li><a title="Add Course" href="{% url 'courseadd' %}"><span
+                                    class="mini-sub-pro">Add Course</span></a></li>
+                            <li><a title="Edit Courses" href=""><span class="mini-sub-pro"></span></a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span
+                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">SUBJECTS</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="All Subjects" href="{% url 'all_subjects' %}"><span class="mini-sub-pro">All Subjects</span></a>
+                            </li>
+                            <li><a title="Add Subjects" href="{% url 'subjectadd' %}"><span class="mini-sub-pro">Add Subjects</span></a>
+                            </li>
+                            <li><a title="Edit Courses" href=""><span class="mini-sub-pro"></span></a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span
+                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">INTERVIEW DETAILS</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="Interview" href="{% url 'all_interview' %}"><span class="mini-sub-pro">All Interviews</span></a>
+                            </li>
+
+                            <li><a title="Add Interview" href="{% url 'interplacementadd' %}"><span
+                                    class="mini-sub-pro">Add Interview</span></a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span
+                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">RECORDED VIDEOS</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="Recorded Videos" href="{% url 'all_videos' %}"><span class="mini-sub-pro">All Videos</span></a>
+                            </li>
+
+                            <li><a title="Add Recorded Videos" href="{% url 'recordvideos' %}"><span
+                                    class="mini-sub-pro">Add Recorded Video</span></a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span
+                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">COMPLAINTS</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="studentComplaints" href="{% url 'studentscomp' %}"><span class="mini-sub-pro"> Students Complaints</span></a>
+                            </li>
+
+                            <li><a title="traineesComplaints" href="{% url 'traineescomp' %}"><span
+                                    class="mini-sub-pro"> Trainees Complaints</span></a></li>
+                            <li><a title="teachersComplaints" href="{% url 'teacherscomp' %}"><span
+                                    class="mini-sub-pro"> Teachers Complaints</span></a></li>
+                            <li><a title="trainersComplaints" href="{% url 'trianerscomp' %}"><span
+                                    class="mini-sub-pro"> Trainers Complaints</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span
+                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">Leave Requests</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="hodleaveRequests" href="{% url 'hod_leave_request_list' %}"><span
+                                    class="mini-sub-pro"> HOD Leave Requests</span></a></li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </nav>
+        </div>
+    </nav>
+</div>
+<!-- End Left menu area -->
+<!-- Start Welcome area -->
+<div class="all-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="logo-pro">
+                    <a href="#"><img class="main-logo" src="{% static 'adminapp/img/logo/logo.png' alt="" %}"/></a>
                 </div>
             </div>
         </div>
-        <div class="header-advance-area">
-            <div class="header-top-area">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-top-wraper">
-                                <div class="row">
-                                    <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
-                                        <div class="menu-switcher-pro">
-                                            <button type="button" id="sidebarCollapse" class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
-													<i class="educate-icon educate-nav"></i>
-												</button>
-                                        </div>
+    </div>
+    <div class="header-advance-area">
+        <div class="header-top-area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="header-top-wraper">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
+                                    <div class="menu-switcher-pro">
+                                        <button type="button" id="sidebarCollapse"
+                                                class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
+                                            <i class="educate-icon educate-nav"></i>
+                                        </button>
                                     </div>
-                                    <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
-                                        <div class="header-top-menu tabl-d-n">
-                                            <ul class="nav navbar-nav mai-top-nav">
-                                                <li class="nav-item"><a href="#" class="nav-link"></a>
-                                                </li>
-                                                <li class="nav-item"><a href="#" class="nav-link"></a>
-                                                </li>
-                                                <li class="nav-item"><a href="#" class="nav-link"></a>
-                                                </li>
-                                                
-                                                <li class="nav-item"><a href="#" class="nav-link"></a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                </div>
+                                <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
+                                    <div class="header-top-menu tabl-d-n">
+                                        <ul class="nav navbar-nav mai-top-nav">
+                                            <li class="nav-item"><a href="#" class="nav-link"></a>
+                                            </li>
+                                            <li class="nav-item"><a href="#" class="nav-link"></a>
+                                            </li>
+                                            <li class="nav-item"><a href="#" class="nav-link"></a>
+                                            </li>
+
+                                            <li class="nav-item"><a href="#" class="nav-link"></a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                        <div class="header-right-info">
-                                            <ul class="nav navbar-nav mai-top-nav header-right-menu">
-                                                                                                        {% if user.is_authenticated %}
-
-                                                
-                                                <li class="nav-item">
-                                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-															<img src="{% static 'adminapp/img/product/pro4.jpg' alt="" %}"/>
-
-															<span class="admin-name">{{request.user}}</span>
-															<i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
-														</a>
-                                                    <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                        <li><a href="{% url 'change_password' %}"><span class="edu-icon edu-locked author-log-ic"></span>Change Password</a>
-                                                        </li>
-                                                        <li><a href="/logout"><span class="edu-icon edu-locked author-log-ic"></span>Log Out</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                {% else %}
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                    <div class="header-right-info">
+                                        <ul class="nav navbar-nav mai-top-nav header-right-menu">
+                                            {% if user.is_authenticated %}
 
 
                                                 <li class="nav-item">
-                                                    <a href="{% url 'email_login' %}" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-															<img src="{% static 'adminapp/img/product/pro4.jpg' alt="" %}"/>
+                                                    <a href="#" data-toggle="dropdown" role="button"
+                                                       aria-expanded="false" class="nav-link dropdown-toggle">
+                                                        <img src="{% static 'adminapp/img/product/pro4.jpg' alt="" %}"/>
 
-															<span class="admin-name">Please Login</span>
-															<i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
-														</a>
-                                                    <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-
-                                                        <li><a href="/email_login"><span class="edu-icon edu-locked author-log-ic"></span>Login</a>
+                                                        <span class="admin-name">{{ request.user }}</span>
+                                                        <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
+                                                    </a>
+                                                    <ul role="menu"
+                                                        class="dropdown-header-top author-log dropdown-menu animated zoomIn">
+                                                        <li><a href="{% url 'change_password' %}"><span
+                                                                class="edu-icon edu-locked author-log-ic"></span>Change
+                                                            Password</a>
+                                                        </li>
+                                                        <li><a href="/logout"><span
+                                                                class="edu-icon edu-locked author-log-ic"></span>Log Out</a>
                                                         </li>
                                                     </ul>
                                                 </li>
-                                                                                                        {% endif %}
+                                            {% else %}
 
-                                                
-                                            </ul>
-                                        </div>
+
+                                                <li class="nav-item">
+                                                    <a href="{% url 'email_login' %}" data-toggle="dropdown"
+                                                       role="button" aria-expanded="false"
+                                                       class="nav-link dropdown-toggle">
+                                                        <img src="{% static 'adminapp/img/product/pro4.jpg' alt="" %}"/>
+
+                                                        <span class="admin-name">Please Login</span>
+                                                        <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
+                                                    </a>
+                                                    <ul role="menu"
+                                                        class="dropdown-header-top author-log dropdown-menu animated zoomIn">
+
+                                                        <li><a href="/email_login"><span
+                                                                class="edu-icon edu-locked author-log-ic"></span>Login</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -288,234 +324,248 @@
                     </div>
                 </div>
             </div>
-            <!-- Mobile Menu start -->
-            <div class="mobile-menu-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="mobile-menu">
-                                <nav id="dropdown">
-                                    <ul class="mobile-menu-nav">
-                                        <li><a data-toggle="collapse" data-target="#Charts" href="#">Home <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul class="collapse dropdown-header-top">
-                                                <li><a href="index.html">Dashboard v.1</a></li>
-                                                
-                                            </ul>
-                                        </li>
-                                        <li><a href="events.html">Event</a></li>
-                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">Professors <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="demoevent" class="collapse dropdown-header-top">
-                                                <li><a href="all-professors.html">All Professors</a>
-                                                </li>
-                                                <li><a href="add-professor.html">Add Professor</a>
-                                                </li>
-                                                <li><a href="edit-professor.html">Edit Professor</a>
-                                                </li>
-                                                <li><a href="professor-profile.html">Professor Profile</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#demopro" href="#">Students <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="demopro" class="collapse dropdown-header-top">
-                                                <li><a href="all-students.html">All Students</a>
-                                                </li>
-                                                <li><a href="add-student.html">Add Student</a>
-                                                </li>
-                                                <li><a href="edit-student.html">Edit Student</a>
-                                                </li>
-                                                <li><a href="student-profile.html">Student Profile</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#democrou" href="#">Courses <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="democrou" class="collapse dropdown-header-top">
-                                                <li><a href="all-courses.html">All Courses</a>
-                                                </li>
-                                                <li><a href="add-course.html">Add Course</a>
-                                                </li>
-                                                <li><a href="edit-course.html">Edit Course</a>
-                                                </li>
-                                                <li><a href="course-profile.html">Courses Info</a>
-                                                </li>
-                                                <li><a href="course-payment.html">Courses Payment</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#demolibra" href="#">Library <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="demolibra" class="collapse dropdown-header-top">
-                                                <li><a href="library-assets.html">Library Assets</a>
-                                                </li>
-                                                <li><a href="add-library-assets.html">Add Library Asset</a>
-                                                </li>
-                                                <li><a href="edit-library-assets.html">Edit Library Asset</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#demodepart" href="#">Departments <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="demodepart" class="collapse dropdown-header-top">
-                                                <li><a href="departments.html">Departments List</a>
-                                                </li>
-                                                <li><a href="add-department.html">Add Departments</a>
-                                                </li>
-                                                <li><a href="edit-department.html">Edit Departments</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#demo" href="#">Mailbox <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="demo" class="collapse dropdown-header-top">
-                                                <li><a href="mailbox.html">Inbox</a>
-                                                </li>
-                                                <li><a href="mailbox-view.html">View Mail</a>
-                                                </li>
-                                                <li><a href="mailbox-compose.html">Compose Mail</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#Miscellaneousmob" href="#">Interface <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="Miscellaneousmob" class="collapse dropdown-header-top">
-                                                <li><a href="google-map.html">Google Map</a>
-                                                </li>
-                                                <li><a href="data-maps.html">Data Maps</a>
-                                                </li>
-                                                <li><a href="pdf-viewer.html">Pdf Viewer</a>
-                                                </li>
-                                                <li><a href="x-editable.html">X-Editable</a>
-                                                </li>
-                                                <li><a href="code-editor.html">Code Editor</a>
-                                                </li>
-                                                <li><a href="tree-view.html">Tree View</a>
-                                                </li>
-                                                <li><a href="preloader.html">Preloader</a>
-                                                </li>
-                                                <li><a href="images-cropper.html">Images Cropper</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#Chartsmob" href="#">Charts <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="Chartsmob" class="collapse dropdown-header-top">
-                                                <li><a href="bar-charts.html">Bar Charts</a>
-                                                </li>
-                                                <li><a href="line-charts.html">Line Charts</a>
-                                                </li>
-                                                <li><a href="area-charts.html">Area Charts</a>
-                                                </li>
-                                                <li><a href="rounded-chart.html">Rounded Charts</a>
-                                                </li>
-                                                <li><a href="c3.html">C3 Charts</a>
-                                                </li>
-                                                <li><a href="sparkline.html">Sparkline Charts</a>
-                                                </li>
-                                                <li><a href="peity.html">Peity Charts</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#Tablesmob" href="#">Tables <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="Tablesmob" class="collapse dropdown-header-top">
-                                                <li><a href="static-table.html">Static Table</a>
-                                                </li>
-                                                <li><a href="data-table.html">Data Table</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#formsmob" href="#">Forms <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="formsmob" class="collapse dropdown-header-top">
-                                                <li><a href="basic-form-element.html">Basic Form Elements</a>
-                                                </li>
-                                                <li><a href="advance-form-element.html">Advanced Form Elements</a>
-                                                </li>
-                                                <li><a href="password-meter.html">Password Meter</a>
-                                                </li>
-                                                <li><a href="multi-upload.html">Multi Upload</a>
-                                                </li>
-                                                <li><a href="tinymc.html">Text Editor</a>
-                                                </li>
-                                                <li><a href="dual-list-box.html">Dual List Box</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#Appviewsmob" href="#">App views <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="Appviewsmob" class="collapse dropdown-header-top">
-                                                <li><a href="basic-form-element.html">Basic Form Elements</a>
-                                                </li>
-                                                <li><a href="advance-form-element.html">Advanced Form Elements</a>
-                                                </li>
-                                                <li><a href="password-meter.html">Password Meter</a>
-                                                </li>
-                                                <li><a href="multi-upload.html">Multi Upload</a>
-                                                </li>
-                                                <li><a href="tinymc.html">Text Editor</a>
-                                                </li>
-                                                <li><a href="dual-list-box.html">Dual List Box</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#Pagemob" href="#">Pages <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
-                                            <ul id="Pagemob" class="collapse dropdown-header-top">
-                                                <li><a href="login.html">Login</a>
-                                                </li>
-                                                <li><a href="register.html">Register</a>
-                                                </li>
-                                                <li><a href="lock.html">Lock</a>
-                                                </li>
-                                                <li><a href="password-recovery.html">Password Recovery</a>
-                                                </li>
-                                                <li><a href="404.html">404 Page</a></li>
-                                                <li><a href="500.html">500 Page</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+        </div>
+        <!-- Mobile Menu start -->
+        <div class="mobile-menu-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="mobile-menu">
+                            <nav id="dropdown">
+                                <ul class="mobile-menu-nav">
+                                    <li><a data-toggle="collapse" data-target="#Charts" href="#">Home <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul class="collapse dropdown-header-top">
+                                            <li><a href="index.html">Dashboard v.1</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="events.html">Event</a></li>
+                                    <li><a data-toggle="collapse" data-target="#demoevent" href="#">Professors <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="demoevent" class="collapse dropdown-header-top">
+                                            <li><a href="all-professors.html">All Professors</a>
+                                            </li>
+                                            <li><a href="add-professor.html">Add Professor</a>
+                                            </li>
+                                            <li><a href="edit-professor.html">Edit Professor</a>
+                                            </li>
+                                            <li><a href="professor-profile.html">Professor Profile</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#demopro" href="#">Students <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="demopro" class="collapse dropdown-header-top">
+                                            <li><a href="all-students.html">All Students</a>
+                                            </li>
+                                            <li><a href="add-student.html">Add Student</a>
+                                            </li>
+                                            <li><a href="edit-student.html">Edit Student</a>
+                                            </li>
+                                            <li><a href="student-profile.html">Student Profile</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#democrou" href="#">Courses <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="democrou" class="collapse dropdown-header-top">
+                                            <li><a href="all-courses.html">All Courses</a>
+                                            </li>
+                                            <li><a href="add-course.html">Add Course</a>
+                                            </li>
+                                            <li><a href="edit-course.html">Edit Course</a>
+                                            </li>
+                                            <li><a href="course-profile.html">Courses Info</a>
+                                            </li>
+                                            <li><a href="course-payment.html">Courses Payment</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#demolibra" href="#">Library <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="demolibra" class="collapse dropdown-header-top">
+                                            <li><a href="library-assets.html">Library Assets</a>
+                                            </li>
+                                            <li><a href="add-library-assets.html">Add Library Asset</a>
+                                            </li>
+                                            <li><a href="edit-library-assets.html">Edit Library Asset</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#demodepart" href="#">Departments <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="demodepart" class="collapse dropdown-header-top">
+                                            <li><a href="departments.html">Departments List</a>
+                                            </li>
+                                            <li><a href="add-department.html">Add Departments</a>
+                                            </li>
+                                            <li><a href="edit-department.html">Edit Departments</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#demo" href="#">Mailbox <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="demo" class="collapse dropdown-header-top">
+                                            <li><a href="mailbox.html">Inbox</a>
+                                            </li>
+                                            <li><a href="mailbox-view.html">View Mail</a>
+                                            </li>
+                                            <li><a href="mailbox-compose.html">Compose Mail</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#Miscellaneousmob" href="#">Interface
+                                        <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Miscellaneousmob" class="collapse dropdown-header-top">
+                                            <li><a href="google-map.html">Google Map</a>
+                                            </li>
+                                            <li><a href="data-maps.html">Data Maps</a>
+                                            </li>
+                                            <li><a href="pdf-viewer.html">Pdf Viewer</a>
+                                            </li>
+                                            <li><a href="x-editable.html">X-Editable</a>
+                                            </li>
+                                            <li><a href="code-editor.html">Code Editor</a>
+                                            </li>
+                                            <li><a href="tree-view.html">Tree View</a>
+                                            </li>
+                                            <li><a href="preloader.html">Preloader</a>
+                                            </li>
+                                            <li><a href="images-cropper.html">Images Cropper</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#Chartsmob" href="#">Charts <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Chartsmob" class="collapse dropdown-header-top">
+                                            <li><a href="bar-charts.html">Bar Charts</a>
+                                            </li>
+                                            <li><a href="line-charts.html">Line Charts</a>
+                                            </li>
+                                            <li><a href="area-charts.html">Area Charts</a>
+                                            </li>
+                                            <li><a href="rounded-chart.html">Rounded Charts</a>
+                                            </li>
+                                            <li><a href="c3.html">C3 Charts</a>
+                                            </li>
+                                            <li><a href="sparkline.html">Sparkline Charts</a>
+                                            </li>
+                                            <li><a href="peity.html">Peity Charts</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#Tablesmob" href="#">Tables <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Tablesmob" class="collapse dropdown-header-top">
+                                            <li><a href="static-table.html">Static Table</a>
+                                            </li>
+                                            <li><a href="data-table.html">Data Table</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#formsmob" href="#">Forms <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="formsmob" class="collapse dropdown-header-top">
+                                            <li><a href="basic-form-element.html">Basic Form Elements</a>
+                                            </li>
+                                            <li><a href="advance-form-element.html">Advanced Form Elements</a>
+                                            </li>
+                                            <li><a href="password-meter.html">Password Meter</a>
+                                            </li>
+                                            <li><a href="multi-upload.html">Multi Upload</a>
+                                            </li>
+                                            <li><a href="tinymc.html">Text Editor</a>
+                                            </li>
+                                            <li><a href="dual-list-box.html">Dual List Box</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#Appviewsmob" href="#">App views <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Appviewsmob" class="collapse dropdown-header-top">
+                                            <li><a href="basic-form-element.html">Basic Form Elements</a>
+                                            </li>
+                                            <li><a href="advance-form-element.html">Advanced Form Elements</a>
+                                            </li>
+                                            <li><a href="password-meter.html">Password Meter</a>
+                                            </li>
+                                            <li><a href="multi-upload.html">Multi Upload</a>
+                                            </li>
+                                            <li><a href="tinymc.html">Text Editor</a>
+                                            </li>
+                                            <li><a href="dual-list-box.html">Dual List Box</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a data-toggle="collapse" data-target="#Pagemob" href="#">Pages <span
+                                            class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <ul id="Pagemob" class="collapse dropdown-header-top">
+                                            <li><a href="login.html">Login</a>
+                                            </li>
+                                            <li><a href="register.html">Register</a>
+                                            </li>
+                                            <li><a href="lock.html">Lock</a>
+                                            </li>
+                                            <li><a href="password-recovery.html">Password Recovery</a>
+                                            </li>
+                                            <li><a href="404.html">404 Page</a></li>
+                                            <li><a href="500.html">500 Page</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Mobile Menu end -->
+        </div>
+        <!-- Mobile Menu end -->
 
-{% block content %}
-{% endblock %}
+        {% block content %}
+        {% endblock %}
 
-
-<div class="footer-copyright-area">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="footer-copy-right">
-                    <p>Copyright © 2020 All rights reserved. Template by <a href="https://colorlib.com/wp/templates/">Excellence</a></p>
+        <div class="footer-copyright-area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer-copy-right">
+                            <p>Copyright © 2020 All rights reserved. Template by <a
+                                    href="https://colorlib.com/wp/templates/">Excellence</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
 
-<script src="{% static 'adminapp/js/vendor/jquery-1.12.4.min.js' %}"></script>
-<script src="{% static 'adminapp/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'adminapp/js/wow.min.js' %}"></script>
-<script src="{% static 'adminapp/js/jquery-price-slider.js' %}"></script>
-<script src="{% static 'adminapp/js/jquery.meanmenu.js' %}"></script>
-<script src="{% static 'adminapp/js/owl.carousel.min.js' %}"></script>
-<script src="{% static 'adminapp/js/jquery.sticky.js' %}"></script>
-<script src="{% static 'adminapp/js/jquery.scrollUp.min.js' %}"></script>
-<script src="{% static 'adminapp/js/counterup/jquery.counterup.min.js' %}"></script>
-<script src="{% static 'adminapp/js/counterup/waypoints.min.js' %}"></script>
-<script src="{% static 'adminapp/js/counterup/counterup-active.js' %}"></script>
-<script src="{% static 'adminapp/js/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-<script src="{% static 'adminapp/js/scrollbar/mCustomScrollbar-active.js' %}"></script>
-<script src="{% static 'adminapp/js/metisMenu/metisMenu.min.js' %}"></script>
-<script src="{% static 'adminapp/js/metisMenu/metisMenu-active.js' %}"></script>
-<script src="{% static 'adminapp/js/morrisjs/raphael-min.js' %}"></script>
-<script src="{% static 'adminapp/js/morrisjs/morris.js' %}"></script>
-<script src="{% static 'adminapp/js/morrisjs/morris-active.js' %}"></script>
-<script src="{% static 'adminapp/js/sparkline/jquery.sparkline.min.js' %}"></script>
-<script src="{% static 'adminapp/js/sparkline/jquery.charts-sparkline.js' %}"></script>
-<script src="{% static 'adminapp/js/sparkline/sparkline-active.js' %}"></script>
-<script src="{% static 'adminapp/js/calendar/moment.min.js' %}"></script>
-<script src="{% static 'adminapp/js/calendar/fullcalendar.min.js' %}"></script>
-<script src="{% static 'adminapp/js/calendar/fullcalendar-active.js' %}"></script>
-<script src="{% static 'adminapp/js/plugins.js' %}"></script>
-<script src="{% static 'adminapp/js/main.js' %}"></script>
-<script src="{% static 'adminapp/js/tawk-chat.js' %}"></script>
+    <script src="{% static 'adminapp/js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/wow.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/jquery-price-slider.js' %}"></script>
+    <script src="{% static 'adminapp/js/jquery.meanmenu.js' %}"></script>
+    <script src="{% static 'adminapp/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'adminapp/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/counterup/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/counterup/waypoints.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/counterup/counterup-active.js' %}"></script>
+    <script src="{% static 'adminapp/js/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/scrollbar/mCustomScrollbar-active.js' %}"></script>
+    <script src="{% static 'adminapp/js/metisMenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/metisMenu/metisMenu-active.js' %}"></script>
+    <script src="{% static 'adminapp/js/morrisjs/raphael-min.js' %}"></script>
+    <script src="{% static 'adminapp/js/morrisjs/morris.js' %}"></script>
+    <script src="{% static 'adminapp/js/morrisjs/morris-active.js' %}"></script>
+    <script src="{% static 'adminapp/js/sparkline/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/sparkline/jquery.charts-sparkline.js' %}"></script>
+    <script src="{% static 'adminapp/js/sparkline/sparkline-active.js' %}"></script>
+    <script src="{% static 'adminapp/js/calendar/moment.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/calendar/fullcalendar.min.js' %}"></script>
+    <script src="{% static 'adminapp/js/calendar/fullcalendar-active.js' %}"></script>
+    <script src="{% static 'adminapp/js/plugins.js' %}"></script>
+    <script src="{% static 'adminapp/js/main.js' %}"></script>
+    <script src="{% static 'adminapp/js/tawk-chat.js' %}"></script>
 </body>
 
 </html>

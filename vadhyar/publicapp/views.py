@@ -12,6 +12,7 @@ from django.shortcuts import render
 from vadhyar import settings
 from .EmailBackend import EmailBackEnd
 from .forms import commontimetableForm
+from .forms import CourseSessionSearchForm
 from .forms import coursesForm
 from .forms import ExamForm
 from .forms import feesForm
@@ -21,6 +22,7 @@ from .forms import LoginForm
 from .forms import ResultForm
 from .forms import salaryForm
 from .forms import StudyMaterialForm
+from .forms import SubjectSessionSearchForm
 from .forms import subjectsForm
 from .forms import teacherregForm
 from .forms import TraineeRegForm
@@ -37,9 +39,11 @@ from .models import Leaves
 from .models import Result
 from .models import salary
 from .models import Students
+from .models import StudentsAttending
 from .models import StudyMaterial
 from .models import subjects
 from .models import Teacher
+from .models import TimeTable
 from .models import Trainees
 from .models import Trainers
 # Create your views here.
@@ -1148,7 +1152,7 @@ def hodtrainee(request):
     trainers = Trainers.objects.filter(department=dep).values_list('course__course_name').distinct()
     query = Trainees.objects.filter(course__course_name__in=trainers)
     print(query)
-    return render(request, "hodapp/hodtrainee.html",{"query":query})
+    return render(request, "hodapp/hodtrainee.html", {"query": query})
 
 
 def addleave(request):
@@ -1871,7 +1875,6 @@ def trainer_leave_request_list(request):
 
 
 @login_required
-
 def approve_leave_request(request, obj_id):
     try:
         leave = Leaves.objects.get(id=obj_id)
@@ -1915,3 +1918,42 @@ def reject_leave_request(request, obj_id):
         else:
             url = redirect('trainee_leave_request_list')
         return url
+
+
+def search_class(request, session_type):
+    from datetime import datetime
+    today = datetime.now().date()
+    if session_type == 'course':
+        if request.method == 'POST':
+            form = CourseSessionSearchForm(request.POST)
+            if form.is_valid():
+                time = request.POST.get('time')
+                subject = request.POST.get('subject')
+                sessions = TimeTable.objects.filter(time__contains=time, subject=subject, date=today)
+                return render(request, 'hodapp/search_result.html', {'sessions': sessions})
+        else:
+            form = CourseSessionSearchForm()
+            return render(request, 'hodapp/search.html', {'form': form})
+    else:
+        if request.method == 'POST':
+            form = SubjectSessionSearchForm(request.POST)
+            if form.is_valid():
+                time = request.POST.get('time')
+                courses_name = request.POST.get('courses')
+                sessions = TimeTable.objects.filter(time__contains=time, course=courses_name, date=today)
+                return render(request, 'hodapp/search_result.html', {'sessions': sessions})
+        else:
+            form = SubjectSessionSearchForm()
+            return render(request, 'hodapp/search.html', {'form': form})
+
+
+def join_session(request, session_id):
+    try:
+        session = TimeTable.objects.get(id=session_id)
+    except TimeTable.DoesNotExist:
+        return HttpResponseNotFound()
+    else:
+        s = StudentsAttending.objects.create(time_table=session, student=request.user)
+        s.save()
+        messages.success(request, "successfully joined")
+        return redirect('index')
