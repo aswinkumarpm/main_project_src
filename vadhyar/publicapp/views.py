@@ -1540,11 +1540,15 @@ def studreport(request):
 def time_table_view(request, teacher_type):
     time_table = generate_timetable()
     if teacher_type == 'teacher':
+        title = "Teacher's Time Table"
         time_table = time_table.filter(teacher__user_type=2)
-    else:
+    elif teacher_type == 'trainer':
+        title = "Trainer's Time Table"
         time_table = time_table.filter(teacher__user_type=4)
-
-    return render(request, 'hodapp/time-table.html', {'time_table': time_table})
+    else:
+        title = "Time Table"
+        time_table = time_table.filter(teacher__user_type__in=[2, 4])
+    return render(request, 'hodapp/time-table.html', {'time_table': time_table, 'title': title})
 
 
 def studfeedback(request):
@@ -1613,6 +1617,7 @@ def request_leave(request):
         form = LeavesForm()
     return render(request, 'adminapp/leave-create.html', {'form': form, 'title': title, 'list_data': data})
 
+
 def teacher_leave_request_list(request):
     title = 'Teacher Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=2, status='pending')
@@ -1627,7 +1632,8 @@ def student_leave_request_list(request):
     list_data = Leaves.objects.filter(taken_by__user_type=3, status='pending')
     approved = Leaves.objects.filter(taken_by__user_type=3, status='approved')
     rejected = Leaves.objects.filter(taken_by__user_type=3, status='rejected')
-    return render(request, 'adminapp/leave_list.html', {'title': title, 'list_data': list_data, 'approved' : approved, 'rejected': rejected})
+    return render(request, 'adminapp/leave_list.html',
+                  {'title': title, 'list_data': list_data, 'approved': approved, 'rejected': rejected})
 
 
 def trainee_leave_request_list(request):
@@ -1639,7 +1645,6 @@ def trainee_leave_request_list(request):
                   {'title': title, 'list_data': list_data, 'approved': approved, 'rejected': rejected})
 
 
-
 def trainer_leave_request_list(request):
     title = 'Trainer Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=4, status='pending')
@@ -1647,9 +1652,6 @@ def trainer_leave_request_list(request):
     rejected = Leaves.objects.filter(taken_by__user_type=4, status='rejected')
     return render(request, 'adminapp/leave_list.html',
                   {'title': title, 'list_data': list_data, 'approved': approved, 'rejected': rejected})
-
-
-
 
 
 @login_required
@@ -1662,11 +1664,11 @@ def approve_leave_request(request, obj_id):
         leave.status = 'approved'
         leave.save()
         messages.success(request, 'Leave Approved')
-        if leave.taken_by.user_type==2:
+        if leave.taken_by.user_type == 2:
             url = redirect('Teacher-leave-request-list')
-        elif leave.taken_by.user_type==3:
+        elif leave.taken_by.user_type == 3:
             url = redirect('Student-leave-request-list')
-        elif leave.taken_by.user_type==4:
+        elif leave.taken_by.user_type == 4:
             url = redirect('Trainer-leave-request-list')
         else:
             url = redirect('Trainee-leave-request-list')

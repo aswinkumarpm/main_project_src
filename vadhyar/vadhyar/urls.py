@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -189,10 +188,10 @@ if settings.DEBUG:
         path('complaints/', complaint_view, name="complaint_view"),
         path('all_notes/', all_notes, name="all_notes"),
         path('teacherexamsave/', teacherexamsave, name="teacherexamsave"),
-    path('admin/staff-leave-request/list/', staff_leave_request_list, name='staff-leave-request-list'),
-    path('admin/student-leave-request/list/', student_leave_request_list, name='student-leave-request-list'),
-    path('admin/leave-request/<int:obj_id>/approve/', approve_leave_request, name='staff-leave-request-approve'),
-    path('admin/leave-request/<int:obj_id>/reject/', reject_leave_request, name='staff-leave-request-reject'),
+        # path('admin/staff-leave-request/list/', staff_leave_request_list, name='staff-leave-request-list'),
+        # path('admin/student-leave-request/list/', student_leave_request_list, name='student-leave-request-list'),
+        # path('admin/leave-request/<int:obj_id>/approve/', approve_leave_request, name='staff-leave-request-approve'),
+        # path('admin/leave-request/<int:obj_id>/reject/', reject_leave_request, name='staff-leave-request-reject'),
         path('add_reply/<int:id>/', add_reply, name='add_reply'),
         path('time-table-view/<str:teacher_type>/', time_table_view, name="time-table-view"),
 
