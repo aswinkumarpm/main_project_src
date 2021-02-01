@@ -201,7 +201,7 @@ class interplacement(models.Model):
 
 class subjects(models.Model):
     subjects_id = models.AutoField(primary_key=True)
-    subject_name = models.CharField(max_length=50)
+    subject_name = models.CharField(max_length=50,unique=True)
     department = models.CharField(max_length=15)
     teacher = models.CharField(max_length=20, null=True, blank=True)
     hod_id = models.ForeignKey("publicapp.hod", on_delete=models.CASCADE, blank=True, null=True,
