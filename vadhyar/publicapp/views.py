@@ -1669,6 +1669,7 @@ def studreport(request):
 
 def time_table_view(request, teacher_type):
     time_table = generate_timetable()
+    print(time_table, '*'*100)
     if teacher_type == 'teacher':
         title = "Teacher's Time Table"
         time_table = time_table.filter(teacher__user_type=2)
@@ -1678,15 +1679,15 @@ def time_table_view(request, teacher_type):
     else:
         title = "Time Table"
         time_table = time_table.filter(teacher__user_type__in=[2, 4])
-    try:
-        profile = Hods.objects.get(hod=request.user)
-        time_table = time_table.filter(teacher__teachers_for_students__department=profile.department)
-    except Exception as e:
-        try:
-            profile = Hods.objects.get(hod=request.user)
-            time_table = time_table.filter(teacher__trainers__department=profile.department)
-        except Exception as a:
-            pass
+    # try:
+    #     profile = Hods.objects.get(hod=request.user)
+    #     time_table = time_table.filter(teacher__teachers_for_students__department=profile.department)
+    # except Exception as e:
+    #     try:
+    #         profile = Hods.objects.get(hod=request.user)
+    #         time_table = time_table.filter(teacher__trainers__department=profile.department)
+    #     except Exception as a:
+    #         pass
     return render(request, 'hodapp/time-table.html', {'time_table': time_table, 'title': title})
 
 

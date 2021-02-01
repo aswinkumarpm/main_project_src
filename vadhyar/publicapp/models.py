@@ -35,6 +35,10 @@ class CustomUser(AbstractUser):
     user_type_data = ((1, "HOD"), (2, "TEACHER"), (3, "STUDENT"), (4, "TRAINER"), (5, "TRAINEE"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
 
+    def __str__(self):
+        string = self.get_full_name() if self.get_full_name() else self.username
+        return string + ' ' + self.get_user_type_display()
+
 
 class student(models.Model):
     student_id = models.AutoField(primary_key=True)
@@ -457,11 +461,14 @@ class leavereport(models.Model):
     leave_message = models.TextField()
     leave_status = models.IntegerField(default=0)
 
+
 STATUS = (
     ('pending', 'Pending'),
     ('approved', 'Approved'),
     ('rejected', 'Rejected'),
 )
+
+
 class Leaves(models.Model):
     taken_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     from_date = models.DateField()
@@ -538,14 +545,15 @@ class Complaint(models.Model):
     def __str__(self):
         return f'complaint from {self.user}'
 
+
 class Feedback(models.Model):
     user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
     feedback = models.TextField()
     email = models.EmailField()
     created = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return f'Feedback from {self.user}'
-
 
 
 class Exam(models.Model):
