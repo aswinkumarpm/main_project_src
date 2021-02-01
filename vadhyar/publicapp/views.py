@@ -1622,7 +1622,7 @@ def request_leave(request):
             leave.taken_by = request.user
             leave.save()
             messages.success(request, 'Success')
-            return redirect('request-leave')
+            return redirect('request_leave')
     else:
         form = LeavesForm()
     return render(request, 'adminapp/addleave.html', {'form': form, 'title': title, 'list_data': data})

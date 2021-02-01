@@ -420,7 +420,7 @@ class ResultForm(forms.Form):
     status = forms.CharField(max_length=50, required=False)
 
 class LeavesForm(forms.ModelForm):
-        leave_type = forms.ChoiceField(choices=(('Sick', 'Sick'), ('Casual', 'Casual')))
+
 
         class Meta:
             model = Leaves
@@ -431,6 +431,10 @@ class LeavesForm(forms.ModelForm):
                 'leave_type',
                 'comment',
             }
+
+        leave_type = forms.ChoiceField(choices=(('Sick', 'Sick'), ('Casual', 'Casual')))
+        from_date = forms.DateField(widget=DateInput())
+        to_date = forms.DateField(widget=DateInput())
 
 
 
