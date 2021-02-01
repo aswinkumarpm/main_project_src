@@ -17,6 +17,7 @@ from publicapp.models import Trainers
 from publicapp.models import StudyMaterial
 from publicapp.models import Exam
 from publicapp.models import Result
+from publicapp.models import Leaves
 
 
 # Register your models here.
@@ -40,4 +41,5 @@ admin.site.register(StudyMaterial)
 admin.site.register(Exam)
 admin.site.register(Feedback)
 admin.site.register(Result)
+admin.site.register(Leaves)
 
