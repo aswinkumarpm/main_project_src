@@ -1267,7 +1267,6 @@ def complaint_view(request):
 
 
 def teacherleave(request):
-
     title = 'Request Leave'
     data = Leaves.objects.filter(taken_by=request.user)
     if request.method == 'POST':
@@ -1529,14 +1528,14 @@ def email_logins(request):
                 if user_type == '1':
                     return redirect('hodindex')
                 elif user_type == '2':
-                    return redirect('teacher_home')
+                    return redirect('teacherindex')
 
                 elif user_type == '3':
                     return redirect('studentindex')
                 elif user_type == '4':
-                    return redirect('trainer_home')
+                    return redirect('traineeindex')
                 elif user_type == '5':
-                    return redirect('trainee_home')
+                    return redirect('traineeindex')
                 else:
                     messages.error(request, "Invalid Login!")
                     return redirect('login')
@@ -1697,6 +1696,7 @@ def studreport(request):
 
 def time_table_view(request, teacher_type):
     time_table = generate_timetable()
+    print(time_table, '*'*100)
     if teacher_type == 'teacher':
         title = "Teacher's Time Table"
         time_table = time_table.filter(teacher__user_type=2)
@@ -1706,6 +1706,15 @@ def time_table_view(request, teacher_type):
     else:
         title = "Time Table"
         time_table = time_table.filter(teacher__user_type__in=[2, 4])
+    # try:
+    #     profile = Hods.objects.get(hod=request.user)
+    #     time_table = time_table.filter(teacher__teachers_for_students__department=profile.department)
+    # except Exception as e:
+    #     try:
+    #         profile = Hods.objects.get(hod=request.user)
+    #         time_table = time_table.filter(teacher__trainers__department=profile.department)
+    #     except Exception as a:
+    #         pass
     return render(request, 'hodapp/time-table.html', {'time_table': time_table, 'title': title})
 
 
@@ -1851,3 +1860,4 @@ def reject_leave_request(request, obj_id):
             url = redirect('Trainer-leave-request-list')
         else:
             url = redirect('Trainee-leave-request-list')
+        return url
