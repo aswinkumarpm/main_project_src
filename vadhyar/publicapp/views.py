@@ -1139,7 +1139,21 @@ def complaint_view(request):
 
 
 def teacherleave(request):
-    return render(request, "teacherapp/teacherleave.html")
+
+    title = 'Request Leave'
+    data = Leaves.objects.filter(taken_by=request.user)
+    if request.method == 'POST':
+        form = LeavesForm(request.POST)
+        if form.is_valid():
+            leave = form.save(commit=False)
+            leave.taken_by = request.user
+            leave.save()
+            messages.success(request, 'Success')
+            return redirect('request-leave')
+    else:
+        form = LeavesForm()
+
+    return render(request, "teacherapp/teacherleave.html", {'form': form, 'title': title, 'list_data': data})
 
 
 def allteacher_leave(request):
@@ -1611,7 +1625,7 @@ def request_leave(request):
             return redirect('request-leave')
     else:
         form = LeavesForm()
-    return render(request, 'adminapp/leave-create.html', {'form': form, 'title': title, 'list_data': data})
+    return render(request, 'adminapp/addleave.html', {'form': form, 'title': title, 'list_data': data})
 
 def teacher_leave_request_list(request):
     title = 'Teacher Leave Requests'

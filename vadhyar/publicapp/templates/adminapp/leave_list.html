@@ -1,0 +1,159 @@
+{% extends 'hodapp/hodlayout.html' %}
+{% block content %}
+
+<div class="breadcome-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcome-list single-page-breadcome">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="breadcome-heading">
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <ul class="breadcome-menu">
+                                <li><a href="#">Home</a> <span class="bread-slash">/</span>
+                                </li>
+                                <li><span class="bread-blod">Leaves</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="product-status mg-b-15">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="product-status-wrap drp-lst">
+                <h4>Leave List</h4>
+                
+                    <h3>{{ title }}</h3>
+    <div class="card">
+        <h5 class="card-header" style="color: blue">Pending</h5>
+        <div class="card-body">
+            {% if list_data %}
+                <table class="table table-hover" id="data-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in list_data %}
+                        <tr>
+                            <td>{{ data.taken_by }}</td>
+                            <td>{{ data.from_date | date }} to {{ data.to_date |date }}</td>
+                            <td>{{ data.reason }}</td>
+                            <td>
+                                <div class="btn-group-sm">
+                                    <a href="{% url 'staff-leave-request-reject' data.id %}">
+                                        <button class="btn btn-danger">Reject</button>
+                                    </a>
+                                    <a href="{% url 'staff-leave-request-approve' data.id %}">
+                                        <button class="btn btn-success">Approve</button>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-info m-1"> No Data</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h5 class="card-header" style="color: green">Approved</h5>
+        <div class="card-body">
+            {% if approved %}
+                <table class="table table-hover" id="approved">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in approved %}
+                        <tr>
+                            <td>{{ data.taken_by }}</td>
+                            <td>{{ data.from_date | date }} to {{ data.to_date |date }}</td>
+                            <td>{{ data.reason }}</td>
+                            <td>{{ data.get_status_display }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-info m-1"> No Data</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card">
+        <h5 class="card-header" style="color: red">Rejected</h5>
+        <div class="card-body">
+            {% if rejected %}
+                <table class="table table-hover" id="rejected">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in rejected %}
+                        <tr>
+                            <td>{{ data.taken_by }}</td>
+                            <td>{{ data.from_date | date }} to {{ data.to_date |date }}</td>
+                            <td>{{ data.reason }}</td>
+                            <td>{{ data.get_status_display }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-info m-1"> No Data</p>
+            {% endif %}
+        </div>
+    </div>
+                <div class="custom-pagination">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+        <script>
+            $(document).ready(function () {
+                $('#data-table').DataTable();
+                $('#approved').DataTable();
+                $('#rejected').DataTable();
+            });
+        </script>
+{%  endblock  %}
