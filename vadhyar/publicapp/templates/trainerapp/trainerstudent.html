@@ -45,10 +45,28 @@
                             <th>standard</th>
                             
                         </tr>
+                        {% if query %}
+                        {% for i in query %}
                         <tr>
-                            
+                            <td>
+                                {{ i.id }}
+                            </td>
+                            <td>
+                                {{ i.trainee.username }}
+                            </td>
+                            <td>
+                                {{ i.trainee.email }}
+                            </td>
+                            <td>
+                                {{ i.trainee.mobile_num }}
+                            </td>
+
+                            <td>
+                                {{ i.course.course_name }}
+                            </td>
                         </tr>
-                       
+                       {% endfor %}
+                    {% endif %}
                         
                         
                         
