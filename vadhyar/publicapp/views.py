@@ -141,6 +141,44 @@ def hod_salary(request, id=None):
                   {"form": form, "instance": instance, "salaryhistory": salary_history})
 
 
+def hod_salarys(request, id=None):
+    instance = get_object_or_404(Hods, hod_id=id)
+    print(instance.hod.username)
+
+    user_instance = CustomUser.objects.get(username=instance.hod.username)
+
+    form = salaryForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
+
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('admindex')
+
+    #
+    #     return render(request, 'adminapp/hod_salary.html', {"form": form, "instance": instance})
+    # month = request.POST["month"]
+    # salaryamount = request.POST["salaryamount"]
+    # paymentstatus = request.POST["paymentstatus"]
+    # pendingsalary = request.POST["pendingsalary"]
+    #
+    # alldata = salary(month=month, salaryamount=salaryamount, paymentstatus=paymentstatus, pendingsalary=pendingsalary)
+    # alldata.save()
+
+    print("aswin")
+    salary_history = salary.objects.filter(user_id=user_instance.id)
+
+    return render(request, 'hodapp/hod_salary.html',
+                  {"form": form, "instance": instance, "salaryhistory": salary_history})
+
+
 def teacher_salary(request, id=None):
     instance = get_object_or_404(Teacher, teacher_id=id)
     print(instance.teacher.username)
@@ -165,6 +203,33 @@ def teacher_salary(request, id=None):
     salary_history = salary.objects.filter(user_id=user_instance.id)
 
     return render(request, 'adminapp/teacher_salary.html',
+                  {"form": form, "instance": instance, "salaryhistory": salary_history})
+
+
+def teacher_salarys(request, id=None):
+    instance = get_object_or_404(Teacher, teacher_id=id)
+    print(instance.teacher.username)
+
+    user_instance = CustomUser.objects.get(username=instance.teacher.username)
+
+    form = salaryForm(request.POST, id)
+    print("called")
+    if form.is_valid():
+        print('called')
+        month = request.POST["month"]
+        salaryamount = request.POST["salaryamount"]
+        paymentstatus = request.POST["paymentstatus"]
+        pendingsalary = request.POST["pendingsalary"]
+
+        alldata = salary(user_id=user_instance.id, month=month, salaryamount=salaryamount, paymentstatus=paymentstatus,
+                         pendingsalary=pendingsalary)
+        alldata.save()
+
+        return redirect('admindex')
+
+    salary_history = salary.objects.filter(user_id=user_instance.id)
+
+    return render(request, 'teacherapp/salary.html',
                   {"form": form, "instance": instance, "salaryhistory": salary_history})
 
 
@@ -1077,7 +1142,13 @@ def hodstudent(request):
 
 
 def hodtrainee(request):
-    return render(request, "hodapp/hodtrainee.html")
+    hos = Hods.objects.get(hod=request.user)
+    dep = hos.department
+    print(dep)
+    trainers = Trainers.objects.filter(department=dep).values_list('course__course_name').distinct()
+    query = Trainees.objects.filter(course__course_name__in=trainers)
+    print(query)
+    return render(request, "hodapp/hodtrainee.html",{"query":query})
 
 
 def addleave(request):
@@ -1749,6 +1820,20 @@ def request_leave(request):
     return render(request, 'adminapp/addleave.html', {'form': form, 'title': title, 'list_data': data})
 
 
+def hod_leave_request_list(request):
+    title = 'Hod Leave Requests'
+    list_data = Leaves.objects.filter(taken_by__user_type=1, status='pending')
+    approved = Leaves.objects.filter(taken_by__user_type=1, status='approved')
+    rejected = Leaves.objects.filter(taken_by__user_type=1, status='rejected')
+    context = {'title': title, 'list_data': list_data, 'approved': approved, 'rejected': rejected}
+    return render(request, 'adminapp/leave_list.html', context)
+
+
+def leavereq(request):
+    if request.user.is_superuser:
+        return redirect('hod_leave_request_list')
+
+
 def teacher_leave_request_list(request):
     title = 'Teacher Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=2, status='pending')
@@ -1786,6 +1871,7 @@ def trainer_leave_request_list(request):
 
 
 @login_required
+
 def approve_leave_request(request, obj_id):
     try:
         leave = Leaves.objects.get(id=obj_id)
@@ -1795,14 +1881,16 @@ def approve_leave_request(request, obj_id):
         leave.status = 'approved'
         leave.save()
         messages.success(request, 'Leave Approved')
-        if leave.taken_by.user_type == 2:
-            url = redirect('Teacher-leave-request-list')
+        if leave.taken_by.user_type == 1:
+            url = redirect('hod_leave_request_list')
+        elif leave.taken_by.user_type == 2:
+            url = redirect('teacher_leave_request_list')
         elif leave.taken_by.user_type == 3:
-            url = redirect('Student-leave-request-list')
+            url = redirect('student_leave_request_list')
         elif leave.taken_by.user_type == 4:
-            url = redirect('Trainer-leave-request-list')
+            url = redirect('trainer_leave_request_list')
         else:
-            url = redirect('Trainee-leave-request-list')
+            url = redirect('trainee_leave_request_list')
         return url
 
 
@@ -1816,12 +1904,14 @@ def reject_leave_request(request, obj_id):
         leave.status = 'rejected'
         leave.save()
         messages.error(request, 'Leave Rejected')
-        if leave.taken_by.user_type == 2:
-            url = redirect('Teacher-leave-request-list')
+        if leave.taken_by.user_type == 1:
+            url = redirect('hod_leave_request_list')
+        elif leave.taken_by.user_type == 2:
+            url = redirect('teacher_leave_request_list')
         elif leave.taken_by.user_type == 3:
-            url = redirect('Student-leave-request-list')
+            url = redirect('student_leave_request_list')
         elif leave.taken_by.user_type == 4:
-            url = redirect('Trainer-leave-request-list')
+            url = redirect('trainer_leave_request_list')
         else:
-            url = redirect('Trainee-leave-request-list')
+            url = redirect('trainee_leave_request_list')
         return url
