@@ -1863,6 +1863,7 @@ def trainee_leave_request_list(request):
 
 def trainer_leave_request_list(request):
     title = 'Trainer Leave Requests'
+
     list_data = Leaves.objects.filter(taken_by__user_type=4, status='pending')
     approved = Leaves.objects.filter(taken_by__user_type=4, status='approved')
     rejected = Leaves.objects.filter(taken_by__user_type=4, status='rejected')

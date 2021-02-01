@@ -84,13 +84,13 @@ class trainerregForm(forms.Form):
         self.fields['course'] = forms.ChoiceField(
             choices=[(o.courses_id, str(o.course_name)) for o in courses.objects.all()]
         )
-        # self.fields['department'].choices = self.DEPARTMENT_CHOICES
+        self.fields['department'].choices = DEPARTMENT_CHOICES
         self.fields['available_time'].choices = AVAILABLETIME_CHOICES
 
     name = forms.CharField(label="name", max_length=30)
     email = forms.EmailField(label="email", max_length=50)
     mobile_num = forms.CharField(validators=[phone_regex], label="mobile_num")
-    # department = forms.ChoiceField(required=True)
+    department = forms.ChoiceField(required=True)
     available_time = forms.ChoiceField(required=True)
 
     dob = forms.DateField(label="dob", widget=DateInput)
