@@ -1502,14 +1502,14 @@ def email_logins(request):
                 if user_type == '1':
                     return redirect('hodindex')
                 elif user_type == '2':
-                    return redirect('teacher_home')
+                    return redirect('teacherindex')
 
                 elif user_type == '3':
                     return redirect('studentindex')
                 elif user_type == '4':
-                    return redirect('trainer_home')
+                    return redirect('traineeindex')
                 elif user_type == '5':
-                    return redirect('trainee_home')
+                    return redirect('traineeindex')
                 else:
                     messages.error(request, "Invalid Login!")
                     return redirect('login')
