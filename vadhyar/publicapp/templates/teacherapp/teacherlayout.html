@@ -180,6 +180,16 @@
                         </ul>
                     </li>
                     <li>
+                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span
+                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">SALARY</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="View Complaints" href="{% url 'teacher_salary' request.user.id %}"><span
+{#                            <li><a title="View Complaints" href="{% url 'teacher_salarys' 2 %}"><span#}
+                                    class="mini-sub-pro"> View Salary</span></a></li>
+
+                        </ul>
+                    </li>
+                    <li>
 {#                        <a class="has-arrow" href="all-courses.html" aria-expanded="false"><span#}
 {#                                class="educate-icon educate-course icon-wrap"></span> <span class="mini-click-non">FEEDBACK/Leave </span></a>#}
                         <ul class="submenu-angle" aria-expanded="false">
@@ -191,6 +201,7 @@
 
                         </ul>
                     </li>
+
 
 
                 </ul>
