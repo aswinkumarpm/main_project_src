@@ -8,7 +8,10 @@ from publicapp.models import courses
 from publicapp.models import StudyMaterial
 from publicapp.models import subjects
 # from vadhyar.institute.models import Course
-from .models import Complaint, Exam, CustomUser, Leaves
+from .models import Complaint
+from .models import CustomUser
+from .models import Exam
+from .models import Leaves
 
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
@@ -37,6 +40,16 @@ AVAILABLETIME_CHOICES = (
     ('8-9', '8-9'),
     ('9-10', '9-10'),
 )
+
+
+class SubjectSessionSearchForm(forms.Form):
+    time = forms.ChoiceField(choices=AVAILABLETIME_CHOICES)
+    subject = forms.ModelChoiceField(queryset=subjects.objects.all())
+
+
+class CourseSessionSearchForm(forms.Form):
+    time = forms.ChoiceField(choices=AVAILABLETIME_CHOICES)
+    courses = forms.ModelChoiceField(queryset=courses.objects.all())
 
 
 class LoginForm(forms.Form):
@@ -419,22 +432,18 @@ class ResultForm(forms.Form):
     grade = forms.CharField(max_length=50, required=False)
     status = forms.CharField(max_length=50, required=False)
 
+
 class LeavesForm(forms.ModelForm):
+    class Meta:
+        model = Leaves
+        fields = {
+            'from_date',
+            'to_date',
+            'reason',
+            'leave_type',
+            'comment',
+        }
 
-
-        class Meta:
-            model = Leaves
-            fields = {
-                'from_date',
-                'to_date',
-                'reason',
-                'leave_type',
-                'comment',
-            }
-
-        leave_type = forms.ChoiceField(choices=(('Sick', 'Sick'), ('Casual', 'Casual')))
-        from_date = forms.DateField(widget=DateInput())
-        to_date = forms.DateField(widget=DateInput())
-
-
-
+    leave_type = forms.ChoiceField(choices=(('Sick', 'Sick'), ('Casual', 'Casual')))
+    from_date = forms.DateField(widget=DateInput())
+    to_date = forms.DateField(widget=DateInput())

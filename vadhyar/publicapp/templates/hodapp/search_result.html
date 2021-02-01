@@ -1,0 +1,30 @@
+{% extends 'adminapp/admin_layout.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container ">
+        <div class="p-lg-5 m-lg-5">
+            <br>
+            <br>
+            <br>
+            <h3>Available Sessions</h3>
+            <div class="row">
+                {% for session in sessions %}
+                    <div class="card card-body col-md-3 text-center">
+                        <h3>{% if session.subject %}
+                            {{ session.subject }}
+                        {% else %}
+                            {{ session.course }}
+                        {% endif %} </h3>
+                        <p>{{ session.time }}</p>
+                        <p>{{ session.teacher }}</p>
+                        <a href="{% url 'join-session' session.id %}" class="btn btn-primary">Join</a>
+
+                    </div>
+                {% endfor %}
+            </div>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+{% endblock %}
