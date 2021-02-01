@@ -189,6 +189,7 @@ if settings.DEBUG:
         path('all_notes/', all_notes, name="all_notes"),
         path('teacherexamsave/', teacherexamsave, name="teacherexamsave"),
         url(r'^request_leave', request_leave, name='request_leave'),
+        url(r'^leavereq', leavereq, name='leavereq'),
 
         path('teacher_leave_request_list/', teacher_leave_request_list, name='teacher_leave_request_list'),
         path('student_leave_request_list/', student_leave_request_list, name='student_leave_request_list'),

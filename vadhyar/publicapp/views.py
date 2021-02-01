@@ -1749,6 +1749,20 @@ def request_leave(request):
     return render(request, 'adminapp/addleave.html', {'form': form, 'title': title, 'list_data': data})
 
 
+def hod_leave_request_list(request):
+    title = 'Hod Leave Requests'
+    list_data = Leaves.objects.filter(taken_by__user_type=1, status='pending')
+    approved = Leaves.objects.filter(taken_by__user_type=1, status='approved')
+    rejected = Leaves.objects.filter(taken_by__user_type=1, status='rejected')
+    context = {'title': title, 'list_data': list_data, 'approved': approved, 'rejected': rejected}
+    return render(request, 'adminapp/leave_list.html', context)
+
+
+def leavereq(request):
+    if request.user.is_superuser:
+        return redirect('hod_leave_request_list')
+
+
 def teacher_leave_request_list(request):
     title = 'Teacher Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=2, status='pending')
@@ -1786,6 +1800,7 @@ def trainer_leave_request_list(request):
 
 
 @login_required
+
 def approve_leave_request(request, obj_id):
     try:
         leave = Leaves.objects.get(id=obj_id)
@@ -1795,14 +1810,16 @@ def approve_leave_request(request, obj_id):
         leave.status = 'approved'
         leave.save()
         messages.success(request, 'Leave Approved')
-        if leave.taken_by.user_type == 2:
-            url = redirect('Teacher-leave-request-list')
+        if leave.taken_by.user_type == 1:
+            url = redirect('hod_leave_request_list')
+        elif leave.taken_by.user_type == 2:
+            url = redirect('teacher_leave_request_list')
         elif leave.taken_by.user_type == 3:
-            url = redirect('Student-leave-request-list')
+            url = redirect('student_leave_request_list')
         elif leave.taken_by.user_type == 4:
-            url = redirect('Trainer-leave-request-list')
+            url = redirect('trainer_leave_request_list')
         else:
-            url = redirect('Trainee-leave-request-list')
+            url = redirect('trainee_leave_request_list')
         return url
 
 
@@ -1816,11 +1833,14 @@ def reject_leave_request(request, obj_id):
         leave.status = 'rejected'
         leave.save()
         messages.error(request, 'Leave Rejected')
-        if leave.taken_by.user_type == 2:
-            url = redirect('Teacher-leave-request-list')
+        if leave.taken_by.user_type == 1:
+            url = redirect('hod_leave_request_list')
+        elif leave.taken_by.user_type == 2:
+            url = redirect('teacher_leave_request_list')
         elif leave.taken_by.user_type == 3:
-            url = redirect('Student-leave-request-list')
+            url = redirect('student_leave_request_list')
         elif leave.taken_by.user_type == 4:
-            url = redirect('Trainer-leave-request-list')
+            url = redirect('trainer_leave_request_list')
         else:
-            url = redirect('Trainee-leave-request-list')
+            url = redirect('trainee_leave_request_list')
+        return url
