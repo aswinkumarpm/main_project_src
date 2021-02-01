@@ -2,14 +2,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.http import HttpResponseNotFound
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
 from vadhyar import settings
 from .EmailBackend import EmailBackEnd
-from .forms import commontimetableForm
+from .forms import commontimetableForm, LeavesForm
 from .forms import coursesForm
 from .forms import ExamForm
 from .forms import feesForm
@@ -22,7 +24,7 @@ from .forms import subjectsForm
 from .forms import teacherregForm
 from .forms import TraineeRegForm
 from .forms import trainerregForm
-from .models import Complaint, Feedback
+from .models import Complaint, Feedback, Leaves
 from .models import courses
 from .models import CustomUser
 from .models import Exam
@@ -1588,5 +1590,81 @@ def studfeedback(request):
     else:
         print("else")
     return render(request, "studentapp/feedback.html")
+
+
+
+
+def request_leave(request):
+    title = 'Request Leave'
+    data = Leaves.objects.filter(taken_by=request.user)
+    if request.method == 'POST':
+        form = LeavesForm(request.POST)
+        if form.is_valid():
+            leave = form.save(commit=False)
+            leave.taken_by = request.user
+            leave.save()
+            messages.success(request, 'Success')
+            return redirect('request-leave')
+    else:
+        form = LeavesForm()
+    return render(request, 'admin/leave-create.html', {'form': form, 'title': title, 'list_data': data})
+
+
+
+def teacher_leave_request_list(request):
+    title = 'Teacher Leave Requests'
+    list_data = Leaves.objects.filter(taken_by__user_type=2, status='pending')
+    return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
+
+
+def student_leave_request_list(request):
+    title = 'Student Leave Requests'
+    list_data = Leaves.objects.filter(taken_by__user_type=3, status='pending')
+    return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
+
+def trainee_leave_request_list(request):
+    title = 'Trainee Leave Requests'
+    list_data = Leaves.objects.filter(taken_by__user_type=5, status='pending')
+    return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
+
+def trainer_leave_request_list(request):
+    title = 'Trainer Leave Requests'
+    list_data = Leaves.objects.filter(taken_by__user_type=4, status='pending')
+    return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
+
+@login_required
+def approve_leave_request(request, obj_id):
+    try:
+        leave = Leaves.objects.get(id=obj_id)
+    except Leaves.DoesNotExist:
+        return HttpResponseNotFound('Not Found')
+    else:
+        leave.status = 'approved'
+        leave.save()
+        messages.success(request, 'Leave Approved')
+        if leave.taken_by.is_staff:
+            url = redirect('staff-leave-request-list')
+        else:
+            url = redirect('student-leave-request-list')
+        return url
+
+
+@login_required
+def reject_leave_request(request, obj_id):
+    try:
+        leave = Leaves.objects.get(id=obj_id)
+    except Leaves.DoesNotExist:
+        return HttpResponseNotFound('Not Found')
+    else:
+        leave.status = 'rejected'
+        leave.save()
+        messages.success(request, 'Leave Rejected')
+        if leave.taken_by.is_staff:
+            url = redirect('staff-leave-request-list')
+        else:
+            url = redirect('student-leave-request-list')
+        return url
+
+
 
 

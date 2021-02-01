@@ -8,7 +8,7 @@ from publicapp.models import courses
 from publicapp.models import StudyMaterial
 from publicapp.models import subjects
 # from vadhyar.institute.models import Course
-from .models import Complaint, Exam, CustomUser
+from .models import Complaint, Exam, CustomUser, Leaves
 
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                              message=
@@ -418,5 +418,19 @@ class ResultForm(forms.Form):
     date = forms.DateField(label="Conducted ON", widget=DateInput())
     grade = forms.CharField(max_length=50, required=False)
     status = forms.CharField(max_length=50, required=False)
+
+class LeavesForm(forms.ModelForm):
+        leave_type = forms.ChoiceField(choices=(('Sick', 'Sick'), ('Casual', 'Casual')))
+
+        class Meta:
+            model = Leaves
+            fields = {
+                'from_date',
+                'to_date',
+                'reason',
+                'leave_type',
+                'comment',
+            }
+
 
 
