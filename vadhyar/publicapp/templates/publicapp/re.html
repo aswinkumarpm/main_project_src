@@ -14,11 +14,27 @@
       <br>
         <div id="form-container">
     
-  <form  method="post"  action="{% url 'studentsave' %}">
+  <form  method="post"  action="{% url 're' %}">
     {% csrf_token %}
   
     <h1><b>REGISTRATION FORM</b></h1>
-    
+
+                {% if messages %}
+                    <div class="col-12">
+                        {% for message in messages %}
+                            {% if message.tags == "error" %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                                     style="margin-top: 10px;">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
     <fieldset>
      <div class="container">
        
