@@ -1607,30 +1607,44 @@ def request_leave(request):
             return redirect('request-leave')
     else:
         form = LeavesForm()
-    return render(request, 'admin/leave-create.html', {'form': form, 'title': title, 'list_data': data})
-
+    return render(request, 'adminapp/leave-create.html', {'form': form, 'title': title, 'list_data': data})
 
 
 def teacher_leave_request_list(request):
     title = 'Teacher Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=2, status='pending')
-    return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
+    approved = Leaves.objects.filter(taken_by__user_type=2, status='approved')
+    rejected = Leaves.objects.filter(taken_by__user_type=2, status='rejected')
+    context = {'title': title, 'list_data': list_data, 'approved': approved, 'rejected': rejected}
+    return render(request, 'adminapp/leave_list.html', context)
 
 
 def student_leave_request_list(request):
     title = 'Student Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=3, status='pending')
-    return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
+    approved = Leaves.objects.filter(taken_by__user_type=3, status='approved')
+    rejected = Leaves.objects.filter(taken_by__user_type=3, status='rejected')
+    return render(request, 'adminapp/leave_list.html', {'title': title, 'list_data': list_data, 'approved' : approved, 'rejected': rejected})
 
 def trainee_leave_request_list(request):
     title = 'Trainee Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=5, status='pending')
-    return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
+    approved = Leaves.objects.filter(taken_by__user_type=5, status='approved')
+    rejected = Leaves.objects.filter(taken_by__user_type=5, status='rejected')
+    return render(request, 'adminapp/leave_list.html',
+                  {'title': title, 'list_data': list_data, 'approved': approved, 'rejected': rejected})
+
 
 def trainer_leave_request_list(request):
     title = 'Trainer Leave Requests'
     list_data = Leaves.objects.filter(taken_by__user_type=4, status='pending')
-    return render(request, 'admin/leave_list.html', {'title': title, 'list_data': list_data})
+    approved = Leaves.objects.filter(taken_by__user_type=4, status='approved')
+    rejected = Leaves.objects.filter(taken_by__user_type=4, status='rejected')
+    return render(request, 'adminapp/leave_list.html',
+                  {'title': title, 'list_data': list_data, 'approved': approved, 'rejected': rejected})
+
+
+
 
 @login_required
 def approve_leave_request(request, obj_id):
@@ -1642,10 +1656,14 @@ def approve_leave_request(request, obj_id):
         leave.status = 'approved'
         leave.save()
         messages.success(request, 'Leave Approved')
-        if leave.taken_by.is_staff:
-            url = redirect('staff-leave-request-list')
+        if leave.taken_by.user_type==2:
+            url = redirect('Teacher-leave-request-list')
+        elif leave.taken_by.user_type==3:
+            url = redirect('Student-leave-request-list')
+        elif leave.taken_by.user_type==4:
+            url = redirect('Trainer-leave-request-list')
         else:
-            url = redirect('student-leave-request-list')
+            url = redirect('Trainee-leave-request-list')
         return url
 
 
@@ -1658,12 +1676,15 @@ def reject_leave_request(request, obj_id):
     else:
         leave.status = 'rejected'
         leave.save()
-        messages.success(request, 'Leave Rejected')
-        if leave.taken_by.is_staff:
-            url = redirect('staff-leave-request-list')
+        messages.error(request, 'Leave Rejected')
+        if leave.taken_by.user_type == 2:
+            url = redirect('Teacher-leave-request-list')
+        elif leave.taken_by.user_type == 3:
+            url = redirect('Student-leave-request-list')
+        elif leave.taken_by.user_type == 4:
+            url = redirect('Trainer-leave-request-list')
         else:
-            url = redirect('student-leave-request-list')
-        return url
+            url = redirect('Trainee-leave-request-list')
 
 
 
