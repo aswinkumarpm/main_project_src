@@ -194,6 +194,7 @@ if settings.DEBUG:
         url(r'^leavereq', leavereq, name='leavereq'),
 
         path('teacher_leave_request_list/', teacher_leave_request_list, name='teacher_leave_request_list'),
+        path('hod_leave_request_list/', hod_leave_request_list, name='hod_leave_request_list'),
         path('student_leave_request_list/', student_leave_request_list, name='student_leave_request_list'),
         path('trainee_leave_request_list/', trainee_leave_request_list, name='trainee_leave_request_list'),
         path('trainer_leave_request_list/', trainer_leave_request_list, name='trainer_leave_request_list'),
