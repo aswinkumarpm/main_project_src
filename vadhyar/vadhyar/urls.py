@@ -207,7 +207,7 @@ if settings.DEBUG:
         path('add_reply/<int:id>/', add_reply, name='add_reply'),
         path('time-table-view/<str:teacher_type>/', time_table_view, name="time-table-view"),
         path('search-class/<str:session_type>/', search_class, name="search-class"),
-        path('join-session/<str:session_id>/', search_class, name="join-session"),
+        path('join-session/<str:session_id>/', join_session, name="join-session"),
 
     ]
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
